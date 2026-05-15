@@ -1,0 +1,23 @@
+{
+    "generated_at": "2026-05-15 16:34:27",
+    "knowledge_base_size": 1976,
+    "model_results_available": [
+        "baseline",
+        "advanced",
+        "comparison",
+        "genai_summary"
+    ],
+    "portfolio_data_available": true,
+    "sample_queries": [
+        "Which model performs better?",
+        "What is the portfolio recommendation?",
+        "Tell me about [STOCK_NAME]"
+    ],
+    "capabilities": [
+        "Stock information lookup",
+        "Model performance comparison",
+        "Portfolio allocation advice",
+        "Semantic knowledge search",
+        "Natural language Q&A"
+    ]
+}

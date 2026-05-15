@@ -1,0 +1,143 @@
+{
+    "system_name": "Smart Stock Market Analysis System",
+    "execution_time": "2026-05-15 16:34:27",
+    "total_duration_seconds": 10.68,
+    "base_directory": "/content/smart_stock_market_project",
+    "components_status": {
+        "Data Pipeline": {
+            "status": "SUCCESS",
+            "duration": 0.7239236831665039
+        },
+        "Baseline Predictor": {
+            "status": "SUCCESS",
+            "duration": 1.340186595916748
+        },
+        "Advanced Predictor": {
+            "status": "SUCCESS",
+            "duration": 4.094205617904663
+        },
+        "Model Evaluation": {
+            "status": "SUCCESS",
+            "duration": 2.752441167831421
+        },
+        "Portfolio Optimizer": {
+            "status": "SUCCESS",
+            "duration": 1.248997449874878
+        },
+        "RAG System": {
+            "status": "SUCCESS",
+            "duration": 0.5212640762329102
+        }
+    },
+    "execution_log": [
+        {
+            "timestamp": "16:34:16",
+            "level": "SUCCESS",
+            "message": "stock_data_pipeline.py              \u2705 (15.3 KB)"
+        },
+        {
+            "timestamp": "16:34:16",
+            "level": "SUCCESS",
+            "message": "baseline_predictor.py               \u2705 (17.2 KB)"
+        },
+        {
+            "timestamp": "16:34:16",
+            "level": "SUCCESS",
+            "message": "advanced_predictor.py               \u2705 (18.5 KB)"
+        },
+        {
+            "timestamp": "16:34:16",
+            "level": "SUCCESS",
+            "message": "evaluation.py                       \u2705 (14.3 KB)"
+        },
+        {
+            "timestamp": "16:34:16",
+            "level": "SUCCESS",
+            "message": "portfolio_optimizer.py              \u2705 (12.4 KB)"
+        },
+        {
+            "timestamp": "16:34:16",
+            "level": "SUCCESS",
+            "message": "smart_stock_market_rag.py           \u2705 (19.4 KB)"
+        },
+        {
+            "timestamp": "16:34:16",
+            "level": "RUNNING",
+            "message": "Starting: Process stock data and generate features"
+        },
+        {
+            "timestamp": "16:34:17",
+            "level": "SUCCESS",
+            "message": "Completed: Data Pipeline (0.7s)"
+        },
+        {
+            "timestamp": "16:34:17",
+            "level": "RUNNING",
+            "message": "Starting: Train Linear Regression model"
+        },
+        {
+            "timestamp": "16:34:18",
+            "level": "SUCCESS",
+            "message": "Completed: Baseline Predictor (1.3s)"
+        },
+        {
+            "timestamp": "16:34:18",
+            "level": "RUNNING",
+            "message": "Starting: Train XGBoost model"
+        },
+        {
+            "timestamp": "16:34:22",
+            "level": "SUCCESS",
+            "message": "Completed: Advanced Predictor (4.1s)"
+        },
+        {
+            "timestamp": "16:34:22",
+            "level": "RUNNING",
+            "message": "Starting: Compare model performance"
+        },
+        {
+            "timestamp": "16:34:25",
+            "level": "SUCCESS",
+            "message": "Completed: Model Evaluation (2.8s)"
+        },
+        {
+            "timestamp": "16:34:25",
+            "level": "RUNNING",
+            "message": "Starting: Generate optimal allocation"
+        },
+        {
+            "timestamp": "16:34:26",
+            "level": "SUCCESS",
+            "message": "Completed: Portfolio Optimizer (1.2s)"
+        },
+        {
+            "timestamp": "16:34:26",
+            "level": "RUNNING",
+            "message": "Starting: Initialize knowledge system"
+        },
+        {
+            "timestamp": "16:34:27",
+            "level": "SUCCESS",
+            "message": "Completed: RAG System (0.5s)"
+        }
+    ],
+    "outputs_verification": {
+        "data/stock_dataset.csv": true,
+        "data/rag_knowledge_base.json": true,
+        "models/baseline_model.pkl": true,
+        "models/xgboost_model.pkl": true,
+        "results/baseline_results.json": true,
+        "results/advanced_results.json": true,
+        "results/model_comparison.json": true,
+        "results/genai_summary.json": true,
+        "results/portfolio_optimization.json": true,
+        "results/rag_report.json": true
+    },
+    "summary": {
+        "total_components": 6,
+        "successful": 6,
+        "failed": 0,
+        "skipped": 0,
+        "success_rate": "100.0%"
+    }
+}

@@ -1,0 +1,36 @@
+{
+    "optimal_weights": [
+        0.2,
+        0.2,
+        0.2,
+        0.2,
+        0.2
+    ],
+    "risk_metrics": {
+        "portfolio_return": 0.0018356757197199622,
+        "portfolio_std": 0.0014404155406656377,
+        "sharpe_ratio": -33.437798274533044,
+        "weights": [
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2
+        ],
+        "strategy": "GenAI Moderate"
+    },
+    "genai_context": {
+        "risk_tolerance": "moderate",
+        "target_return": 0.001835675719719962,
+        "risk_free_rate": 0.05
+    },
+    "stock_names": [
+        "Stock_1",
+        "Stock_2",
+        "Stock_3",
+        "Stock_4",
+        "Stock_5"
+    ],
+    "n_assets": 5,
+    "timestamp": "2026-05-15T16:34:26.801726"
+}

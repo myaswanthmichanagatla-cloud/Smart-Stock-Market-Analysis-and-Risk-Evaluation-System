@@ -1,0 +1,48 @@
+{
+    "summary_type": "Model Comparison GenAI Summary",
+    "generated_at": "Unknown",
+    "winner": "Baseline (Linear Regression)",
+    "advanced_wins": 0,
+    "baseline_wins": 5,
+    "total_metrics": 5,
+    "best_improvement_metric": "MSE",
+    "best_improvement_value": 615691.11,
+    "baseline_r2": 0.9991,
+    "advanced_r2": -4.4741,
+    "baseline_rmse": 1.933,
+    "advanced_rmse": 151.6893,
+    "natural_language_summary": "Model comparison complete. Baseline (Linear Regression) performed better overall, winning 5 out of 5 metrics. Largest improvement in MSE with 615691.11% gain. Advanced model R\u00b2: -4.4741, Baseline R\u00b2: 0.9991.",
+    "recommendation": "Both models perform similarly. Use Baseline for faster inference.",
+    "comparison_details": {
+        "MAE": {
+            "Baseline": 1.5291,
+            "Advanced": 137.0107,
+            "Improvement_%": -8860.2184,
+            "Better_Model": "Baseline"
+        },
+        "MSE": {
+            "Baseline": 3.7366,
+            "Advanced": 23009.6508,
+            "Improvement_%": -615691.1149,
+            "Better_Model": "Baseline"
+        },
+        "RMSE": {
+            "Baseline": 1.933,
+            "Advanced": 151.6893,
+            "Improvement_%": -7747.3513,
+            "Better_Model": "Baseline"
+        },
+        "R2_Score": {
+            "Baseline": 0.9991,
+            "Advanced": -4.4741,
+            "Improvement_%": -547.813,
+            "Better_Model": "Baseline"
+        },
+        "MAPE_%": {
+            "Baseline": 0.132,
+            "Advanced": 11.5087,
+            "Improvement_%": -8618.7121,
+            "Better_Model": "Baseline"
+        }
+    }
+}

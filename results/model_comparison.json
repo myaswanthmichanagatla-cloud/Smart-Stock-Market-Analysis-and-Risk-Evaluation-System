@@ -1,0 +1,32 @@
+{
+    "MAE": {
+        "Baseline": 1.5318,
+        "Advanced": 136.3857,
+        "Improvement_%": -8803.6232,
+        "Better_Model": "Baseline"
+    },
+    "MSE": {
+        "Baseline": 3.7425,
+        "Advanced": 22804.5931,
+        "Improvement_%": -609241.165,
+        "Better_Model": "Baseline"
+    },
+    "RMSE": {
+        "Baseline": 1.9345,
+        "Advanced": 151.0119,
+        "Improvement_%": -7706.2497,
+        "Better_Model": "Baseline"
+    },
+    "R2_Score": {
+        "Baseline": 0.9991,
+        "Advanced": -4.4594,
+        "Improvement_%": -546.3417,
+        "Better_Model": "Baseline"
+    },
+    "MAPE_%": {
+        "Baseline": 0.1323,
+        "Advanced": 11.4597,
+        "Improvement_%": -8561.9048,
+        "Better_Model": "Baseline"
+    }
+}

@@ -1,0 +1,144 @@
+{
+    "pipeline_name": "Stock Market Analysis Pipeline",
+    "execution_time": "2026-05-15 16:06:34",
+    "total_duration": 8.680459022521973,
+    "base_directory": "/content/smart_stock_market_project",
+    "logs": [
+        {
+            "timestamp": "2026-05-15 16:06:25",
+            "level": "SUCCESS",
+            "message": "Found: stock_data_pipeline.py"
+        },
+        {
+            "timestamp": "2026-05-15 16:06:25",
+            "level": "SUCCESS",
+            "message": "Found: baseline_predictor.py"
+        },
+        {
+            "timestamp": "2026-05-15 16:06:25",
+            "level": "SUCCESS",
+            "message": "Found: advanced_predictor.py"
+        },
+        {
+            "timestamp": "2026-05-15 16:06:25",
+            "level": "SUCCESS",
+            "message": "Found: evaluation.py"
+        },
+        {
+            "timestamp": "2026-05-15 16:06:25",
+            "level": "SUCCESS",
+            "message": "Found: portfolio_optimizer.py"
+        },
+        {
+            "timestamp": "2026-05-15 16:06:25",
+            "level": "INFO",
+            "message": "Starting: Load and process stock data with technical indicators"
+        },
+        {
+            "timestamp": "2026-05-15 16:06:26",
+            "level": "SUCCESS",
+            "message": "Completed: 1. Data Pipeline (0.72s)"
+        },
+        {
+            "timestamp": "2026-05-15 16:06:26",
+            "level": "INFO",
+            "message": "Starting: Train Linear Regression model"
+        },
+        {
+            "timestamp": "2026-05-15 16:06:27",
+            "level": "SUCCESS",
+            "message": "Completed: 2. Baseline Predictor (1.38s)"
+        },
+        {
+            "timestamp": "2026-05-15 16:06:27",
+            "level": "INFO",
+            "message": "Starting: Train XGBoost model"
+        },
+        {
+            "timestamp": "2026-05-15 16:06:30",
+            "level": "SUCCESS",
+            "message": "Completed: 3. Advanced Predictor (2.65s)"
+        },
+        {
+            "timestamp": "2026-05-15 16:06:30",
+            "level": "INFO",
+            "message": "Starting: Compare baseline vs advanced models"
+        },
+        {
+            "timestamp": "2026-05-15 16:06:33",
+            "level": "SUCCESS",
+            "message": "Completed: 4. Model Evaluation (2.69s)"
+        },
+        {
+            "timestamp": "2026-05-15 16:06:33",
+            "level": "INFO",
+            "message": "Starting: Generate optimal portfolio allocation"
+        },
+        {
+            "timestamp": "2026-05-15 16:06:34",
+            "level": "SUCCESS",
+            "message": "Completed: 5. Portfolio Optimizer (1.24s)"
+        },
+        {
+            "timestamp": "2026-05-15 16:06:34",
+            "level": "SUCCESS",
+            "message": "Pipeline completed in 8.68 seconds"
+        }
+    ],
+    "outputs": [
+        {
+            "name": "data/stock_dataset.csv",
+            "description": "ML-ready dataset",
+            "exists": true,
+            "size": "1069.80 KB"
+        },
+        {
+            "name": "data/rag_knowledge_base.json",
+            "description": "GenAI knowledge base",
+            "exists": true,
+            "size": "763.73 KB"
+        },
+        {
+            "name": "models/baseline_model.pkl",
+            "description": "Baseline model",
+            "exists": true,
+            "size": "1.78 KB"
+        },
+        {
+            "name": "models/xgboost_model.pkl",
+            "description": "XGBoost model",
+            "exists": true,
+            "size": "1000.14 KB"
+        },
+        {
+            "name": "results/baseline_results.json",
+            "description": "Baseline metrics",
+            "exists": true,
+            "size": "25.28 KB"
+        },
+        {
+            "name": "results/advanced_results.json",
+            "description": "Advanced metrics",
+            "exists": true,
+            "size": "24.33 KB"
+        },
+        {
+            "name": "results/model_comparison.json",
+            "description": "Model comparison",
+            "exists": true,
+            "size": "0.74 KB"
+        },
+        {
+            "name": "results/genai_summary.json",
+            "description": "GenAI summary",
+            "exists": false,
+            "size": "N/A"
+        },
+        {
+            "name": "results/portfolio_optimization.json",
+            "description": "Portfolio allocation",
+            "exists": false,
+            "size": "N/A"
+        }
+    ]
+}

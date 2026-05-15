@@ -1,0 +1,65 @@
+{
+    "generated_at": "2026-05-15 16:15:44",
+    "portfolio_type": "Single Stock Portfolio",
+    "stock": "STOCK_DATASET",
+    "strategies": [
+        {
+            "optimization_type": "Single Stock - Full Allocation",
+            "expected_return": 32.07,
+            "volatility": 9.48,
+            "sharpe_ratio": 3.1714,
+            "weights": {
+                "STOCK_DATASET": 100.0
+            }
+        },
+        {
+            "optimization_type": "Conservative - Cash Reserve",
+            "expected_return": 25.66,
+            "volatility": 7.59,
+            "sharpe_ratio": 2.8543,
+            "weights": {
+                "STOCK_DATASET": 80.0,
+                "CASH": 20.0
+            }
+        },
+        {
+            "optimization_type": "Moderate - Balanced",
+            "expected_return": 28.86,
+            "volatility": 8.53,
+            "sharpe_ratio": 3.0128,
+            "weights": {
+                "STOCK_DATASET": 90.0,
+                "CASH": 10.0
+            }
+        }
+    ],
+    "summary": {
+        "best_strategy": "Single Stock - Full Allocation",
+        "best_sharpe_ratio": 3.1714,
+        "best_expected_return": 32.07,
+        "best_volatility": 9.48,
+        "best_weights": {
+            "STOCK_DATASET": 100.0
+        },
+        "num_stocks": 1,
+        "stocks": [
+            "STOCK_DATASET"
+        ],
+        "risk_free_rate": 2.0,
+        "natural_language_summary": "Single-stock portfolio analysis for STOCK_DATASET. Expected annual return: 32.07%, volatility: 9.48%, Sharpe ratio: 3.171. Recommendation: Single Stock - Full Allocation allocation strategy. Consider diversifying with additional stocks for better risk-adjusted returns."
+    },
+    "recommendation": {
+        "current_allocation": "100% STOCK_DATASET",
+        "risk_level": "High (Single Stock Concentration)",
+        "suggestion": "Add 2-4 more stocks for diversification",
+        "target_sharpe": "> 1.0 with multi-stock portfolio"
+    },
+    "stock_statistics": {
+        "STOCK_DATASET": {
+            "expected_return_%": 32.07,
+            "volatility_%": 9.48,
+            "sharpe_ratio": 3.1714,
+            "data_periods": 1980
+        }
+    }
+}

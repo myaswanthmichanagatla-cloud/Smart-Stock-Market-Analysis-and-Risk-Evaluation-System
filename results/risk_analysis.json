@@ -1,0 +1,59 @@
+{
+    "risk_metrics": {
+        "STOCK_DATASET": {
+            "stock": "STOCK_DATASET",
+            "returns": {
+                "mean_annual": 31.21163348948591,
+                "volatility_annual": 9.58973731393582
+            },
+            "var_metrics": {
+                "var_95": -0.6712472212934961,
+                "cvar_95": -1.2336139797602366,
+                "confidence_level": 95.0
+            },
+            "drawdown": {
+                "max_drawdown": -8.256533839897614,
+                "duration_days": 25,
+                "recovery_days": 21
+            },
+            "risk_adjusted": {
+                "sharpe_ratio": 3.0461348974633036,
+                "sortino_ratio": 4.126300973751995,
+                "beta": 1.000504540867814
+            },
+            "volatility": {
+                "current": 2.0913787494954117,
+                "average": 7.168044089757256,
+                "maximum": 28.416091678691696
+            },
+            "risk_category": "Low Risk"
+        }
+    },
+    "summary": {
+        "analysis_date": "2026-05-15T16:03:26.627294",
+        "num_stocks": 1,
+        "stocks_analyzed": [
+            "STOCK_DATASET"
+        ],
+        "best_risk_adjusted": {
+            "stock": "STOCK_DATASET",
+            "sharpe_ratio": 3.0461348974633036,
+            "return": 31.21163348948591,
+            "volatility": 9.58973731393582
+        },
+        "highest_risk": {
+            "stock": "STOCK_DATASET",
+            "sharpe_ratio": 3.0461348974633036,
+            "return": 31.21163348948591,
+            "volatility": 9.58973731393582
+        },
+        "risk_distribution": {
+            "Low Risk": 1
+        },
+        "natural_language_summary": "Risk analysis of 1 stocks completed. STOCK_DATASET shows the best risk-adjusted returns with Sharpe ratio 3.046, offering 31.21% annual return with 9.59% volatility. STOCK_DATASET has the highest risk profile with Sharpe ratio 3.046. Risk distribution: Low Risk: 1. Maximum drawdowns range from -8.26% to -8.26%."
+    },
+    "parameters": {
+        "confidence_level": 0.95,
+        "risk_free_rate": 0.02
+    }
+}
