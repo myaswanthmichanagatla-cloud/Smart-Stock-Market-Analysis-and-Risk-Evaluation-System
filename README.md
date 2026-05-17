@@ -1,37 +1,139 @@
-# Stock-Market-RAG--SE25MAID035,se25maid014,se25maid016,se25maid021
-A user enters or uploads a stock market query (e.g., "safe long-term banking stocks with stable returns") and the system retrieves financially and semantically relevant stocks with context about sector, volatility, company fundamentals, and investment risk.
+# Stock-Market-RAG
 
+**Team IDs:** SE25MAID035, SE25MAID014, SE25MAID016, SE25MAID021  
 
-> **Milestone 1 · Preliminary Model**  
-> Retrieve stocks from structured financial datasets by natural-language investment descriptions using semantic embeddings + Financial RAG.
+A Financial Retrieval-Augmented Generation (RAG) system that retrieves semantically relevant stocks from structured financial datasets using natural-language investment queries.
+
+Example query:
+
+> "safe long-term banking stocks with stable returns"
+
+The system returns financially relevant stocks along with contextual information such as:
+
+- Sector
+- Volatility
+- PE Ratio
+- Risk Level
+- Company fundamentals
+- Expected performance
 
 ---
 
-## Overview
+# 📌 Project Overview
 
-Finding good investment opportunities is difficult with keyword search alone. A query like *"low-volatility dividend-paying technology companies with strong long-term upside"* cannot be meaningfully answered by a standard spreadsheet or basic stock screener.
+Traditional stock screeners rely mainly on filters and keyword matching. However, financial queries are often semantic and descriptive.
 
-This project builds a **Stock Market RAG** system:
+For example:
 
-1. **Retrieve** — embed a free-text financial query with sentence-transformer semantic embeddings and find financially relevant stocks from a structured market dataset.
-2. **Generate** *(final milestone)* — produce a grounded investment recommendation for each retrieved stock using an LLM, with every recommendation traceable to real stock fundamentals and market metadata.
+> "low-volatility dividend-paying technology companies with long-term growth potential"
+
+A normal keyword-based search cannot understand the intent behind such queries.
+
+This project solves the problem using:
+
+- Semantic embeddings
+- Financial text retrieval
+- Sentence Transformers / FinBERT
+- Cosine similarity search
+- Financial RAG pipeline
 
 ---
 
-## Project Structure
+# 🎯 Objective
+
+The goal of this project is to:
+
+1. Convert natural-language investment queries into semantic embeddings.
+2. Retrieve financially relevant stocks from structured market datasets.
+3. Provide grounded investment insights using stock fundamentals.
+
+---
+
+# ⚙️ Features
+
+✅ Natural-language stock search  
+✅ Semantic financial retrieval  
+✅ Risk-aware stock recommendations  
+✅ Sector-based retrieval  
+✅ Embedding-based similarity search  
+✅ Financial metadata enrichment  
+✅ Ablation study for evaluation  
+
+---
+
+# 🏗️ System Architecture
+
+```text
+User Query (Natural Language)
+            │
+            ▼
+Financial Text Encoder
+(SentenceTransformer / FinBERT)
+            │
+            ▼
+Semantic Embedding Vector
+            │
+            ▼
+Cosine Similarity Search
+            │
+            ▼
+Top-K Relevant Stocks
+(Company, Sector, PE Ratio, Volatility, Risk)
+            │
+            ▼
+[Future Scope]
+LLM-generated grounded investment recommendation
+```
+
+---
+
+# 📂 Project Structure
 
 ```bash
 .
-├── stock_data_pipeline.py        # Load, preprocess & save stock metadata
-├── stock_retrieval.py            # Build stock index, query, and run ablation
-├── requirements.txt              # Python dependencies
+├── stock_data_pipeline.py
+├── stock_retrieval.py
+├── requirements.txt
 ├── data/
-│   ├── stock_market_dataset.json # Output of stock_data_pipeline.py
-│   └── stock_index.pkl           # Output of stock_retrieval.py --mode index
-└── outputs.txt                   # Sample run logs and ablation results
-1. Install dependencies
+│   ├── stock_data.csv
+│   ├── stock_market_dataset.json
+│   └── stock_index.pkl
+└── outputs.txt
+```
+
+### File Description
+
+| File | Description |
+|------|-------------|
+| `stock_data_pipeline.py` | Loads and preprocesses stock metadata |
+| `stock_retrieval.py` | Builds embeddings, retrieval index, and query system |
+| `requirements.txt` | Python dependencies |
+| `stock_market_dataset.json` | Processed stock metadata |
+| `stock_index.pkl` | Serialized semantic vector index |
+| `outputs.txt` | Sample outputs and ablation results |
+
+---
+
+# 🛠️ Installation
+
+Clone the repository:
+
+```bash
+git clone <your-github-repository-link>
+cd Stock-Market-RAG
+```
+
+Install dependencies:
+
+```bash
 pip install -r requirements.txt
-requirements.txt
+```
+
+---
+
+# 📦 Requirements
+
+```txt
 pandas>=2.0.0
 numpy>=1.24.0
 sentence-transformers>=2.2.2
@@ -43,91 +145,188 @@ tqdm>=4.66.0
 matplotlib>=3.7.0
 nltk>=3.8.1
 python-dotenv>=1.0.0
-python stock_data_pipeline.py --input data/stock_data.csv --output data/stock_market_dataset.json
-| Argument   | Default                          | Description             |
-| ---------- | -------------------------------- | ----------------------- |
-| `--input`  | `data/stock_data.csv`            | Input stock CSV dataset |
-| `--output` | `data/stock_market_dataset.json` | Output metadata JSON    |
-| `--seed`   | `42`                             | Random seed             |
-Sample Output:
+```
+
+---
+
+# 📊 Dataset
+
+The project uses a structured stock market dataset containing fields such as:
+
+- Company Name
+- Sector
+- Open Price
+- Close Price
+- High
+- Low
+- Volume
+- PE Ratio
+- News Sentiment
+- Expected Performance
+- Risk Level
+
+---
+
+# 🚀 Usage
+
+## 1️⃣ Preprocess the Dataset
+
+Generate cleaned stock metadata JSON:
+
+```bash
+python stock_data_pipeline.py \
+--input data/stock_data.csv \
+--output data/stock_market_dataset.json
+```
+
+### Arguments
+
+| Argument | Default | Description |
+|----------|----------|-------------|
+| `--input` | `data/stock_data.csv` | Input stock dataset |
+| `--output` | `data/stock_market_dataset.json` | Output metadata JSON |
+| `--seed` | `42` | Random seed |
+
+### Sample Output
+
+```text
 Total records : 5000
 Unique sectors: 12
-Risk Levels   : {'Low Risk': 2100, 'Moderate Risk': 1900, 'High Risk': 1000}
-Top sectors   : [('Technology', 1100), ('Banking', 920), ('Energy', 700)]
-3. Build the Financial Index
 
-Embed all stock records into normalized semantic vectors and save to disk:
-python stock_retrieval.py --mode index --data data/stock_market_dataset.json
-Output:
+Risk Levels:
+Low Risk      : 2100
+Moderate Risk : 1900
+High Risk     : 1000
+
+Top sectors:
+Technology : 1100
+Banking    : 920
+Energy     : 700
+```
+
+---
+
+## 2️⃣ Build the Semantic Financial Index
+
+Create semantic embeddings and save the retrieval index:
+
+```bash
+python stock_retrieval.py \
+--mode index \
+--data data/stock_market_dataset.json
+```
+
+### Output
+
+```text
 data/stock_index.pkl
-4. Query by text
+```
 
-Retrieve top-k semantically relevant stocks:
-python stock_retrieval.py --mode query --query "safe long-term technology stocks"
-| Argument  | Default                          | Description               |
-| --------- | -------------------------------- | ------------------------- |
-| `--query` | `"safe long-term growth stocks"` | Free-text financial query |
-| `--topk`  | `5`                              | Number of results         |
-| `--index` | `data/stock_index.pkl`           | Saved stock index         |
-Sample Output:
-Rank   Score    Company              Sector          Close     Risk
-──────────────────────────────────────────────────────────────────────────────
-1      0.9123   Infosys              Technology      1540.20   Low Risk
-       └─ Technology stock Infosys with PE ratio 22, positive return...
-       5. Run the Ablation Study
+---
 
-Compare baseline forecasting vs semantic retrieval:
+## 3️⃣ Query Stocks Using Natural Language
+
+Retrieve semantically relevant stocks:
+
+```bash
+python stock_retrieval.py \
+--mode query \
+--query "safe long-term technology stocks"
+```
+
+### Arguments
+
+| Argument | Default | Description |
+|----------|----------|-------------|
+| `--query` | `"safe long-term growth stocks"` | Financial query |
+| `--topk` | `5` | Number of retrieved stocks |
+| `--index` | `data/stock_index.pkl` | Saved stock index |
+
+### Sample Output
+
+```text
+Rank   Score    Company      Sector       Close      Risk
+--------------------------------------------------------------
+1      0.9123   Infosys      Technology   1540.20    Low Risk
+       └─ Technology company with positive returns,
+          stable growth, and moderate PE ratio.
+```
+
+---
+
+# 📈 Ablation Study
+
+Run comparison experiments between baseline ML and Financial RAG:
+
+```bash
 python stock_retrieval.py --mode ablation
-Ablation Results
-| Query Type                    | Baseline ML | Financial RAG |
-| ----------------------------- | ----------- | ------------- |
-| Price Prediction Accuracy     | High        | Moderate      |
-| Semantic Investment Relevance | Low         | High          |
-| Risk Awareness                | Medium      | High          |
-| User-Friendly Insights        | Low         | High          |
-Architecture
-User query (natural language)
-        │
-        ▼
-Financial Text Encoder (SentenceTransformer / FinBERT)
-        │
-        ▼
-Semantic Embedding Vector
-        │
-        ▼
-Cosine Similarity Search
-        │
-        ▼
-Top-K Relevant Stocks
-(Company, Sector, PE Ratio, Volatility, Risk)
-        │
-        ▼
-[Final Milestone] LLM generates
-grounded investment recommendation
-Dataset
+```
 
-Structured Stock Dataset
-Possible fields:
+### Results
 
-Company
-Sector
-Open
-Close
-High
-Low
-Volume
-PE Ratio
-News Sentiment
-Expected Performance
-| Metric                       | Milestone 1  | Final Milestone |
-| ---------------------------- | ------------ | --------------- |
-| Retrieval Relevance@5        | 0.70+ target | 0.90+           |
-| Risk Classification Accuracy | 0.75+        | 0.90+           |
-| Forecast RMSE                | Baseline     | Improved        |
-| LLM Investment Explanation   | —            | ROUGE-L > 0.35  |
-References
-Devlin, J. et al. (2019). BERT: Pre-training of Deep Bidirectional Transformers.
-Araci, D. (2019). FinBERT: Financial Sentiment Analysis.
-Lewis, P. et al. (2020). Retrieval-Augmented Generation.
-Yahoo Finance API Documentation
-NSE/BSE Historical Market Data
+| Query Type | Baseline ML | Financial RAG |
+|------------|-------------|----------------|
+| Price Prediction Accuracy | High | Moderate |
+| Semantic Investment Relevance | Low | High |
+| Risk Awareness | Medium | High |
+| User-Friendly Insights | Low | High |
+
+---
+
+# 📊 Evaluation Metrics
+
+| Metric | Milestone 1 | Final Milestone |
+|--------|--------------|----------------|
+| Retrieval Relevance@5 | 0.70+ | 0.90+ |
+| Risk Classification Accuracy | 0.75+ | 0.90+ |
+| Forecast RMSE | Baseline | Improved |
+| LLM Explanation Quality | — | ROUGE-L > 0.35 |
+
+---
+
+# 🔮 Future Scope
+
+- Integrate Large Language Models (LLMs)
+- Real-time stock market updates
+- Personalized investment recommendations
+- News-aware stock retrieval
+- Portfolio risk analysis
+- Interactive dashboard for investors
+
+---
+
+# 🧠 Technologies Used
+
+- Python
+- Sentence Transformers
+- FinBERT
+- Scikit-learn
+- PyTorch
+- Hugging Face Transformers
+- Yahoo Finance API
+- Financial RAG
+
+---
+
+# 📚 References
+
+1. Devlin, J. et al. (2019) — *BERT: Pre-training of Deep Bidirectional Transformers*
+2. Araci, D. (2019) — *FinBERT: Financial Sentiment Analysis*
+3. Lewis, P. et al. (2020) — *Retrieval-Augmented Generation*
+4. Yahoo Finance API Documentation
+5. NSE/BSE Historical Market Data
+
+---
+
+# 👨‍💻 Team Members
+
+- SE25MAID035
+- SE25MAID014
+- SE25MAID016
+- SE25MAID021
+
+---
+
+# 📄 License
+
+This project is developed for academic and research purposes.
