@@ -31,8 +31,8 @@ class StockDataPipeline:
 
     def __init__(
         self,
-        data_folder="/content/smart_stock_market_project/data",
-        output_file="/content/smart_stock_market_project/data/stock_dataset.csv"
+        data_folder="data",
+        output_file="data/stock_dataset.csv"
     ):
         self.data_folder = data_folder
         self.output_file = output_file
@@ -361,7 +361,7 @@ class StockDataPipeline:
     # =========================================
     def save_rag_knowledge_base(
         self,
-        output_json="/content/smart_stock_market_project/data/rag_knowledge_base.json"
+        output_json="data/rag_knowledge_base.json"
     ):
         if self.combined_df is None:
             raise ValueError("❌ Run load_all_stocks() first")
