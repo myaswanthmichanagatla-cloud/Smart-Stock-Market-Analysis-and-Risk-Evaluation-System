@@ -19,7 +19,7 @@ The system returns financially relevant stocks along with contextual information
 
 ---
 
-# 📌 Project Overview
+# Project Overview
 
 Traditional stock screeners rely mainly on filters and keyword matching. However, financial queries are often semantic and descriptive.
 
@@ -39,7 +39,7 @@ This project solves the problem using:
 
 ---
 
-# 🎯 Objective
+# Objective
 
 The goal of this project is to:
 
@@ -49,7 +49,7 @@ The goal of this project is to:
 
 ---
 
-# ⚙️ Features
+# Features
 
 ✅ Natural-language stock search  
 ✅ Semantic financial retrieval  
@@ -61,7 +61,7 @@ The goal of this project is to:
 
 ---
 
-# 🏗️ System Architecture
+# System Architecture
 
 ```text
 User Query (Natural Language)
@@ -114,7 +114,7 @@ LLM-generated grounded investment recommendation
 
 ---
 
-# 🛠️ Installation
+# Installation
 
 Clone the repository:
 
@@ -131,7 +131,7 @@ pip install -r requirements.txt
 
 ---
 
-# 📦 Requirements
+# Requirements
 
 ```txt
 pandas>=2.0.0
@@ -149,7 +149,7 @@ python-dotenv>=1.0.0
 
 ---
 
-# 📊 Dataset
+# Dataset
 
 The project uses a structured stock market dataset containing fields such as:
 
@@ -167,9 +167,9 @@ The project uses a structured stock market dataset containing fields such as:
 
 ---
 
-# 🚀 Usage
+# Usage
 
-## 1️⃣ Preprocess the Dataset
+## 1️ Preprocess the Dataset
 
 Generate cleaned stock metadata JSON:
 
@@ -206,7 +206,7 @@ Energy     : 700
 
 ---
 
-## 2️⃣ Build the Semantic Financial Index
+## 2️ Build the Semantic Financial Index
 
 Create semantic embeddings and save the retrieval index:
 
@@ -224,7 +224,7 @@ data/stock_index.pkl
 
 ---
 
-## 3️⃣ Query Stocks Using Natural Language
+## 3️ Query Stocks Using Natural Language
 
 Retrieve semantically relevant stocks:
 
@@ -254,7 +254,7 @@ Rank   Score    Company      Sector       Close      Risk
 
 ---
 
-# 📈 Ablation Study
+# Ablation Study
 
 Run comparison experiments between baseline ML and Financial RAG:
 
@@ -273,7 +273,7 @@ python stock_retrieval.py --mode ablation
 
 ---
 
-# 📊 Evaluation Metrics
+# Evaluation Metrics
 
 | Metric | Milestone 1 | Final Milestone |
 |--------|--------------|----------------|
@@ -284,7 +284,7 @@ python stock_retrieval.py --mode ablation
 
 ---
 
-# 🔮 Future Scope
+# Future Scope
 
 - Integrate Large Language Models (LLMs)
 - Real-time stock market updates
@@ -295,7 +295,7 @@ python stock_retrieval.py --mode ablation
 
 ---
 
-# 🧠 Technologies Used
+# Technologies Used
 
 - Python
 - Sentence Transformers
@@ -308,7 +308,7 @@ python stock_retrieval.py --mode ablation
 
 ---
 
-# 📚 References
+# References
 
 1. Devlin, J. et al. (2019) — *BERT: Pre-training of Deep Bidirectional Transformers*
 2. Araci, D. (2019) — *FinBERT: Financial Sentiment Analysis*
@@ -318,7 +318,7 @@ python stock_retrieval.py --mode ablation
 
 ---
 
-# 👨‍💻 Team Members
+# Team Members
 
 - SE25MAID035
 - SE25MAID014
