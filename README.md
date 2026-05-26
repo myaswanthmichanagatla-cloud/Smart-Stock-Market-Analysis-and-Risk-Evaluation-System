@@ -327,6 +327,6 @@ python stock_retrieval.py --mode ablation
 
 ---
 
-# 📄 License
+# License
 
 This project is developed for academic and research purposes.
