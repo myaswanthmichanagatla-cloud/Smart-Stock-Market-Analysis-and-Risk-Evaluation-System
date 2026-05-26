@@ -87,7 +87,7 @@ LLM-generated grounded investment recommendation
 
 ---
 
-# 📂 Project Structure
+# Project Structure
 
 ```bash
 .
