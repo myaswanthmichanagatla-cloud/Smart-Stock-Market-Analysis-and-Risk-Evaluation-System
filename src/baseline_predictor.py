@@ -395,8 +395,11 @@ class GenAIBaselinePredictor:
 # MAIN EXECUTION
 # =========================================
 if __name__ == "__main__":
-    DATA_PATH = "/content/smart_stock_market_project/data/stock_dataset.csv"
-    MODEL_PATH = "/content/smart_stock_market_project/models/baseline_model.pkl"
+    import os as _os
+    _BASE      = _os.path.dirname(_os.path.realpath(__file__))
+    DATA_PATH  = _os.path.join(_BASE, "data",   "stock_dataset.csv")
+    MODEL_PATH = _os.path.join(_BASE, "models", "baseline_model.pkl")
+    _os.makedirs(_os.path.join(_BASE, "models"), exist_ok=True)
 
     try:
         print("=" * 70)
