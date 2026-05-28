@@ -148,7 +148,6 @@ tbody tr:hover td{background:var(--surface2);}
 .team-card.open .toggle-hint{color:var(--green);}
 .footer{text-align:center;padding:20px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);font-family:var(--mono);margin-top:40px;}
 .section-head{margin-bottom:20px;}.section-head h2{font-size:16px;font-weight:600;}.section-head p{font-size:12px;color:var(--muted);}
-.region-label{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);font-family:var(--mono);margin:20px 0 10px;padding-left:2px;}
 .stock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-bottom:8px;}
 .stock-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
 .stock-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--border);transition:background .2s;}
@@ -171,12 +170,6 @@ tbody tr:hover td{background:var(--surface2);}
 .model-metric-row:last-child{border-bottom:none;}
 .model-metric-name{font-size:12px;color:var(--muted);}
 .model-metric-val{font-family:var(--mono);font-size:13px;font-weight:600;}
-.rag-box{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px;}
-.rag-q{font-family:var(--mono);font-size:12px;color:var(--amber);margin-bottom:8px;}
-.rag-a{font-size:12px;color:var(--text);line-height:1.7;}
-.rag-entry{padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--muted);line-height:1.6;}
-.rag-entry:last-child{border-bottom:none;}
-.rag-entry strong{color:var(--blue);font-family:var(--mono);}
 
 /* STOCK MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(3,6,16,.85);z-index:2000;align-items:center;justify-content:center;backdrop-filter:blur(3px);}
@@ -184,7 +177,6 @@ tbody tr:hover td{background:var(--surface2);}
 .modal-box{background:#111827;border:1px solid #1f2d45;border-radius:16px;width:92%;max-width:780px;max-height:90vh;overflow-y:auto;animation:modalIn .25s ease;}
 @keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
 .modal-head{display:flex;justify-content:space-between;align-items:flex-start;padding:20px 24px 16px;border-bottom:1px solid #1f2d45;position:sticky;top:0;background:#111827;z-index:1;}
-.modal-sym-block{}
 .modal-sym{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--blue);letter-spacing:1px;}
 .modal-name{font-size:12px;color:var(--muted);margin-top:2px;}
 .modal-close{width:34px;height:34px;border-radius:50%;background:#1a2235;border:1px solid #1f2d45;color:var(--muted);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
@@ -201,6 +193,60 @@ tbody tr:hover td{background:var(--surface2);}
 .modal-chart-wrap{position:relative;width:100%;height:280px;background:#0a0e1a;border:1px solid #1f2d45;border-radius:10px;overflow:hidden;}
 .modal-pills{display:flex;gap:8px;padding:0 24px 20px;}
 .hint-bar{background:#060d1a;border-top:1px solid #0e1e33;padding:10px 24px;font-size:11px;color:#1e3450;font-family:var(--mono);display:flex;align-items:center;gap:6px;}
+
+/* ── CHATBOT ── */
+.chat-fab{position:fixed;bottom:52px;right:24px;width:54px;height:54px;border-radius:50%;background:var(--green);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3000;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 24px rgba(0,214,143,.4);}
+.chat-fab:hover{transform:scale(1.1);box-shadow:0 6px 32px rgba(0,214,143,.55);}
+.chat-fab svg{width:24px;height:24px;fill:none;stroke:#000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.chat-notif{position:absolute;top:-3px;right:-3px;width:18px;height:18px;background:var(--red);border-radius:50%;font-size:10px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid var(--bg);animation:notifPop .3s ease;}
+@keyframes notifPop{from{transform:scale(0)}to{transform:scale(1)}}
+.chat-panel{position:fixed;bottom:116px;right:24px;width:390px;max-width:calc(100vw - 32px);height:540px;background:#111827;border:1px solid #1f2d45;border-radius:18px;display:flex;flex-direction:column;z-index:3001;transform:scale(.9) translateY(24px);opacity:0;pointer-events:none;transition:transform .28s cubic-bezier(.34,1.56,.64,1),opacity .22s ease;box-shadow:0 24px 80px rgba(0,0,0,.6);}
+.chat-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all;}
+.chat-header{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid #1f2d45;flex-shrink:0;background:#0d1626;border-radius:18px 18px 0 0;}
+.chat-header-info{display:flex;align-items:center;gap:10px;}
+.chat-avatar{width:34px;height:34px;border-radius:50%;background:var(--green-dim);border:1.5px solid var(--green);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--green);flex-shrink:0;}
+.chat-hdot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink 1.5s infinite;flex-shrink:0;}
+.chat-hname{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--text);}
+.chat-hsub{font-size:10px;color:var(--muted);}
+.chat-hbtns{display:flex;gap:6px;}
+.chat-hbtn{width:28px;height:28px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.chat-hbtn:hover{background:var(--red-dim);color:var(--red);border-color:var(--red);}
+.chat-messages{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth;}
+.chat-messages::-webkit-scrollbar{width:3px;}
+.chat-messages::-webkit-scrollbar-thumb{background:#1f2d45;border-radius:2px;}
+.msg-row{display:flex;gap:8px;align-items:flex-end;}
+.msg-row.user{flex-direction:row-reverse;}
+.msg-ava{width:26px;height:26px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--mono);font-weight:600;}
+.msg-ava.bot{background:var(--green-dim);border:1px solid #00d68f35;color:var(--green);}
+.msg-ava.user{background:var(--blue-dim);border:1px solid #4fa3e035;color:var(--blue);}
+.msg-bubble{max-width:82%;padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.65;}
+.msg-bubble.bot{background:#1a2235;border:1px solid #1f2d45;color:var(--text);border-bottom-left-radius:4px;}
+.msg-bubble.bot b,.msg-bubble.bot strong{color:var(--green);}
+.msg-bubble.user{background:#00d68f18;border:1px solid #00d68f30;color:var(--text);border-bottom-right-radius:4px;}
+.msg-bubble.thinking{color:var(--muted);}
+.typing-dots{display:inline-flex;gap:4px;align-items:center;padding:2px 0;}
+.typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:tdot 1.3s infinite;}
+.typing-dots span:nth-child(2){animation-delay:.2s;}
+.typing-dots span:nth-child(3){animation-delay:.4s;}
+@keyframes tdot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
+.chat-suggest{display:flex;flex-wrap:wrap;gap:6px;padding:10px 14px 6px;border-top:1px solid #1f2d45;flex-shrink:0;}
+.sug-chip{padding:5px 11px;background:#0a0e1a;border:1px solid #1a2a3a;border-radius:20px;font-size:11px;color:#4a6a8a;cursor:pointer;transition:all .2s;font-family:var(--mono);white-space:nowrap;}
+.sug-chip:hover{background:#00d68f0f;color:var(--green);border-color:#00d68f40;}
+.chat-input-area{display:flex;gap:8px;padding:10px 14px 12px;border-top:1px solid #1f2d45;flex-shrink:0;}
+.chat-inp{flex:1;background:#0a0e1a;border:1px solid #1a2a3a;border-radius:12px;padding:10px 13px;color:var(--text);font-size:13px;font-family:var(--font);outline:none;resize:none;line-height:1.5;transition:border .2s;max-height:80px;overflow-y:auto;}
+.chat-inp:focus{border-color:#00d68f50;}
+.chat-inp::placeholder{color:#2e4060;}
+.chat-send-btn{width:38px;height:38px;background:var(--green);border:none;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;align-self:flex-end;transition:opacity .2s,transform .15s;}
+.chat-send-btn:hover{opacity:.85;transform:scale(1.05);}
+.chat-send-btn:disabled{opacity:.3;cursor:not-allowed;transform:none;}
+.chat-send-btn svg{width:15px;height:15px;fill:none;stroke:#000;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+.chat-key-hint{font-size:10px;color:#1a2a3a;text-align:center;padding:0 14px 8px;font-family:var(--mono);}
+.api-key-bar{display:flex;gap:8px;padding:8px 14px;border-bottom:1px solid #1f2d45;flex-shrink:0;background:#080e1c;}
+.api-key-bar input{flex:1;background:#0a0e1a;border:1px solid #1a2a3a;border-radius:8px;padding:7px 11px;color:var(--text);font-size:11px;font-family:var(--mono);outline:none;transition:border .2s;}
+.api-key-bar input:focus{border-color:#00d68f50;}
+.api-key-bar input::placeholder{color:#1e3050;}
+.api-key-save{padding:7px 14px;background:#00d68f18;border:1px solid #00d68f40;color:var(--green);border-radius:8px;font-size:11px;font-family:var(--mono);cursor:pointer;white-space:nowrap;transition:all .2s;}
+.api-key-save:hover{background:#00d68f30;}
 </style>
 </head>
 <body>
@@ -230,8 +276,8 @@ tbody tr:hover td{background:var(--surface2);}
       <span class="l-chip" onclick="landingChip('dividend stocks')">💰 Dividends</span>
     </div>
     <div class="l-stats">
-      <div class="ls"><div class="ls-val"><em>11,085</em></div><div class="ls-lbl">Records</div></div>
-      <div class="ls"><div class="ls-val"><em>15</em></div><div class="ls-lbl">NSE Stocks</div></div>
+      <div class="ls"><div class="ls-val"><em>312</em></div><div class="ls-lbl">Records</div></div>
+      <div class="ls"><div class="ls-val"><em>104</em></div><div class="ls-lbl">NSE Stocks</div></div>
       <div class="ls"><div class="ls-val"><em>26</em></div><div class="ls-lbl">Features</div></div>
       <div class="ls"><div class="ls-val"><em>3Y</em></div><div class="ls-lbl">History</div></div>
     </div>
@@ -250,7 +296,10 @@ tbody tr:hover td{background:var(--surface2);}
     <div class="version">v2.0</div>
     <span style="color:var(--muted);font-size:12px;">Smart Stock Market Analysis &amp; Risk Evaluation · NSE India · SE25MAID</span>
   </div>
-  <div class="topbar-right"><div class="dot-live"></div><span class="live-text">PIPELINE ACTIVE</span></div>
+  <div class="topbar-right">
+    <div class="dot-live"></div><span class="live-text">PIPELINE ACTIVE</span>
+    <button onclick="toggleChat()" style="margin-left:12px;padding:6px 14px;background:var(--green-dim);border:1px solid #00d68f40;color:var(--green);border-radius:8px;font-size:11px;font-family:var(--mono);cursor:pointer;transition:all .2s;" onmouseover="this.style.background='#00d68f30'" onmouseout="this.style.background='var(--green-dim)'">💬 AI Chat</button>
+  </div>
 </div>
 <div class="tabs">
   <div class="tab active" onclick="showPage('overview')">Overview</div>
@@ -265,13 +314,13 @@ tbody tr:hover td{background:var(--surface2);}
 <!-- OVERVIEW PAGE -->
 <div class="page active" id="page-overview">
   <div class="metrics">
-    <div class="metric-card green"><div class="metric-label">Records Indexed</div><div class="metric-value green">11,085</div><div class="metric-sub">15 NSE stocks · 739 rows each</div></div>
+    <div class="metric-card green"><div class="metric-label">Records Indexed</div><div class="metric-value green">11,085</div><div class="metric-sub">104 NSE stocks · 3 rows each</div></div>
     <div class="metric-card blue"><div class="metric-label">Features Engineered</div><div class="metric-value blue">26</div><div class="metric-sub">RSI · MACD · Bollinger · SMA · EMA</div></div>
     <div class="metric-card amber"><div class="metric-label">Baseline R² Score</div><div class="metric-value amber">0.026</div><div class="metric-sub">Linear Regression · 23 features</div></div>
     <div class="metric-card green"><div class="metric-label">Date Range</div><div class="metric-value green" style="font-size:16px;padding-top:6px;">3 Years</div><div class="metric-sub">May 2023 → May 2026</div></div>
   </div>
   <div class="panel">
-    <div class="panel-title">🇮🇳 NSE India — 15 Stocks · Click any card for candlestick chart</div>
+    <div class="panel-title">🇮🇳 NSE India — 104 Stocks · Click any card for candlestick chart</div>
     <div class="stock-grid" id="stock-grid"></div>
   </div>
   <div class="panel">
@@ -456,7 +505,7 @@ tbody tr:hover td{background:var(--surface2);}
       <div class="team-name">Ch Rishendra Mani Raju</div>
       <div class="team-id">SE25MAID016</div>
       <div class="team-role">Lead Developer · RAG Pipeline</div>
-      <div class="team-contacts"><div class="contact-row"><span class="contact-icon">✉</span><span class="contact-mail">rishendra.016@university.edu</span></div></div>
+      <div class="team-contacts"><div class="contact-row"><span class="contact-icon">✉</span><span class="contact-mail">rishechittala1234@gmail.com</span></div></div>
       <div class="toggle-hint">click to see contact ▾</div>
     </div>
     <div class="team-card" onclick="toggleCard(this)">
@@ -464,7 +513,7 @@ tbody tr:hover td{background:var(--surface2);}
       <div class="team-name">M Yaswanth</div>
       <div class="team-id">SE25MAID035</div>
       <div class="team-role">Model Evaluation · Ablation Study</div>
-      <div class="team-contacts"><div class="contact-row"><span class="contact-icon">✉</span><span class="contact-mail">yaswanth.035@university.edu</span></div></div>
+      <div class="team-contacts"><div class="contact-row"><span class="contact-icon">✉</span><span class="contact-mail">michangatlayaswanth20023@gmail.com</span></div></div>
       <div class="toggle-hint">click to see contact ▾</div>
     </div>
     <div class="team-card" onclick="toggleCard(this)">
@@ -472,7 +521,7 @@ tbody tr:hover td{background:var(--surface2);}
       <div class="team-name">S Rishindra</div>
       <div class="team-id">SE25MAID014</div>
       <div class="team-role">Data Engineering · Feature Design</div>
-      <div class="team-contacts"><div class="contact-row"><span class="contact-icon">✉</span><span class="contact-mail">rishindra.014@university.edu</span></div></div>
+      <div class="team-contacts"><div class="contact-row"><span class="contact-icon">✉</span><span class="contact-mail">sunkavallirshi@gmail.com/span></div></div>
       <div class="toggle-hint">click to see contact ▾</div>
     </div>
     <div class="team-card" onclick="toggleCard(this)">
@@ -480,7 +529,7 @@ tbody tr:hover td{background:var(--surface2);}
       <div class="team-name">P Varshith</div>
       <div class="team-id">SE25MAID021</div>
       <div class="team-role">Dataset Pipeline · Risk Analysis</div>
-      <div class="team-contacts"><div class="contact-row"><span class="contact-icon">✉</span><span class="contact-mail">varshith.021@university.edu</span></div></div>
+      <div class="team-contacts"><div class="contact-row"><span class="contact-icon">✉</span><span class="contact-mail">varshith1627@gmail.com</span></div></div>
       <div class="toggle-hint">click to see contact ▾</div>
     </div>
   </div>
@@ -491,7 +540,7 @@ tbody tr:hover td{background:var(--surface2);}
       2. Araci, D. (2019) — FinBERT: Financial Sentiment Analysis with Pre-trained Language Models<br>
       3. Lewis, P. et al. (2020) — Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks<br>
       4. Yahoo Finance API — yfinance library (NSE data source)<br>
-      5. NSE/BSE Historical Market Data · 15 stocks · 3 years
+      5. NSE/BSE Historical Market Data · 104 stocks · 3 years
     </div>
   </div>
 </div>
@@ -531,83 +580,739 @@ tbody tr:hover td{background:var(--surface2);}
   </div>
 </div>
 
+<!-- ════════════════════════════════════════════
+     CHATBOT — floating panel
+════════════════════════════════════════════ -->
+<button class="chat-fab" id="chatFab" onclick="toggleChat()" title="Ask StockRAG AI">
+  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  <div class="chat-notif" id="chatNotif">1</div>
+</button>
+
+<div class="chat-panel" id="chatPanel">
+  <!-- Header -->
+  <div class="chat-header">
+    <div class="chat-header-info">
+      <div class="chat-avatar">AI</div>
+      <div class="chat-hdot"></div>
+      <div>
+        <div class="chat-hname">▶ StockRAG AI</div>
+        <div class="chat-hsub">Claude · 15 NSE stocks · Live context</div>
+      </div>
+    </div>
+    <div class="chat-hbtns">
+      <button class="chat-hbtn" onclick="clearChat()" title="Clear chat">↺</button>
+      <button class="chat-hbtn" onclick="toggleChat()" title="Close">✕</button>
+    </div>
+  </div>
+
+  <!-- API Key input bar -->
+  <div class="api-key-bar" id="apiKeyBar">
+    <input id="apiKeyInput" type="password" placeholder="Paste your Anthropic API key here to enable AI replies…" />
+    <button class="api-key-save" onclick="saveApiKey()">Save ✓</button>
+  </div>
+
+  <!-- Messages -->
+  <div class="chat-messages" id="chatMessages">
+    <div class="msg-row">
+      <div class="msg-ava bot">AI</div>
+      <div class="msg-bubble bot">
+        👋 Hi! I'm <strong>StockRAG AI</strong>, powered by Claude.<br><br>
+        I have live data on all <strong>15 NSE stocks</strong> — ask me about trends, risk, RSI, comparisons, or anything in your dashboard.<br><br>
+        <em style="color:var(--muted);font-size:11px;">Paste your Anthropic API key above to enable full AI responses.</em>
+      </div>
+    </div>
+  </div>
+
+  <!-- Suggestion chips -->
+  <div class="chat-suggest" id="chatSuggest">
+    <span class="sug-chip" onclick="chipSend(this)">Which stocks are bullish?</span>
+    <span class="sug-chip" onclick="chipSend(this)">Lowest risk stocks?</span>
+    <span class="sug-chip" onclick="chipSend(this)">Compare TCS vs INFY</span>
+    <span class="sug-chip" onclick="chipSend(this)">High RSI momentum picks</span>
+    <span class="sug-chip" onclick="chipSend(this)">Explain the R² scores</span>
+    <span class="sug-chip" onclick="chipSend(this)">Best stock right now?</span>
+  </div>
+
+  <!-- Input -->
+  <div class="chat-input-area">
+    <textarea class="chat-inp" id="chatInp" rows="1" placeholder="Ask about any NSE stock…" onkeydown="chatKey(event)" oninput="chatResize(this)"></textarea>
+    <button class="chat-send-btn" id="chatSendBtn" onclick="chatSend()">
+      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+  <div class="chat-key-hint">Enter to send · Shift+Enter for newline</div>
+</div>
+
 <div class="footer">StockRAG System · Ch Rishendra Mani Raju · M Yaswanth · S Rishindra · P Varshith · SE25MAID · Academic Research Project · 11,085 Records · 15 NSE Stocks</div>
 
 <script>
-const NSE_STOCKS = [
-  {sym:'RELIANCE',   name:'Reliance Industries',    rsi:62.4, trend:'Bullish', risk:'Moderate Risk', close:2834.20, ret:0.52,  base:2720},
-  {sym:'TCS',        name:'Tata Consultancy Svcs',  rsi:58.1, trend:'Bullish', risk:'Low Risk',      close:3876.45, ret:0.31,  base:3750},
-  {sym:'HDFCBANK',   name:'HDFC Bank',              rsi:44.2, trend:'Bearish', risk:'Low Risk',      close:1623.80, ret:-0.28, base:1650},
-  {sym:'INFY',       name:'Infosys Ltd',             rsi:41.7, trend:'Bearish', risk:'Moderate Risk', close:1438.60, ret:-0.19, base:1460},
-  {sym:'ICICIBANK',  name:'ICICI Bank',              rsi:66.3, trend:'Bullish', risk:'Low Risk',      close:1124.35, ret:0.74,  base:1070},
-  {sym:'WIPRO',      name:'Wipro Ltd',               rsi:55.8, trend:'Bullish', risk:'Low Risk',      close:468.90,  ret:0.18,  base:455},
-  {sym:'BHARTIARTL', name:'Bharti Airtel',           rsi:70.1, trend:'Bullish', risk:'Low Risk',      close:1412.55, ret:0.88,  base:1340},
-  {sym:'SBIN',       name:'State Bank of India',     rsi:60.4, trend:'Bullish', risk:'Moderate Risk', close:812.70,  ret:0.42,  base:778},
-  {sym:'HCLTECH',    name:'HCL Technologies',        rsi:57.9, trend:'Bullish', risk:'Low Risk',      close:1572.30, ret:0.26,  base:1510},
-  {sym:'BAJFINANCE', name:'Bajaj Finance',           rsi:64.8, trend:'Bullish', risk:'Moderate Risk', close:7284.15, ret:0.58,  base:6950},
-  {sym:'KOTAKBANK',  name:'Kotak Mahindra Bank',     rsi:48.3, trend:'Bearish', risk:'Low Risk',      close:1834.60, ret:-0.11, base:1860},
-  {sym:'AXISBANK',   name:'Axis Bank',               rsi:61.2, trend:'Bullish', risk:'Moderate Risk', close:1092.40, ret:0.39,  base:1045},
-  {sym:'MARUTI',     name:'Maruti Suzuki India',     rsi:63.7, trend:'Bullish', risk:'Low Risk',      close:12648.90,ret:0.47,  base:12100},
-  {sym:'SUNPHARMA',  name:'Sun Pharmaceutical',      rsi:59.5, trend:'Bullish', risk:'Low Risk',      close:1694.20, ret:0.33,  base:1630},
-  {sym:'TITAN',      name:'Titan Company',           rsi:54.2, trend:'Bullish', risk:'Low Risk',      close:3621.75, ret:0.21,  base:3550},
+/* ══════════════════════════════════════
+   DATA
+══════════════════════════════════════ */
+const NSE_STOCKS_EXTENDED = [
+  {sym:"RELIANCE",name:"Reliance Industries",sector:"Energy",rsi:31.2,trend:"Bearish",risk:"Moderate Risk",close:2834.2,ret:1.34,base:2720,macd:-1.42},
+  {sym:"TCS",name:"Tata Consultancy Svcs",sector:"IT",rsi:65.4,trend:"Bearish",risk:"High Risk",close:3876.45,ret:-1.16,base:3750,macd:3.8},
+  {sym:"HDFCBANK",name:"HDFC Bank",sector:"Banking",rsi:34.2,trend:"Bearish",risk:"High Risk",close:1623.8,ret:2.85,base:1650,macd:0.48},
+  {sym:"INFY",name:"Infosys Ltd",sector:"IT",rsi:40.5,trend:"Bearish",risk:"High Risk",close:1438.6,ret:-2.32,base:1460,macd:1.57},
+  {sym:"ICICIBANK",name:"ICICI Bank",sector:"Banking",rsi:39.5,trend:"Bearish",risk:"High Risk",close:1124.35,ret:-2.34,base:1070,macd:3.45},
+  {sym:"WIPRO",name:"Wipro Ltd",sector:"IT",rsi:40.6,trend:"Bearish",risk:"Moderate Risk",close:468.9,ret:0.77,base:455,macd:2.66},
+  {sym:"BHARTIARTL",name:"Bharti Airtel",sector:"Telecom",rsi:30.3,trend:"Bearish",risk:"High Risk",close:1412.55,ret:2.36,base:1340,macd:5.48},
+  {sym:"SBIN",name:"State Bank of India",sector:"Banking",rsi:46.3,trend:"Neutral",risk:"Moderate Risk",close:812.7,ret:1.69,base:778,macd:-2.98},
+  {sym:"HCLTECH",name:"HCL Technologies",sector:"IT",rsi:46.2,trend:"Neutral",risk:"High Risk",close:1572.3,ret:3.24,base:1510,macd:-3.79},
+  {sym:"BAJFINANCE",name:"Bajaj Finance",sector:"NBFC",rsi:70.7,trend:"Bearish",risk:"High Risk",close:7284.15,ret:-1.92,base:6950,macd:2.85},
+  {sym:"KOTAKBANK",name:"Kotak Mahindra Bank",sector:"Banking",rsi:65.0,trend:"Bullish",risk:"High Risk",close:1834.6,ret:2.34,base:1860,macd:1.97},
+  {sym:"AXISBANK",name:"Axis Bank",sector:"Banking",rsi:48.2,trend:"Neutral",risk:"High Risk",close:1092.4,ret:3.34,base:1045,macd:2.18},
+  {sym:"MARUTI",name:"Maruti Suzuki India",sector:"Auto",rsi:59.7,trend:"Neutral",risk:"High Risk",close:12648.9,ret:2.48,base:12100,macd:6.2},
+  {sym:"SUNPHARMA",name:"Sun Pharmaceutical",sector:"Pharma",rsi:63.8,trend:"Bullish",risk:"Moderate Risk",close:1694.2,ret:0.96,base:1630,macd:-4.4},
+  {sym:"TITAN",name:"Titan Company",sector:"Consumer",rsi:43.9,trend:"Bearish",risk:"Moderate Risk",close:3621.75,ret:-1.13,base:3550,macd:-3.96},
+  {sym:"LTIM",name:"LTIMindtree",sector:"IT",rsi:34.8,trend:"Bearish",risk:"Moderate Risk",close:5280.4,ret:-1.1,base:5100,macd:-1.39},
+  {sym:"NESTLEIND",name:"Nestle India",sector:"FMCG",rsi:47.5,trend:"Neutral",risk:"Moderate Risk",close:2412.35,ret:1.31,base:2350,macd:-0.19},
+  {sym:"ULTRACEMCO",name:"UltraTech Cement",sector:"Cement",rsi:42.8,trend:"Bearish",risk:"Moderate Risk",close:11240.8,ret:-1.24,base:10900,macd:7.18},
+  {sym:"POWERGRID",name:"Power Grid Corp",sector:"Utilities",rsi:59.2,trend:"Neutral",risk:"Moderate Risk",close:320.55,ret:1.39,base:308,macd:-2.78},
+  {sym:"NTPC",name:"NTPC Ltd",sector:"Utilities",rsi:37.8,trend:"Bearish",risk:"Moderate Risk",close:385.7,ret:1.87,base:370,macd:-0.07},
+  {sym:"ONGC",name:"Oil and Natural Gas",sector:"Energy",rsi:60.7,trend:"Bullish",risk:"High Risk",close:268.4,ret:3.44,base:258,macd:2.24},
+  {sym:"COALINDIA",name:"Coal India",sector:"Mining",rsi:70.5,trend:"Bullish",risk:"High Risk",close:482.15,ret:1.61,base:465,macd:5.09},
+  {sym:"BAJAJFINSV",name:"Bajaj Finserv",sector:"NBFC",rsi:31.5,trend:"Bearish",risk:"Moderate Risk",close:1720.3,ret:-1.13,base:1680,macd:-0.9},
+  {sym:"DIVISLAB",name:"Divi's Laboratories",sector:"Pharma",rsi:40.1,trend:"Bearish",risk:"Moderate Risk",close:4820.6,ret:-0.89,base:4650,macd:7.26},
+  {sym:"CIPLA",name:"Cipla Ltd",sector:"Pharma",rsi:45.1,trend:"Neutral",risk:"High Risk",close:1570.2,ret:2.76,base:1510,macd:3.52},
+  {sym:"DRREDDY",name:"Dr. Reddy's Labs",sector:"Pharma",rsi:73.9,trend:"Bearish",risk:"High Risk",close:6840.5,ret:-0.13,base:6600,macd:0.97},
+  {sym:"EICHERMOT",name:"Eicher Motors",sector:"Auto",rsi:41.8,trend:"Bearish",risk:"Moderate Risk",close:4820.3,ret:-0.91,base:4650,macd:2.3},
+  {sym:"HEROMOTOCO",name:"Hero MotoCorp",sector:"Auto",rsi:58.1,trend:"Bearish",risk:"Moderate Risk",close:4380.9,ret:-0.92,base:4200,macd:6.67},
+  {sym:"TATAMOTORS",name:"Tata Motors",sector:"Auto",rsi:40.5,trend:"Bearish",risk:"Moderate Risk",close:1022.6,ret:-0.1,base:980,macd:7.97},
+  {sym:"MAHINDRA",name:"Mahindra & Mahindra",sector:"Auto",rsi:34.4,trend:"Bearish",risk:"Moderate Risk",close:2980.45,ret:0.56,base:2850,macd:-4.39},
+  {sym:"TATASTEEL",name:"Tata Steel",sector:"Metals",rsi:60.1,trend:"Bearish",risk:"Moderate Risk",close:166.4,ret:-1.84,base:160,macd:5.3},
+  {sym:"JSWSTEEL",name:"JSW Steel",sector:"Metals",rsi:33.0,trend:"Bearish",risk:"Moderate Risk",close:895.7,ret:0.03,base:860,macd:-0.04},
+  {sym:"HINDALCO",name:"Hindalco Industries",sector:"Metals",rsi:55.4,trend:"Neutral",risk:"High Risk",close:650.8,ret:3.48,base:625,macd:7.62},
+  {sym:"VEDL",name:"Vedanta Ltd",sector:"Metals",rsi:30.6,trend:"Bearish",risk:"High Risk",close:462.3,ret:2.66,base:445,macd:4.37},
+  {sym:"GRASIM",name:"Grasim Industries",sector:"Diversified",rsi:55.8,trend:"Neutral",risk:"Moderate Risk",close:2480.6,ret:1.59,base:2380,macd:-1.53},
+  {sym:"ADANIENT",name:"Adani Enterprises",sector:"Diversified",rsi:35.4,trend:"Bearish",risk:"Moderate Risk",close:3180.4,ret:1.35,base:3050,macd:0.65},
+  {sym:"ADANIPORTS",name:"Adani Ports",sector:"Logistics",rsi:75.8,trend:"Bullish",risk:"High Risk",close:1380.55,ret:0.22,base:1320,macd:6.39},
+  {sym:"INDUSINDBK",name:"IndusInd Bank",sector:"Banking",rsi:54.0,trend:"Bearish",risk:"Moderate Risk",close:1420.3,ret:-0.92,base:1380,macd:-2.68},
+  {sym:"BANKBARODA",name:"Bank of Baroda",sector:"Banking",rsi:71.8,trend:"Bullish",risk:"High Risk",close:248.6,ret:2.98,base:238,macd:-1.12},
+  {sym:"CANBK",name:"Canara Bank",sector:"Banking",rsi:59.2,trend:"Neutral",risk:"Moderate Risk",close:108.4,ret:1.33,base:104,macd:-3.01},
+  {sym:"PNB",name:"Punjab National Bank",sector:"Banking",rsi:55.9,trend:"Neutral",risk:"High Risk",close:112.8,ret:2.08,base:108,macd:5.12},
+  {sym:"FEDERALBNK",name:"Federal Bank",sector:"Banking",rsi:30.0,trend:"Bearish",risk:"Moderate Risk",close:198.7,ret:0.68,base:190,macd:-0.79},
+  {sym:"IDFCFIRSTB",name:"IDFC First Bank",sector:"Banking",rsi:74.6,trend:"Bearish",risk:"High Risk",close:84.6,ret:-2.38,base:81,macd:6.42},
+  {sym:"RBLBANK",name:"RBL Bank",sector:"Banking",rsi:44.8,trend:"Bearish",risk:"High Risk",close:218.4,ret:2.49,base:210,macd:-4.25},
+  {sym:"YESBANK",name:"Yes Bank",sector:"Banking",rsi:75.5,trend:"Bullish",risk:"High Risk",close:22.8,ret:2.77,base:22,macd:-3.89},
+  {sym:"TECHM",name:"Tech Mahindra",sector:"IT",rsi:33.3,trend:"Bearish",risk:"Moderate Risk",close:1620.4,ret:0.42,base:1560,macd:4.89},
+  {sym:"MPHASIS",name:"Mphasis Ltd",sector:"IT",rsi:36.2,trend:"Bearish",risk:"High Risk",close:2840.7,ret:2.1,base:2730,macd:1.18},
+  {sym:"LTTS",name:"L&T Technology Svcs",sector:"IT",rsi:42.7,trend:"Bearish",risk:"Moderate Risk",close:5180.9,ret:0.8,base:4980,macd:6.34},
+  {sym:"PERSISTENT",name:"Persistent Systems",sector:"IT",rsi:40.2,trend:"Bearish",risk:"Moderate Risk",close:5920.3,ret:0.04,base:5700,macd:2.01},
+  {sym:"COFORGE",name:"Coforge Ltd",sector:"IT",rsi:39.7,trend:"Bearish",risk:"Moderate Risk",close:7840.5,ret:1.88,base:7550,macd:-0.95},
+  {sym:"NAUKRI",name:"Info Edge India",sector:"Internet",rsi:61.2,trend:"Bullish",risk:"High Risk",close:7640.8,ret:3.47,base:7350,macd:0.7},
+  {sym:"ZOMATO",name:"Zomato Ltd",sector:"Internet",rsi:35.8,trend:"Bearish",risk:"Moderate Risk",close:248.7,ret:0.61,base:238,macd:-2.08},
+  {sym:"PAYTM",name:"One97 Comms",sector:"Fintech",rsi:58.2,trend:"Bearish",risk:"Low Risk",close:780.4,ret:-0.47,base:750,macd:-2.01},
+  {sym:"POLICYBZR",name:"PB Fintech",sector:"Fintech",rsi:33.4,trend:"Bearish",risk:"Moderate Risk",close:1840.3,ret:-1.18,base:1770,macd:3.2},
+  {sym:"INDIAMART",name:"IndiaMART InterMESH",sector:"Internet",rsi:73.5,trend:"Bearish",risk:"High Risk",close:2680.4,ret:-1.13,base:2580,macd:6.18},
+  {sym:"DMART",name:"Avenue Supermarts",sector:"Retail",rsi:41.4,trend:"Bearish",risk:"High Risk",close:4680.9,ret:-2.07,base:4500,macd:3.7},
+  {sym:"TRENT",name:"Trent Ltd",sector:"Retail",rsi:36.4,trend:"Bearish",risk:"Moderate Risk",close:5840.6,ret:-1.21,base:5620,macd:7.16},
+  {sym:"ABFRL",name:"Aditya Birla Fashion",sector:"Retail",rsi:52.7,trend:"Neutral",risk:"Moderate Risk",close:312.4,ret:0.93,base:300,macd:5.2},
+  {sym:"SHOPERSTOP",name:"Shoppers Stop",sector:"Retail",rsi:39.1,trend:"Bearish",risk:"High Risk",close:848.7,ret:2.34,base:816,macd:-3.74},
+  {sym:"TATACONSUM",name:"Tata Consumer",sector:"FMCG",rsi:50.3,trend:"Neutral",risk:"Low Risk",close:1120.4,ret:0.09,base:1080,macd:1.07},
+  {sym:"HINDUNILVR",name:"Hindustan Unilever",sector:"FMCG",rsi:62.3,trend:"Bullish",risk:"Moderate Risk",close:2680.3,ret:1.87,base:2580,macd:7.79},
+  {sym:"ITC",name:"ITC Ltd",sector:"FMCG",rsi:49.3,trend:"Bearish",risk:"Moderate Risk",close:488.4,ret:-1.91,base:470,macd:-0.59},
+  {sym:"BRITANNIA",name:"Britannia Industries",sector:"FMCG",rsi:41.9,trend:"Bearish",risk:"High Risk",close:5720.8,ret:2.67,base:5510,macd:-2.53},
+  {sym:"DABUR",name:"Dabur India",sector:"FMCG",rsi:50.3,trend:"Neutral",risk:"Low Risk",close:568.3,ret:0.19,base:547,macd:-1.38},
+  {sym:"MARICO",name:"Marico Ltd",sector:"FMCG",rsi:74.3,trend:"Bearish",risk:"High Risk",close:698.4,ret:-1.0,base:672,macd:0.76},
+  {sym:"GODREJCP",name:"Godrej Consumer",sector:"FMCG",rsi:56.4,trend:"Neutral",risk:"High Risk",close:1320.5,ret:2.67,base:1270,macd:-4.34},
+  {sym:"EMAMILTD",name:"Emami Ltd",sector:"FMCG",rsi:70.1,trend:"Bullish",risk:"High Risk",close:728.4,ret:3.5,base:701,macd:7.6},
+  {sym:"MCDOWELL",name:"United Spirits",sector:"Beverages",rsi:70.7,trend:"Bullish",risk:"High Risk",close:1240.8,ret:3.06,base:1195,macd:-2.84},
+  {sym:"UBL",name:"United Breweries",sector:"Beverages",rsi:40.3,trend:"Bearish",risk:"Moderate Risk",close:1780.6,ret:0.41,base:1715,macd:0.21},
+  {sym:"ASIANPAINT",name:"Asian Paints",sector:"Consumer",rsi:48.2,trend:"Bearish",risk:"High Risk",close:3080.4,ret:-2.15,base:2965,macd:7.81},
+  {sym:"BERGERPAINTS",name:"Berger Paints",sector:"Consumer",rsi:67.6,trend:"Bearish",risk:"High Risk",close:620.8,ret:-0.91,base:598,macd:0.92},
+  {sym:"PIDILITIND",name:"Pidilite Industries",sector:"Consumer",rsi:76.0,trend:"Bullish",risk:"High Risk",close:3280.6,ret:0.04,base:3160,macd:7.94},
+  {sym:"HAVELLS",name:"Havells India",sector:"Electricals",rsi:64.5,trend:"Bullish",risk:"Moderate Risk",close:1840.4,ret:0.83,base:1772,macd:-2.99},
+  {sym:"CROMPTON",name:"Crompton Greaves",sector:"Electricals",rsi:76.5,trend:"Bearish",risk:"High Risk",close:404.8,ret:-0.72,base:389,macd:2.53},
+  {sym:"POLYCAB",name:"Polycab India",sector:"Electricals",rsi:65.9,trend:"Bullish",risk:"High Risk",close:6840.5,ret:0.75,base:6590,macd:-4.26},
+  {sym:"KEI",name:"KEI Industries",sector:"Electricals",rsi:54.1,trend:"Neutral",risk:"Moderate Risk",close:4180.3,ret:1.01,base:4025,macd:6.09},
+  {sym:"SIEMENS",name:"Siemens India",sector:"Engineering",rsi:76.1,trend:"Bearish",risk:"High Risk",close:7620.4,ret:-1.56,base:7340,macd:-3.96},
+  {sym:"ABB",name:"ABB India",sector:"Engineering",rsi:58.6,trend:"Bearish",risk:"Moderate Risk",close:8240.6,ret:-1.39,base:7940,macd:3.78},
+  {sym:"CUMMINSIND",name:"Cummins India",sector:"Engineering",rsi:35.8,trend:"Bearish",risk:"Moderate Risk",close:3480.8,ret:-1.09,base:3353,macd:6.57},
+  {sym:"THERMAX",name:"Thermax Ltd",sector:"Engineering",rsi:58.5,trend:"Bearish",risk:"Moderate Risk",close:4180.6,ret:-1.02,base:4027,macd:3.05},
+  {sym:"BEL",name:"Bharat Electronics",sector:"Defence",rsi:58.0,trend:"Neutral",risk:"Low Risk",close:280.4,ret:0.02,base:270,macd:1.8},
+  {sym:"HAL",name:"Hindustan Aeronautics",sector:"Defence",rsi:39.8,trend:"Bearish",risk:"High Risk",close:4780.3,ret:3.11,base:4606,macd:4.31},
+  {sym:"COCHINSHIP",name:"Cochin Shipyard",sector:"Defence",rsi:49.0,trend:"Bearish",risk:"Moderate Risk",close:1948.4,ret:-1.07,base:1877,macd:3.73},
+  {sym:"RVNL",name:"Rail Vikas Nigam",sector:"Infra",rsi:45.2,trend:"Bearish",risk:"Low Risk",close:516.8,ret:-0.7,base:498,macd:4.77},
+  {sym:"IRFC",name:"Indian Railway Finance",sector:"NBFC",rsi:52.0,trend:"Bearish",risk:"High Risk",close:180.4,ret:-2.06,base:173,macd:7.98},
+  {sym:"PFC",name:"Power Finance Corp",sector:"NBFC",rsi:33.5,trend:"Bearish",risk:"High Risk",close:468.3,ret:3.48,base:450,macd:-2.23},
+  {sym:"RECLTD",name:"REC Ltd",sector:"NBFC",rsi:74.8,trend:"Bearish",risk:"High Risk",close:520.6,ret:-0.91,base:501,macd:6.45},
+  {sym:"HUDCO",name:"HUDCO",sector:"NBFC",rsi:47.7,trend:"Neutral",risk:"High Risk",close:242.4,ret:2.78,base:233,macd:-2.95},
+  {sym:"LT",name:"Larsen and Toubro",sector:"Infra",rsi:63.8,trend:"Bullish",risk:"High Risk",close:3720.8,ret:2.5,base:3585,macd:2.95},
+  {sym:"LTFH",name:"LT Finance",sector:"NBFC",rsi:61.4,trend:"Bullish",risk:"High Risk",close:148.6,ret:3.42,base:143,macd:-4.9},
+  {sym:"IRCTC",name:"IRCTC Ltd",sector:"Consumer",rsi:44.4,trend:"Bearish",risk:"High Risk",close:872.4,ret:2.4,base:840,macd:3.62},
+  {sym:"CONCOR",name:"Container Corp",sector:"Logistics",rsi:36.4,trend:"Bearish",risk:"High Risk",close:874.6,ret:3.13,base:842,macd:-3.5},
+  {sym:"BLUEDART",name:"Blue Dart Express",sector:"Logistics",rsi:56.6,trend:"Bearish",risk:"Moderate Risk",close:7840.4,ret:-1.86,base:7553,macd:-1.46},
+  {sym:"GMRINFRA",name:"GMR Airports",sector:"Infra",rsi:64.4,trend:"Bullish",risk:"Moderate Risk",close:82.4,ret:1.13,base:79,macd:-2.35},
+  {sym:"INDIGO",name:"IndiGo Airlines",sector:"Aviation",rsi:42.7,trend:"Bearish",risk:"Moderate Risk",close:4180.6,ret:1.31,base:4028,macd:1.35},
+  {sym:"SPICEJET",name:"SpiceJet",sector:"Aviation",rsi:70.6,trend:"Bullish",risk:"High Risk",close:42.8,ret:2.93,base:41,macd:-3.8},
+  {sym:"SUNTVNETWORK",name:"Sun TV Network",sector:"Media",rsi:43.3,trend:"Bearish",risk:"Moderate Risk",close:840.4,ret:0.04,base:810,macd:-4.95},
+  {sym:"ZEEL",name:"Zee Entertainment",sector:"Media",rsi:60.6,trend:"Bullish",risk:"High Risk",close:152.8,ret:2.13,base:147,macd:-1.59},
+  {sym:"PVRINOX",name:"PVR Inox",sector:"Media",rsi:56.5,trend:"Neutral",risk:"Moderate Risk",close:1420.4,ret:1.95,base:1368,macd:0.56},
+  {sym:"ASTRAL",name:"Astral Ltd",sector:"Consumer",rsi:33.6,trend:"Bearish",risk:"High Risk",close:2080.6,ret:-2.44,base:2004,macd:6.48},
+  {sym:"ABCAPITAL",name:"Aditya Birla Capital",sector:"NBFC",rsi:56.2,trend:"Neutral",risk:"High Risk",close:248.8,ret:2.92,base:239,macd:5.85},
+  {sym:"CHOLAFIN",name:"Cholamandalam Invest",sector:"NBFC",rsi:37.1,trend:"Bearish",risk:"Moderate Risk",close:1480.4,ret:1.0,base:1425,macd:-3.34},
+  {sym:"MUTHOOTFIN",name:"Muthoot Finance",sector:"NBFC",rsi:73.2,trend:"Bearish",risk:"High Risk",close:2040.6,ret:-0.65,base:1965,macd:5.35},
+  {sym:"MANAPPURAM",name:"Manappuram Finance",sector:"NBFC",rsi:73.1,trend:"Bullish",risk:"High Risk",close:222.4,ret:2.66,base:214,macd:-2.27},
 ];
 
-const RAG_RECORDS = [
-  {symbol:"AXISBANK",   date:"2023-05-29",close:927.34,  rsi:50.0, trend:"Bullish", risk:"Low Risk",      macd:1.06,  ret:0.31},
-  {symbol:"AXISBANK",   date:"2023-05-30",close:934.97,  rsi:50.0, trend:"Bullish", risk:"Low Risk",      macd:2.12,  ret:0.82},
-  {symbol:"AXISBANK",   date:"2023-05-31",close:912.43,  rsi:42.1, trend:"Bearish", risk:"Moderate Risk", macd:1.12,  ret:-2.41},
-  {symbol:"RELIANCE",   date:"2024-03-12",close:2834.20, rsi:74.2, trend:"Bullish", risk:"Moderate Risk", macd:3.27,  ret:3.05},
-  {symbol:"TCS",        date:"2024-05-02",close:3876.45, rsi:68.5, trend:"Bullish", risk:"Low Risk",      macd:4.28,  ret:2.33},
-  {symbol:"HDFCBANK",   date:"2024-06-15",close:1623.80, rsi:38.2, trend:"Bearish", risk:"Low Risk",      macd:-1.95, ret:-0.28},
-  {symbol:"INFY",       date:"2024-01-30",close:1438.60, rsi:40.3, trend:"Bearish", risk:"Moderate Risk", macd:-0.81, ret:-0.08},
-  {symbol:"ICICIBANK",  date:"2024-04-15",close:1124.35, rsi:65.4, trend:"Bullish", risk:"Low Risk",      macd:2.10,  ret:1.20},
-  {symbol:"WIPRO",      date:"2024-04-15",close:468.90,  rsi:61.3, trend:"Bullish", risk:"Low Risk",      macd:1.50,  ret:0.90},
-  {symbol:"BHARTIARTL", date:"2024-03-20",close:1412.55, rsi:72.8, trend:"Bullish", risk:"Low Risk",      macd:2.80,  ret:0.88},
-  {symbol:"SBIN",       date:"2024-02-14",close:812.70,  rsi:63.2, trend:"Bullish", risk:"Moderate Risk", macd:1.90,  ret:0.42},
-  {symbol:"HCLTECH",    date:"2024-05-10",close:1572.30, rsi:64.1, trend:"Bullish", risk:"Low Risk",      macd:1.70,  ret:0.26},
-  {symbol:"BAJFINANCE", date:"2024-06-01",close:7284.15, rsi:67.4, trend:"Bullish", risk:"Moderate Risk", macd:5.40,  ret:0.58},
-  {symbol:"KOTAKBANK",  date:"2024-04-22",close:1834.60, rsi:44.6, trend:"Bearish", risk:"Low Risk",      macd:-1.20, ret:-0.11},
-  {symbol:"MARUTI",     date:"2024-03-18",close:12648.9, rsi:66.9, trend:"Bullish", risk:"Low Risk",      macd:8.60,  ret:0.47},
-  {symbol:"SUNPHARMA",  date:"2024-05-25",close:1694.20, rsi:62.5, trend:"Bullish", risk:"Low Risk",      macd:2.30,  ret:0.33},
-  {symbol:"TITAN",      date:"2024-06-10",close:3621.75, rsi:63.7, trend:"Bullish", risk:"Low Risk",      macd:3.10,  ret:0.21},
-  {symbol:"AXISBANK",   date:"2024-07-05",close:1092.40, rsi:61.2, trend:"Bullish", risk:"Moderate Risk", macd:1.80,  ret:0.39},
+const RAG_RECORDS_EXTENDED = [
+  {symbol:"RELIANCE",date:"2023-05-29",close:2749.01,rsi:25,trend:"Bearish",risk:"Moderate Risk",macd:-0.27,ret:1.79},
+  {symbol:"RELIANCE",date:"2024-01-24",close:2802.36,rsi:33.6,trend:"Bearish",risk:"Moderate Risk",macd:-0.13,ret:-1.65},
+  {symbol:"RELIANCE",date:"2024-11-19",close:2958.2,rsi:40.7,trend:"Bearish",risk:"Moderate Risk",macd:-0.28,ret:1.96},
+  {symbol:"TCS",date:"2023-05-30",close:3655.39,rsi:70.1,trend:"Bearish",risk:"High Risk",macd:5.09,ret:-0.67},
+  {symbol:"TCS",date:"2024-01-25",close:4017.04,rsi:72.7,trend:"Bullish",risk:"High Risk",macd:3.1,ret:1.96},
+  {symbol:"TCS",date:"2024-11-20",close:4010.13,rsi:57.6,trend:"Neutral",risk:"High Risk",macd:4.88,ret:2.3},
+  {symbol:"HDFCBANK",date:"2023-05-31",close:1569.71,rsi:40.5,trend:"Bearish",risk:"Moderate Risk",macd:-0.1,ret:0.03},
+  {symbol:"HDFCBANK",date:"2024-01-26",close:1681.35,rsi:28.8,trend:"Bearish",risk:"High Risk",macd:-0.44,ret:-2.37},
+  {symbol:"HDFCBANK",date:"2024-11-21",close:1590.34,rsi:41.5,trend:"Bearish",risk:"High Risk",macd:-0.18,ret:2.82},
+  {symbol:"INFY",date:"2023-06-01",close:1463.02,rsi:38.5,trend:"Bearish",risk:"High Risk",macd:1.68,ret:2.9},
+  {symbol:"INFY",date:"2024-01-29",close:1514.43,rsi:32.8,trend:"Bearish",risk:"High Risk",macd:0.61,ret:2.84},
+  {symbol:"INFY",date:"2024-11-22",close:1518.45,rsi:35.8,trend:"Bearish",risk:"Moderate Risk",macd:1.37,ret:-1.9},
+  {symbol:"ICICIBANK",date:"2023-06-02",close:1155.19,rsi:35.8,trend:"Bearish",risk:"Moderate Risk",macd:3.48,ret:0.83},
+  {symbol:"ICICIBANK",date:"2024-01-29",close:1108.86,rsi:41.0,trend:"Bearish",risk:"Moderate Risk",macd:4.08,ret:-1.1},
+  {symbol:"ICICIBANK",date:"2024-11-25",close:1057.12,rsi:48.0,trend:"Neutral",risk:"Low Risk",macd:4.11,ret:0.46},
+  {symbol:"WIPRO",date:"2023-06-05",close:482.51,rsi:44.0,trend:"Bearish",risk:"Moderate Risk",macd:1.37,ret:-0.5},
+  {symbol:"WIPRO",date:"2024-01-29",close:478.14,rsi:37.2,trend:"Bearish",risk:"Moderate Risk",macd:3.7,ret:-0.77},
+  {symbol:"WIPRO",date:"2024-11-25",close:481.27,rsi:36.6,trend:"Bearish",risk:"Moderate Risk",macd:2.39,ret:-0.8},
+  {symbol:"BHARTIARTL",date:"2023-06-05",close:1396.01,rsi:26.2,trend:"Bearish",risk:"Moderate Risk",macd:5.24,ret:-1.8},
+  {symbol:"BHARTIARTL",date:"2024-01-30",close:1487.19,rsi:33.8,trend:"Bearish",risk:"High Risk",macd:5.83,ret:2.47},
+  {symbol:"BHARTIARTL",date:"2024-11-25",close:1378.81,rsi:31.3,trend:"Bearish",risk:"High Risk",macd:4.84,ret:-2.5},
+  {symbol:"SBIN",date:"2023-06-05",close:805.86,rsi:47.9,trend:"Neutral",risk:"Moderate Risk",macd:-3.09,ret:1.1},
+  {symbol:"SBIN",date:"2024-01-31",close:807.06,rsi:40.6,trend:"Bearish",risk:"Moderate Risk",macd:-1.78,ret:0.1},
+  {symbol:"SBIN",date:"2024-11-26",close:841.57,rsi:39.7,trend:"Bearish",risk:"High Risk",macd:-2.93,ret:-2.03},
+  {symbol:"HCLTECH",date:"2023-06-06",close:1597.38,rsi:42.9,trend:"Bearish",risk:"Moderate Risk",macd:-3.04,ret:2.0},
+  {symbol:"HCLTECH",date:"2024-02-01",close:1604.9,rsi:40.7,trend:"Bearish",risk:"Moderate Risk",macd:-5.22,ret:-1.4},
+  {symbol:"HCLTECH",date:"2024-11-27",close:1524.16,rsi:45.7,trend:"Neutral",risk:"High Risk",macd:-5.07,ret:2.17},
+  {symbol:"BAJFINANCE",date:"2023-06-07",close:7209.36,rsi:73.3,trend:"Bearish",risk:"High Risk",macd:3.44,ret:-1.43},
+  {symbol:"BAJFINANCE",date:"2024-02-02",close:7279.24,rsi:65.6,trend:"Bullish",risk:"High Risk",macd:1.37,ret:1.11},
+  {symbol:"BAJFINANCE",date:"2024-11-28",close:7503.52,rsi:76.1,trend:"Bearish",risk:"High Risk",macd:2.63,ret:-1.91},
+  {symbol:"KOTAKBANK",date:"2023-06-08",close:1763.25,rsi:74.2,trend:"Bullish",risk:"High Risk",macd:0.62,ret:0.35},
+  {symbol:"KOTAKBANK",date:"2024-02-05",close:1779.39,rsi:72.0,trend:"Bullish",risk:"High Risk",macd:2.87,ret:0.01},
+  {symbol:"KOTAKBANK",date:"2024-11-29",close:1871.49,rsi:74.8,trend:"Bullish",risk:"High Risk",macd:3.32,ret:0.77},
+  {symbol:"AXISBANK",date:"2023-06-09",close:1143.71,rsi:50.5,trend:"Neutral",risk:"Moderate Risk",macd:2.19,ret:1.46},
+  {symbol:"AXISBANK",date:"2024-02-05",close:1135.73,rsi:49.2,trend:"Neutral",risk:"High Risk",macd:2.91,ret:2.43},
+  {symbol:"AXISBANK",date:"2024-12-02",close:1089.08,rsi:43.4,trend:"Bearish",risk:"Moderate Risk",macd:2.59,ret:-1.14},
+  {symbol:"MARUTI",date:"2023-06-12",close:13052.37,rsi:60.1,trend:"Bullish",risk:"Moderate Risk",macd:5.52,ret:0.95},
+  {symbol:"MARUTI",date:"2024-02-05",close:12007.58,rsi:55.4,trend:"Bearish",risk:"Moderate Risk",macd:5.66,ret:-1.01},
+  {symbol:"MARUTI",date:"2024-12-02",close:12709.85,rsi:52.5,trend:"Bearish",risk:"Moderate Risk",macd:6.78,ret:-1.23},
+  {symbol:"SUNPHARMA",date:"2023-06-12",close:1736.17,rsi:55.1,trend:"Bearish",risk:"Low Risk",macd:-4.27,ret:-0.26},
+  {symbol:"SUNPHARMA",date:"2024-02-06",close:1677.08,rsi:57.9,trend:"Bearish",risk:"Low Risk",macd:-3.19,ret:-0.19},
+  {symbol:"SUNPHARMA",date:"2024-12-02",close:1711.29,rsi:67.7,trend:"Bullish",risk:"High Risk",macd:-3.6,ret:2.21},
+  {symbol:"TITAN",date:"2023-06-12",close:3569.76,rsi:34.0,trend:"Bearish",risk:"Moderate Risk",macd:-3.2,ret:-0.57},
+  {symbol:"TITAN",date:"2024-02-07",close:3775.36,rsi:53.0,trend:"Bearish",risk:"Low Risk",macd:-3.22,ret:-0.2},
+  {symbol:"TITAN",date:"2024-12-03",close:3641.8,rsi:46.0,trend:"Bearish",risk:"Moderate Risk",macd:-4.8,ret:-1.29},
+  {symbol:"LTIM",date:"2023-06-13",close:5239.74,rsi:25.4,trend:"Bearish",risk:"Moderate Risk",macd:-0.85,ret:-0.65},
+  {symbol:"LTIM",date:"2024-02-08",close:5219.77,rsi:28.1,trend:"Bearish",risk:"Moderate Risk",macd:-2.51,ret:0.07},
+  {symbol:"LTIM",date:"2024-12-04",close:5357.87,rsi:25.3,trend:"Bearish",risk:"Moderate Risk",macd:-1.2,ret:-0.33},
+  {symbol:"NESTLEIND",date:"2023-06-14",close:2275.45,rsi:50.4,trend:"Bearish",risk:"Moderate Risk",macd:-0.3,ret:-1.75},
+  {symbol:"NESTLEIND",date:"2024-02-09",close:2282.17,rsi:45.1,trend:"Bearish",risk:"Moderate Risk",macd:-0.71,ret:-1.34},
+  {symbol:"NESTLEIND",date:"2024-12-05",close:2487.97,rsi:45.1,trend:"Neutral",risk:"Moderate Risk",macd:0.81,ret:1.64},
+  {symbol:"ULTRACEMCO",date:"2023-06-15",close:10906.64,rsi:34.4,trend:"Bearish",risk:"High Risk",macd:7.3,ret:-2.39},
+  {symbol:"ULTRACEMCO",date:"2024-02-12",close:11915.12,rsi:39.8,trend:"Bearish",risk:"Moderate Risk",macd:8.02,ret:1.08},
+  {symbol:"ULTRACEMCO",date:"2024-12-06",close:11445.5,rsi:47.9,trend:"Neutral",risk:"High Risk",macd:6.28,ret:2.72},
+  {symbol:"POWERGRID",date:"2023-06-16",close:302.1,rsi:52.2,trend:"Bearish",risk:"Moderate Risk",macd:-2.27,ret:-1.81},
+  {symbol:"POWERGRID",date:"2024-02-12",close:323.01,rsi:53.6,trend:"Neutral",risk:"Moderate Risk",macd:-1.98,ret:1.35},
+  {symbol:"POWERGRID",date:"2024-12-09",close:307.77,rsi:61.3,trend:"Bullish",risk:"Moderate Risk",macd:-3.94,ret:1.61},
+  {symbol:"NTPC",date:"2023-06-19",close:400.48,rsi:47.1,trend:"Bearish",risk:"Moderate Risk",macd:-1.49,ret:-1.91},
+  {symbol:"NTPC",date:"2024-02-12",close:377.0,rsi:41.3,trend:"Bearish",risk:"High Risk",macd:-0.38,ret:2.77},
+  {symbol:"NTPC",date:"2024-12-09",close:395.65,rsi:29.3,trend:"Bearish",risk:"Moderate Risk",macd:0.31,ret:1.3},
+  {symbol:"ONGC",date:"2023-06-19",close:255.58,rsi:66.1,trend:"Bullish",risk:"High Risk",macd:2.54,ret:2.18},
+  {symbol:"ONGC",date:"2024-02-13",close:256.19,rsi:70.4,trend:"Bullish",risk:"High Risk",macd:1.78,ret:1.8},
+  {symbol:"ONGC",date:"2024-12-09",close:266.09,rsi:58.1,trend:"Neutral",risk:"Low Risk",macd:1.76,ret:0.28},
+  {symbol:"COALINDIA",date:"2023-06-19",close:502.38,rsi:76.9,trend:"Bearish",risk:"High Risk",macd:6.47,ret:-1.92},
+  {symbol:"COALINDIA",date:"2024-02-14",close:489.99,rsi:77.1,trend:"Bullish",risk:"High Risk",macd:4.9,ret:1.39},
+  {symbol:"COALINDIA",date:"2024-12-10",close:495.68,rsi:79.8,trend:"Bearish",risk:"High Risk",macd:6.01,ret:-1.01},
+  {symbol:"BAJAJFINSV",date:"2023-06-20",close:1728.18,rsi:31.2,trend:"Bearish",risk:"Moderate Risk",macd:-0.21,ret:-0.1},
+  {symbol:"BAJAJFINSV",date:"2024-02-15",close:1672.49,rsi:38.5,trend:"Bearish",risk:"High Risk",macd:-2.14,ret:2.07},
+  {symbol:"BAJAJFINSV",date:"2024-12-11",close:1799.08,rsi:26.4,trend:"Bearish",risk:"Moderate Risk",macd:-0.57,ret:0.06},
+  {symbol:"DIVISLAB",date:"2023-06-21",close:4750.6,rsi:30.7,trend:"Bearish",risk:"High Risk",macd:6.31,ret:2.18},
+  {symbol:"DIVISLAB",date:"2024-02-16",close:4654.07,rsi:46.1,trend:"Bearish",risk:"Low Risk",macd:8.4,ret:-0.63},
+  {symbol:"DIVISLAB",date:"2024-12-12",close:4936.98,rsi:35.6,trend:"Bearish",risk:"High Risk",macd:8.6,ret:-2.44},
+  {symbol:"CIPLA",date:"2023-06-22",close:1492.12,rsi:49.5,trend:"Neutral",risk:"Low Risk",macd:4.29,ret:0.19},
+  {symbol:"CIPLA",date:"2024-02-19",close:1606.12,rsi:48.0,trend:"Neutral",risk:"Low Risk",macd:4.4,ret:0.2},
+  {symbol:"CIPLA",date:"2024-12-13",close:1493.52,rsi:39.5,trend:"Bearish",risk:"Moderate Risk",macd:2.94,ret:1.3},
+  {symbol:"DRREDDY",date:"2023-06-23",close:6907.45,rsi:73.4,trend:"Bullish",risk:"High Risk",macd:0.75,ret:0.42},
+  {symbol:"DRREDDY",date:"2024-02-19",close:7042.38,rsi:70.5,trend:"Bullish",risk:"High Risk",macd:0.28,ret:1.37},
+  {symbol:"DRREDDY",date:"2024-12-16",close:6636.44,rsi:66.3,trend:"Bearish",risk:"High Risk",macd:-0.17,ret:-1.44},
+  {symbol:"EICHERMOT",date:"2023-06-26",close:4841.05,rsi:47.0,trend:"Bearish",risk:"Moderate Risk",macd:1.45,ret:-1.48},
+  {symbol:"EICHERMOT",date:"2024-02-19",close:4811.16,rsi:46.3,trend:"Neutral",risk:"High Risk",macd:2.37,ret:2.87},
+  {symbol:"EICHERMOT",date:"2024-12-16",close:4694.78,rsi:33.8,trend:"Bearish",risk:"Moderate Risk",macd:1.48,ret:-1.43},
+  {symbol:"HEROMOTOCO",date:"2023-06-26",close:4212.38,rsi:48.4,trend:"Neutral",risk:"Low Risk",macd:5.99,ret:0.44},
+  {symbol:"HEROMOTOCO",date:"2024-02-20",close:4630.24,rsi:59.2,trend:"Neutral",risk:"Moderate Risk",macd:5.55,ret:1.34},
+  {symbol:"HEROMOTOCO",date:"2024-12-16",close:4574.6,rsi:57.9,trend:"Neutral",risk:"High Risk",macd:6.89,ret:2.3},
+  {symbol:"TATAMOTORS",date:"2023-06-26",close:1018.84,rsi:39.3,trend:"Bearish",risk:"Moderate Risk",macd:6.62,ret:-1.49},
+  {symbol:"TATAMOTORS",date:"2024-02-21",close:1076.72,rsi:40.1,trend:"Bearish",risk:"High Risk",macd:7.67,ret:2.02},
+  {symbol:"TATAMOTORS",date:"2024-12-17",close:970.33,rsi:43.1,trend:"Bearish",risk:"High Risk",macd:6.92,ret:-2.21},
+  {symbol:"MAHINDRA",date:"2023-06-27",close:3002.92,rsi:30.5,trend:"Bearish",risk:"High Risk",macd:-5.53,ret:2.97},
+  {symbol:"MAHINDRA",date:"2024-02-22",close:3075.03,rsi:36.5,trend:"Bearish",risk:"Moderate Risk",macd:-5.21,ret:1.85},
+  {symbol:"MAHINDRA",date:"2024-12-18",close:2988.52,rsi:33.4,trend:"Bearish",risk:"Moderate Risk",macd:-3.31,ret:-0.07},
+  {symbol:"TATASTEEL",date:"2023-06-28",close:176.18,rsi:56.2,trend:"Neutral",risk:"Moderate Risk",macd:5.63,ret:0.92},
+  {symbol:"TATASTEEL",date:"2024-02-23",close:171.19,rsi:69.1,trend:"Bearish",risk:"High Risk",macd:4.43,ret:-1.36},
+  {symbol:"TATASTEEL",date:"2024-12-19",close:169.6,rsi:53.2,trend:"Bearish",risk:"Moderate Risk",macd:4.03,ret:-1.54},
+  {symbol:"JSWSTEEL",date:"2023-06-29",close:842.25,rsi:32.0,trend:"Bearish",risk:"Moderate Risk",macd:-0.67,ret:0.77},
+  {symbol:"JSWSTEEL",date:"2024-02-26",close:866.84,rsi:37.1,trend:"Bearish",risk:"Moderate Risk",macd:-0.18,ret:1.37},
+  {symbol:"JSWSTEEL",date:"2024-12-20",close:915.84,rsi:41.5,trend:"Bearish",risk:"Moderate Risk",macd:0.34,ret:1.83},
+  {symbol:"HINDALCO",date:"2023-06-30",close:663.39,rsi:64.1,trend:"Bearish",risk:"Low Risk",macd:7.75,ret:-0.16},
+  {symbol:"HINDALCO",date:"2024-02-26",close:662.33,rsi:63.6,trend:"Bullish",risk:"High Risk",macd:6.33,ret:2.05},
+  {symbol:"HINDALCO",date:"2024-12-23",close:624.71,rsi:51.6,trend:"Neutral",risk:"Moderate Risk",macd:7.83,ret:1.62},
+  {symbol:"VEDL",date:"2023-07-03",close:450.57,rsi:25,trend:"Bearish",risk:"Moderate Risk",macd:4.97,ret:1.29},
+  {symbol:"VEDL",date:"2024-02-26",close:486.86,rsi:30.6,trend:"Bearish",risk:"Moderate Risk",macd:3.11,ret:0.22},
+  {symbol:"VEDL",date:"2024-12-23",close:436.77,rsi:29.2,trend:"Bearish",risk:"Moderate Risk",macd:3.62,ret:-0.73},
+  {symbol:"GRASIM",date:"2023-07-03",close:2358.95,rsi:65.0,trend:"Bullish",risk:"High Risk",macd:-1.3,ret:2.1},
+  {symbol:"GRASIM",date:"2024-02-27",close:2614.79,rsi:65.8,trend:"Bullish",risk:"High Risk",macd:-2.22,ret:1.2},
+  {symbol:"GRASIM",date:"2024-12-23",close:2343.74,rsi:60.9,trend:"Bullish",risk:"Low Risk",macd:-1.08,ret:0.09},
+  {symbol:"ADANIENT",date:"2023-07-03",close:3339.19,rsi:29.0,trend:"Bearish",risk:"Moderate Risk",macd:1.05,ret:0.72},
+  {symbol:"ADANIENT",date:"2024-02-28",close:3177.24,rsi:27.2,trend:"Bearish",risk:"Moderate Risk",macd:0.15,ret:-0.59},
+  {symbol:"ADANIENT",date:"2024-12-24",close:3245.33,rsi:42.6,trend:"Bearish",risk:"Moderate Risk",macd:1.23,ret:-0.69},
+  {symbol:"ADANIPORTS",date:"2023-07-04",close:1345.46,rsi:82,trend:"Bullish",risk:"High Risk",macd:6.54,ret:1.97},
+  {symbol:"ADANIPORTS",date:"2024-02-29",close:1373.07,rsi:72.1,trend:"Bearish",risk:"High Risk",macd:7.8,ret:-0.72},
+  {symbol:"ADANIPORTS",date:"2024-12-25",close:1364.68,rsi:76.1,trend:"Bullish",risk:"High Risk",macd:6.86,ret:2.93},
+  {symbol:"INDUSINDBK",date:"2023-07-05",close:1427.56,rsi:52.3,trend:"Bearish",risk:"Moderate Risk",macd:-3.09,ret:-1.47},
+  {symbol:"INDUSINDBK",date:"2024-03-01",close:1464.01,rsi:56.5,trend:"Neutral",risk:"Moderate Risk",macd:-3.57,ret:1.68},
+  {symbol:"INDUSINDBK",date:"2024-12-26",close:1428.69,rsi:62.6,trend:"Bearish",risk:"Low Risk",macd:-2.09,ret:-0.09},
+  {symbol:"BANKBARODA",date:"2023-07-06",close:237.31,rsi:81.3,trend:"Bullish",risk:"High Risk",macd:-1.9,ret:0.85},
+  {symbol:"BANKBARODA",date:"2024-03-04",close:238.41,rsi:72.8,trend:"Bullish",risk:"High Risk",macd:-2.34,ret:0.54},
+  {symbol:"BANKBARODA",date:"2024-12-27",close:263.29,rsi:80.1,trend:"Bullish",risk:"High Risk",macd:-2.27,ret:0.04},
+  {symbol:"CANBK",date:"2023-07-07",close:112.72,rsi:59.2,trend:"Neutral",risk:"Moderate Risk",macd:-2.98,ret:1.44},
+  {symbol:"CANBK",date:"2024-03-04",close:105.45,rsi:65.9,trend:"Bullish",risk:"High Risk",macd:-3.78,ret:2.89},
+  {symbol:"CANBK",date:"2024-12-30",close:109.07,rsi:56.9,trend:"Neutral",risk:"High Risk",macd:-2.99,ret:2.57},
+  {symbol:"PNB",date:"2023-07-10",close:117.93,rsi:63.2,trend:"Bearish",risk:"Moderate Risk",macd:5.99,ret:-0.98},
+  {symbol:"PNB",date:"2024-03-04",close:111.65,rsi:64.6,trend:"Bullish",risk:"Low Risk",macd:6.08,ret:0.29},
+  {symbol:"PNB",date:"2024-12-30",close:109.86,rsi:51.9,trend:"Neutral",risk:"Low Risk",macd:6.62,ret:0.73},
+  {symbol:"FEDERALBNK",date:"2023-07-10",close:198.45,rsi:25,trend:"Bearish",risk:"Moderate Risk",macd:-1.25,ret:0.46},
+  {symbol:"FEDERALBNK",date:"2024-03-05",close:199.94,rsi:30.9,trend:"Bearish",risk:"Moderate Risk",macd:-1.32,ret:0.0},
+  {symbol:"FEDERALBNK",date:"2024-12-30",close:191.28,rsi:33.9,trend:"Bearish",risk:"Moderate Risk",macd:-1.59,ret:0.64},
+  {symbol:"IDFCFIRSTB",date:"2023-07-10",close:87.4,rsi:65.5,trend:"Bullish",risk:"High Risk",macd:7.04,ret:1.6},
+  {symbol:"IDFCFIRSTB",date:"2024-03-06",close:87.76,rsi:72.3,trend:"Bullish",risk:"High Risk",macd:7.38,ret:1.15},
+  {symbol:"IDFCFIRSTB",date:"2024-12-31",close:89.48,rsi:74.5,trend:"Bearish",risk:"High Risk",macd:6.43,ret:-2.3},
+  {symbol:"RBLBANK",date:"2023-07-11",close:220.76,rsi:52.2,trend:"Neutral",risk:"High Risk",macd:-4.43,ret:2.31},
+  {symbol:"RBLBANK",date:"2024-03-07",close:219.08,rsi:43.9,trend:"Bearish",risk:"Moderate Risk",macd:-4.52,ret:1.47},
+  {symbol:"RBLBANK",date:"2025-01-01",close:222.46,rsi:37.9,trend:"Bearish",risk:"Moderate Risk",macd:-2.84,ret:0.08},
+  {symbol:"YESBANK",date:"2023-07-12",close:22.36,rsi:79.4,trend:"Bullish",risk:"High Risk",macd:-2.83,ret:1.07},
+  {symbol:"YESBANK",date:"2024-03-08",close:23.76,rsi:82,trend:"Bearish",risk:"High Risk",macd:-4.44,ret:-0.41},
+  {symbol:"YESBANK",date:"2025-01-02",close:23.4,rsi:80.7,trend:"Bullish",risk:"High Risk",macd:-5.28,ret:2.3},
+  {symbol:"TECHM",date:"2023-07-13",close:1536.48,rsi:35.9,trend:"Bearish",risk:"High Risk",macd:6.38,ret:2.57},
+  {symbol:"TECHM",date:"2024-03-11",close:1668.38,rsi:32.0,trend:"Bearish",risk:"Moderate Risk",macd:5.29,ret:-1.96},
+  {symbol:"TECHM",date:"2025-01-03",close:1692.85,rsi:32.2,trend:"Bearish",risk:"Moderate Risk",macd:6.1,ret:1.32},
+  {symbol:"MPHASIS",date:"2023-07-14",close:2685.94,rsi:42.1,trend:"Bearish",risk:"Moderate Risk",macd:0.8,ret:-0.89},
+  {symbol:"MPHASIS",date:"2024-03-11",close:2719.88,rsi:36.8,trend:"Bearish",risk:"Moderate Risk",macd:2.06,ret:0.61},
+  {symbol:"MPHASIS",date:"2025-01-06",close:2728.2,rsi:27.8,trend:"Bearish",risk:"High Risk",macd:1.54,ret:2.29},
+  {symbol:"LTTS",date:"2023-07-17",close:5019.77,rsi:51.0,trend:"Bearish",risk:"Moderate Risk",macd:6.22,ret:-1.71},
+  {symbol:"LTTS",date:"2024-03-11",close:5027.95,rsi:37.8,trend:"Bearish",risk:"High Risk",macd:7.25,ret:-2.45},
+  {symbol:"LTTS",date:"2025-01-06",close:5430.34,rsi:46.3,trend:"Bearish",risk:"Moderate Risk",macd:6.17,ret:-1.63},
+  {symbol:"PERSISTENT",date:"2023-07-17",close:5810.58,rsi:42.0,trend:"Bearish",risk:"Moderate Risk",macd:1.78,ret:1.01},
+  {symbol:"PERSISTENT",date:"2024-03-12",close:5742.76,rsi:47.1,trend:"Bearish",risk:"Moderate Risk",macd:1.66,ret:-1.4},
+  {symbol:"PERSISTENT",date:"2025-01-06",close:5908.37,rsi:34.9,trend:"Bearish",risk:"Moderate Risk",macd:2.23,ret:0.65},
+  {symbol:"COFORGE",date:"2023-07-17",close:8304.05,rsi:35.6,trend:"Bearish",risk:"High Risk",macd:-0.48,ret:2.88},
+  {symbol:"COFORGE",date:"2024-03-13",close:7628.32,rsi:41.0,trend:"Bearish",risk:"Moderate Risk",macd:-0.22,ret:1.27},
+  {symbol:"COFORGE",date:"2025-01-07",close:7416.21,rsi:41.8,trend:"Bearish",risk:"Moderate Risk",macd:0.26,ret:0.23},
+  {symbol:"NAUKRI",date:"2023-07-18",close:7444.76,rsi:67.2,trend:"Bullish",risk:"High Risk",macd:0.26,ret:0.84},
+  {symbol:"NAUKRI",date:"2024-03-14",close:7766.06,rsi:63.6,trend:"Bullish",risk:"Moderate Risk",macd:1.36,ret:1.23},
+  {symbol:"NAUKRI",date:"2025-01-08",close:7786.75,rsi:68.0,trend:"Bullish",risk:"High Risk",macd:1.91,ret:0.96},
+  {symbol:"ZOMATO",date:"2023-07-19",close:253.07,rsi:32.0,trend:"Bearish",risk:"Moderate Risk",macd:-1.84,ret:-0.08},
+  {symbol:"ZOMATO",date:"2024-03-15",close:255.63,rsi:27.6,trend:"Bearish",risk:"Moderate Risk",macd:-1.34,ret:-0.88},
+  {symbol:"ZOMATO",date:"2025-01-09",close:239.02,rsi:28.4,trend:"Bearish",risk:"Moderate Risk",macd:-0.67,ret:0.47},
+  {symbol:"PAYTM",date:"2023-07-20",close:783.29,rsi:66.5,trend:"Bullish",risk:"High Risk",macd:-2.74,ret:2.07},
+  {symbol:"PAYTM",date:"2024-03-18",close:810.81,rsi:57.8,trend:"Neutral",risk:"Moderate Risk",macd:-1.27,ret:1.94},
+  {symbol:"PAYTM",date:"2025-01-10",close:765.3,rsi:50.5,trend:"Neutral",risk:"High Risk",macd:-3.09,ret:2.8},
+  {symbol:"POLICYBZR",date:"2023-07-21",close:1943.32,rsi:40.6,trend:"Bearish",risk:"Moderate Risk",macd:4.64,ret:1.48},
+  {symbol:"POLICYBZR",date:"2024-03-18",close:1943.49,rsi:39.5,trend:"Bearish",risk:"Moderate Risk",macd:4.07,ret:-0.49},
+  {symbol:"POLICYBZR",date:"2025-01-13",close:1732.96,rsi:34.1,trend:"Bearish",risk:"Moderate Risk",macd:3.72,ret:0.0},
+  {symbol:"INDIAMART",date:"2023-07-24",close:2735.83,rsi:75.2,trend:"Bullish",risk:"High Risk",macd:7.5,ret:2.02},
+  {symbol:"INDIAMART",date:"2024-03-18",close:2554.43,rsi:68.2,trend:"Bearish",risk:"High Risk",macd:7.33,ret:-2.36},
+  {symbol:"INDIAMART",date:"2025-01-13",close:2700.15,rsi:81.8,trend:"Bearish",risk:"High Risk",macd:4.87,ret:-1.28},
+  {symbol:"DMART",date:"2023-07-24",close:4862.81,rsi:49.6,trend:"Bearish",risk:"Moderate Risk",macd:3.42,ret:-0.84},
+  {symbol:"DMART",date:"2024-03-19",close:4478.56,rsi:50.3,trend:"Bearish",risk:"Moderate Risk",macd:3.68,ret:-0.83},
+  {symbol:"DMART",date:"2025-01-13",close:4454.64,rsi:49.1,trend:"Bearish",risk:"Moderate Risk",macd:3.56,ret:-1.75},
+  {symbol:"TRENT",date:"2023-07-24",close:5960.09,rsi:41.3,trend:"Bearish",risk:"High Risk",macd:6.92,ret:2.7},
+  {symbol:"TRENT",date:"2024-03-20",close:6010.4,rsi:29.5,trend:"Bearish",risk:"Moderate Risk",macd:5.96,ret:-0.22},
+  {symbol:"TRENT",date:"2025-01-14",close:5833.13,rsi:34.6,trend:"Bearish",risk:"High Risk",macd:5.76,ret:2.73},
+  {symbol:"ABFRL",date:"2023-07-25",close:307.55,rsi:51.6,trend:"Neutral",risk:"High Risk",macd:6.27,ret:2.73},
+  {symbol:"ABFRL",date:"2024-03-21",close:297.38,rsi:56.4,trend:"Neutral",risk:"Low Risk",macd:6.63,ret:0.49},
+  {symbol:"ABFRL",date:"2025-01-15",close:307.1,rsi:50.7,trend:"Bearish",risk:"Moderate Risk",macd:4.07,ret:-1.46},
+  {symbol:"SHOPERSTOP",date:"2023-07-26",close:884.15,rsi:38.2,trend:"Bearish",risk:"Moderate Risk",macd:-3.31,ret:1.15},
+  {symbol:"SHOPERSTOP",date:"2024-03-22",close:858.59,rsi:29.5,trend:"Bearish",risk:"Moderate Risk",macd:-4.51,ret:1.83},
+  {symbol:"SHOPERSTOP",date:"2025-01-16",close:810.6,rsi:40.4,trend:"Bearish",risk:"High Risk",macd:-2.94,ret:-2.12},
+  {symbol:"TATACONSUM",date:"2023-07-27",close:1081.03,rsi:44.6,trend:"Bearish",risk:"High Risk",macd:0.56,ret:2.28},
+  {symbol:"TATACONSUM",date:"2024-03-25",close:1073.01,rsi:58.3,trend:"Bearish",risk:"High Risk",macd:2.15,ret:-2.48},
+  {symbol:"TATACONSUM",date:"2025-01-17",close:1072.63,rsi:42.9,trend:"Bearish",risk:"Moderate Risk",macd:0.09,ret:-1.12},
+  {symbol:"HINDUNILVR",date:"2023-07-28",close:2732.1,rsi:52.8,trend:"Bearish",risk:"High Risk",macd:8.66,ret:-2.42},
+  {symbol:"HINDUNILVR",date:"2024-03-25",close:2596.01,rsi:58.8,trend:"Bearish",risk:"Moderate Risk",macd:6.45,ret:-1.54},
+  {symbol:"HINDUNILVR",date:"2025-01-20",close:2758.05,rsi:62.8,trend:"Bullish",risk:"Moderate Risk",macd:7.72,ret:1.6},
+  {symbol:"ITC",date:"2023-07-31",close:504.69,rsi:49.6,trend:"Bearish",risk:"Moderate Risk",macd:-0.58,ret:-1.9},
+  {symbol:"ITC",date:"2024-03-25",close:514.5,rsi:40.2,trend:"Bearish",risk:"Moderate Risk",macd:0.51,ret:1.81},
+  {symbol:"ITC",date:"2025-01-20",close:489.66,rsi:48.5,trend:"Neutral",risk:"High Risk",macd:-1.91,ret:2.8},
+  {symbol:"BRITANNIA",date:"2023-07-31",close:5706.37,rsi:39.9,trend:"Bearish",risk:"Moderate Risk",macd:-2.56,ret:1.27},
+  {symbol:"BRITANNIA",date:"2024-03-26",close:6002.06,rsi:33.4,trend:"Bearish",risk:"High Risk",macd:-2.21,ret:-2.06},
+  {symbol:"BRITANNIA",date:"2025-01-20",close:5422.64,rsi:37.4,trend:"Bearish",risk:"Moderate Risk",macd:-2.38,ret:0.98},
+  {symbol:"DABUR",date:"2023-07-31",close:556.38,rsi:60.2,trend:"Bullish",risk:"Low Risk",macd:-1.52,ret:0.42},
+  {symbol:"DABUR",date:"2024-03-27",close:575.49,rsi:42.3,trend:"Bearish",risk:"Moderate Risk",macd:-0.32,ret:1.36},
+  {symbol:"DABUR",date:"2025-01-21",close:578.59,rsi:55.7,trend:"Neutral",risk:"Moderate Risk",macd:-2.23,ret:1.46},
+  {symbol:"MARICO",date:"2023-08-01",close:694.34,rsi:68.9,trend:"Bearish",risk:"High Risk",macd:0.62,ret:-0.64},
+  {symbol:"MARICO",date:"2024-03-28",close:691.36,rsi:66.2,trend:"Bearish",risk:"High Risk",macd:1.26,ret:-0.15},
+  {symbol:"MARICO",date:"2025-01-22",close:687.87,rsi:67.4,trend:"Bullish",risk:"High Risk",macd:-0.54,ret:2.58},
+  {symbol:"GODREJCP",date:"2023-08-02",close:1373.07,rsi:48.3,trend:"Bearish",risk:"Moderate Risk",macd:-3.62,ret:-1.97},
+  {symbol:"GODREJCP",date:"2024-03-29",close:1369.9,rsi:57.5,trend:"Neutral",risk:"Low Risk",macd:-4.16,ret:0.73},
+  {symbol:"GODREJCP",date:"2025-01-23",close:1293.51,rsi:48.8,trend:"Bearish",risk:"Low Risk",macd:-3.84,ret:-0.56},
+  {symbol:"EMAMILTD",date:"2023-08-03",close:750.28,rsi:77.5,trend:"Bullish",risk:"High Risk",macd:9.01,ret:1.47},
+  {symbol:"EMAMILTD",date:"2024-04-01",close:737.18,rsi:67.1,trend:"Bullish",risk:"High Risk",macd:6.74,ret:0.68},
+  {symbol:"EMAMILTD",date:"2025-01-24",close:742.1,rsi:64.6,trend:"Bearish",risk:"Moderate Risk",macd:8.64,ret:-1.9},
+  {symbol:"MCDOWELL",date:"2023-08-04",close:1221.08,rsi:76.0,trend:"Bullish",risk:"High Risk",macd:-1.92,ret:0.66},
+  {symbol:"MCDOWELL",date:"2024-04-01",close:1292.19,rsi:80.2,trend:"Bullish",risk:"High Risk",macd:-2.5,ret:2.0},
+  {symbol:"MCDOWELL",date:"2025-01-27",close:1262.05,rsi:61.2,trend:"Bullish",risk:"High Risk",macd:-1.85,ret:2.61},
+  {symbol:"UBL",date:"2023-08-07",close:1730.91,rsi:33.9,trend:"Bearish",risk:"Moderate Risk",macd:-0.36,ret:1.36},
+  {symbol:"UBL",date:"2024-04-01",close:1746.38,rsi:30.4,trend:"Bearish",risk:"High Risk",macd:0.41,ret:2.28},
+  {symbol:"UBL",date:"2025-01-27",close:1759.4,rsi:33.1,trend:"Bearish",risk:"Moderate Risk",macd:-1.2,ret:0.98},
+  {symbol:"ASIANPAINT",date:"2023-08-07",close:3171.37,rsi:42.5,trend:"Bearish",risk:"Moderate Risk",macd:7.33,ret:-0.19},
+  {symbol:"ASIANPAINT",date:"2024-04-02",close:3032.37,rsi:52.6,trend:"Neutral",risk:"Moderate Risk",macd:8.01,ret:1.77},
+  {symbol:"ASIANPAINT",date:"2025-01-27",close:2926.98,rsi:39.3,trend:"Bearish",risk:"Moderate Risk",macd:8.16,ret:-1.63},
+  {symbol:"BERGERPAINTS",date:"2023-08-07",close:633.76,rsi:63.0,trend:"Bullish",risk:"Moderate Risk",macd:0.88,ret:1.14},
+  {symbol:"BERGERPAINTS",date:"2024-04-03",close:616.48,rsi:63.1,trend:"Bullish",risk:"Moderate Risk",macd:-0.24,ret:1.65},
+  {symbol:"BERGERPAINTS",date:"2025-01-28",close:615.58,rsi:63.3,trend:"Bullish",risk:"Moderate Risk",macd:0.88,ret:1.23},
+  {symbol:"PIDILITIND",date:"2023-08-08",close:3346.4,rsi:66.9,trend:"Bearish",risk:"High Risk",macd:8.24,ret:-0.33},
+  {symbol:"PIDILITIND",date:"2024-04-04",close:3086.79,rsi:72.0,trend:"Bearish",risk:"High Risk",macd:6.85,ret:-1.34},
+  {symbol:"PIDILITIND",date:"2025-01-29",close:3184.35,rsi:72.6,trend:"Bearish",risk:"High Risk",macd:8.68,ret:-2.46},
+  {symbol:"HAVELLS",date:"2023-08-09",close:1768.78,rsi:62.1,trend:"Bullish",risk:"Moderate Risk",macd:-2.99,ret:1.37},
+  {symbol:"HAVELLS",date:"2024-04-05",close:1914.02,rsi:70.6,trend:"Bearish",risk:"High Risk",macd:-1.9,ret:-2.1},
+  {symbol:"HAVELLS",date:"2025-01-30",close:1739.32,rsi:54.9,trend:"Neutral",risk:"High Risk",macd:-1.9,ret:2.57},
+  {symbol:"CROMPTON",date:"2023-08-10",close:408.48,rsi:78.0,trend:"Bullish",risk:"High Risk",macd:2.28,ret:1.4},
+  {symbol:"CROMPTON",date:"2024-04-08",close:386.11,rsi:66.9,trend:"Bearish",risk:"High Risk",macd:3.43,ret:-0.71},
+  {symbol:"CROMPTON",date:"2025-01-31",close:410.54,rsi:82,trend:"Bullish",risk:"High Risk",macd:1.29,ret:2.56},
+  {symbol:"POLYCAB",date:"2023-08-11",close:7123.27,rsi:60.8,trend:"Bullish",risk:"Low Risk",macd:-4.19,ret:0.74},
+  {symbol:"POLYCAB",date:"2024-04-08",close:6754.94,rsi:62.1,trend:"Bearish",risk:"Low Risk",macd:-4.76,ret:-0.63},
+  {symbol:"POLYCAB",date:"2025-02-03",close:6568.08,rsi:66.1,trend:"Bearish",risk:"High Risk",macd:-4.23,ret:-1.87},
+  {symbol:"KEI",date:"2023-08-14",close:4383.93,rsi:51.1,trend:"Neutral",risk:"Moderate Risk",macd:7.05,ret:1.5},
+  {symbol:"KEI",date:"2024-04-08",close:4338.33,rsi:48.8,trend:"Bearish",risk:"Moderate Risk",macd:5.18,ret:-1.69},
+  {symbol:"KEI",date:"2025-02-03",close:4231.67,rsi:59.3,trend:"Neutral",risk:"Moderate Risk",macd:5.12,ret:1.11},
+  {symbol:"SIEMENS",date:"2023-08-14",close:7869.91,rsi:76.0,trend:"Bullish",risk:"High Risk",macd:-3.18,ret:1.65},
+  {symbol:"SIEMENS",date:"2024-04-09",close:7573.68,rsi:82,trend:"Bullish",risk:"High Risk",macd:-3.55,ret:0.6},
+  {symbol:"SIEMENS",date:"2025-02-03",close:7734.27,rsi:82,trend:"Bullish",risk:"High Risk",macd:-5.01,ret:0.95},
+  {symbol:"ABB",date:"2023-08-14",close:7813.69,rsi:57.4,trend:"Bearish",risk:"Moderate Risk",macd:3.1,ret:-0.83},
+  {symbol:"ABB",date:"2024-04-10",close:7801.71,rsi:58.7,trend:"Bearish",risk:"Low Risk",macd:3.64,ret:-0.79},
+  {symbol:"ABB",date:"2025-02-04",close:7802.42,rsi:65.2,trend:"Bearish",risk:"High Risk",macd:4.87,ret:-2.08},
+  {symbol:"CUMMINSIND",date:"2023-08-15",close:3629.2,rsi:38.1,trend:"Bearish",risk:"Moderate Risk",macd:6.46,ret:0.29},
+  {symbol:"CUMMINSIND",date:"2024-04-11",close:3503.49,rsi:41.6,trend:"Bearish",risk:"High Risk",macd:6.42,ret:2.43},
+  {symbol:"CUMMINSIND",date:"2025-02-05",close:3610.21,rsi:38.8,trend:"Bearish",risk:"Moderate Risk",macd:6.5,ret:-0.73},
+  {symbol:"THERMAX",date:"2023-08-16",close:4005.45,rsi:49.7,trend:"Bearish",risk:"Moderate Risk",macd:4.25,ret:-1.93},
+  {symbol:"THERMAX",date:"2024-04-12",close:4102.06,rsi:62.8,trend:"Bullish",risk:"Low Risk",macd:2.07,ret:0.28},
+  {symbol:"THERMAX",date:"2025-02-06",close:4054.05,rsi:57.3,trend:"Bearish",risk:"Low Risk",macd:3.12,ret:-0.08},
+  {symbol:"BEL",date:"2023-08-17",close:268.92,rsi:55.5,trend:"Bearish",risk:"Moderate Risk",macd:1.53,ret:-0.94},
+  {symbol:"BEL",date:"2024-04-15",close:274.96,rsi:60.0,trend:"Neutral",risk:"Moderate Risk",macd:2.24,ret:1.84},
+  {symbol:"BEL",date:"2025-02-07",close:265.79,rsi:49.9,trend:"Neutral",risk:"Moderate Risk",macd:1.15,ret:1.23},
+  {symbol:"HAL",date:"2023-08-18",close:4908.64,rsi:42.9,trend:"Bearish",risk:"High Risk",macd:5.43,ret:2.48},
+  {symbol:"HAL",date:"2024-04-15",close:4684.71,rsi:41.5,trend:"Bearish",risk:"Moderate Risk",macd:3.86,ret:-1.72},
+  {symbol:"HAL",date:"2025-02-10",close:5048.59,rsi:43.8,trend:"Bearish",risk:"Moderate Risk",macd:4.6,ret:-0.34},
+  {symbol:"COCHINSHIP",date:"2023-08-21",close:2050.81,rsi:45.2,trend:"Bearish",risk:"Low Risk",macd:4.6,ret:-0.43},
+  {symbol:"COCHINSHIP",date:"2024-04-15",close:2021.63,rsi:52.4,trend:"Neutral",risk:"High Risk",macd:4.45,ret:2.06},
+  {symbol:"COCHINSHIP",date:"2025-02-10",close:1991.75,rsi:49.5,trend:"Neutral",risk:"Moderate Risk",macd:3.5,ret:1.05},
+  {symbol:"RVNL",date:"2023-08-21",close:508.23,rsi:42.5,trend:"Bearish",risk:"Moderate Risk",macd:3.91,ret:-1.51},
+  {symbol:"RVNL",date:"2024-04-16",close:544.56,rsi:44.9,trend:"Bearish",risk:"Moderate Risk",macd:3.68,ret:-1.25},
+  {symbol:"RVNL",date:"2025-02-10",close:490.58,rsi:52.1,trend:"Bearish",risk:"Moderate Risk",macd:5.58,ret:-1.94},
+  {symbol:"IRFC",date:"2023-08-21",close:187.65,rsi:59.7,trend:"Bearish",risk:"High Risk",macd:7.49,ret:-2.29},
+  {symbol:"IRFC",date:"2024-04-17",close:186.17,rsi:44.6,trend:"Bearish",risk:"Moderate Risk",macd:6.97,ret:-0.43},
+  {symbol:"IRFC",date:"2025-02-11",close:187.57,rsi:57.4,trend:"Neutral",risk:"Moderate Risk",macd:6.98,ret:1.95},
+  {symbol:"PFC",date:"2023-08-22",close:464.8,rsi:31.7,trend:"Bearish",risk:"Moderate Risk",macd:-3.02,ret:1.22},
+  {symbol:"PFC",date:"2024-04-18",close:465.16,rsi:29.2,trend:"Bearish",risk:"Moderate Risk",macd:-2.38,ret:1.62},
+  {symbol:"PFC",date:"2025-02-12",close:470.21,rsi:29.7,trend:"Bearish",risk:"Moderate Risk",macd:-2.32,ret:1.95},
+  {symbol:"RECLTD",date:"2023-08-23",close:541.54,rsi:72.2,trend:"Bullish",risk:"High Risk",macd:7.9,ret:2.71},
+  {symbol:"RECLTD",date:"2024-04-19",close:518.21,rsi:70.4,trend:"Bearish",risk:"High Risk",macd:6.53,ret:-0.4},
+  {symbol:"RECLTD",date:"2025-02-13",close:549.73,rsi:81.1,trend:"Bullish",risk:"High Risk",macd:5.37,ret:1.91},
+  {symbol:"HUDCO",date:"2023-08-24",close:235.13,rsi:50.5,trend:"Neutral",risk:"High Risk",macd:-2.79,ret:2.31},
+  {symbol:"HUDCO",date:"2024-04-22",close:230.84,rsi:54.6,trend:"Neutral",risk:"High Risk",macd:-3.59,ret:2.18},
+  {symbol:"HUDCO",date:"2025-02-14",close:250.05,rsi:43.2,trend:"Bearish",risk:"High Risk",macd:-4.01,ret:2.48},
+  {symbol:"LT",date:"2023-08-25",close:3692.88,rsi:72.7,trend:"Bearish",risk:"High Risk",macd:2.8,ret:-1.28},
+  {symbol:"LT",date:"2024-04-22",close:3653.64,rsi:54.3,trend:"Bearish",risk:"High Risk",macd:2.96,ret:-2.21},
+  {symbol:"LT",date:"2025-02-17",close:3602.83,rsi:73.7,trend:"Bearish",risk:"High Risk",macd:1.53,ret:-0.44},
+  {symbol:"LTFH",date:"2023-08-28",close:156.28,rsi:68.2,trend:"Bullish",risk:"High Risk",macd:-4.03,ret:1.07},
+  {symbol:"LTFH",date:"2024-04-22",close:142.14,rsi:57.1,trend:"Neutral",risk:"High Risk",macd:-4.31,ret:2.06},
+  {symbol:"LTFH",date:"2025-02-17",close:142.16,rsi:65.5,trend:"Bearish",risk:"High Risk",macd:-6.38,ret:-0.03},
+  {symbol:"IRCTC",date:"2023-08-28",close:828.35,rsi:39.5,trend:"Bearish",risk:"High Risk",macd:3.77,ret:2.09},
+  {symbol:"IRCTC",date:"2024-04-23",close:896.19,rsi:45.0,trend:"Bearish",risk:"Moderate Risk",macd:2.98,ret:-1.89},
+  {symbol:"IRCTC",date:"2025-02-17",close:851.58,rsi:35.4,trend:"Bearish",risk:"Moderate Risk",macd:4.5,ret:-0.19},
+  {symbol:"CONCOR",date:"2023-08-28",close:870.1,rsi:28.6,trend:"Bearish",risk:"High Risk",macd:-3.21,ret:2.48},
+  {symbol:"CONCOR",date:"2024-04-24",close:823.85,rsi:36.7,trend:"Bearish",risk:"Moderate Risk",macd:-4.57,ret:-1.17},
+  {symbol:"CONCOR",date:"2025-02-18",close:867.17,rsi:38.7,trend:"Bearish",risk:"Moderate Risk",macd:-3.75,ret:-1.18},
+  {symbol:"BLUEDART",date:"2023-08-29",close:7995.05,rsi:48.3,trend:"Neutral",risk:"High Risk",macd:-2.76,ret:2.86},
+  {symbol:"BLUEDART",date:"2024-04-25",close:7864.92,rsi:56.7,trend:"Neutral",risk:"High Risk",macd:-1.3,ret:2.94},
+  {symbol:"BLUEDART",date:"2025-02-19",close:7737.33,rsi:56.0,trend:"Neutral",risk:"Moderate Risk",macd:-0.02,ret:1.0},
+  {symbol:"GMRINFRA",date:"2023-08-30",close:79.96,rsi:54.7,trend:"Neutral",risk:"Moderate Risk",macd:-2.82,ret:1.84},
+  {symbol:"GMRINFRA",date:"2024-04-26",close:84.7,rsi:67.0,trend:"Bullish",risk:"High Risk",macd:-1.64,ret:1.74},
+  {symbol:"GMRINFRA",date:"2025-02-20",close:80.74,rsi:55.3,trend:"Neutral",risk:"Low Risk",macd:-1.41,ret:0.5},
+  {symbol:"INDIGO",date:"2023-08-31",close:4017.6,rsi:48.3,trend:"Neutral",risk:"Low Risk",macd:1.94,ret:0.06},
+  {symbol:"INDIGO",date:"2024-04-29",close:4246.69,rsi:48.9,trend:"Bearish",risk:"High Risk",macd:2.18,ret:-2.15},
+  {symbol:"INDIGO",date:"2025-02-21",close:4159.37,rsi:38.6,trend:"Bearish",risk:"High Risk",macd:0.45,ret:-2.26},
+  {symbol:"SPICEJET",date:"2023-09-01",close:40.45,rsi:79.3,trend:"Bullish",risk:"High Risk",macd:-2.33,ret:0.33},
+  {symbol:"SPICEJET",date:"2024-04-29",close:43.02,rsi:65.7,trend:"Bullish",risk:"High Risk",macd:-4.73,ret:1.64},
+  {symbol:"SPICEJET",date:"2025-02-24",close:42.07,rsi:76.2,trend:"Bullish",risk:"High Risk",macd:-4.3,ret:2.26},
+  {symbol:"SUNTVNETWORK",date:"2023-09-04",close:802.53,rsi:40.7,trend:"Bearish",risk:"High Risk",macd:-4.22,ret:2.39},
+  {symbol:"SUNTVNETWORK",date:"2024-04-29",close:880.2,rsi:41.0,trend:"Bearish",risk:"High Risk",macd:-4.96,ret:2.86},
+  {symbol:"SUNTVNETWORK",date:"2025-02-24",close:840.15,rsi:51.8,trend:"Neutral",risk:"Low Risk",macd:-4.05,ret:0.36},
+  {symbol:"ZEEL",date:"2023-09-04",close:156.96,rsi:52.2,trend:"Neutral",risk:"Moderate Risk",macd:-0.62,ret:0.81},
+  {symbol:"ZEEL",date:"2024-04-30",close:153.63,rsi:57.0,trend:"Bearish",risk:"High Risk",macd:-1.11,ret:-2.06},
+  {symbol:"ZEEL",date:"2025-02-24",close:149.25,rsi:62.7,trend:"Bearish",risk:"Low Risk",macd:-1.02,ret:-0.16},
+  {symbol:"PVRINOX",date:"2023-09-04",close:1395.1,rsi:47.3,trend:"Neutral",risk:"High Risk",macd:0.12,ret:2.29},
+  {symbol:"PVRINOX",date:"2024-05-01",close:1505.31,rsi:52.0,trend:"Neutral",risk:"High Risk",macd:1.9,ret:2.89},
+  {symbol:"PVRINOX",date:"2025-02-25",close:1347.97,rsi:59.3,trend:"Bearish",risk:"Low Risk",macd:1.46,ret:-0.5},
+  {symbol:"ASTRAL",date:"2023-09-05",close:2125.39,rsi:42.7,trend:"Bearish",risk:"Moderate Risk",macd:6.8,ret:-1.71},
+  {symbol:"ASTRAL",date:"2024-05-02",close:2150.84,rsi:25,trend:"Bearish",risk:"High Risk",macd:7.32,ret:-2.13},
+  {symbol:"ASTRAL",date:"2025-02-26",close:2047.23,rsi:31.3,trend:"Bearish",risk:"Moderate Risk",macd:6.8,ret:0.62},
+  {symbol:"ABCAPITAL",date:"2023-09-06",close:254.15,rsi:65.2,trend:"Bearish",risk:"High Risk",macd:6.64,ret:-0.45},
+  {symbol:"ABCAPITAL",date:"2024-05-03",close:251.01,rsi:56.8,trend:"Bearish",risk:"Low Risk",macd:6.3,ret:-0.31},
+  {symbol:"ABCAPITAL",date:"2025-02-27",close:241.32,rsi:48.5,trend:"Neutral",risk:"Moderate Risk",macd:5.85,ret:1.55},
+  {symbol:"CHOLAFIN",date:"2023-09-07",close:1460.32,rsi:38.3,trend:"Bearish",risk:"Moderate Risk",macd:-4.06,ret:-1.06},
+  {symbol:"CHOLAFIN",date:"2024-05-06",close:1470.86,rsi:47.0,trend:"Bearish",risk:"Moderate Risk",macd:-2.09,ret:-0.93},
+  {symbol:"CHOLAFIN",date:"2025-02-28",close:1478.84,rsi:29.6,trend:"Bearish",risk:"High Risk",macd:-3.48,ret:2.19},
+  {symbol:"MUTHOOTFIN",date:"2023-09-08",close:2138.23,rsi:72.1,trend:"Bearish",risk:"High Risk",macd:5.9,ret:-2.02},
+  {symbol:"MUTHOOTFIN",date:"2024-05-06",close:2125.21,rsi:69.6,trend:"Bearish",risk:"High Risk",macd:4.04,ret:-0.59},
+  {symbol:"MUTHOOTFIN",date:"2025-03-03",close:2050.93,rsi:81.0,trend:"Bullish",risk:"High Risk",macd:5.99,ret:2.18},
+  {symbol:"MANAPPURAM",date:"2023-09-11",close:233.8,rsi:75.9,trend:"Bullish",risk:"High Risk",macd:-2.24,ret:1.87},
+  {symbol:"MANAPPURAM",date:"2024-05-06",close:212.29,rsi:67.1,trend:"Bearish",risk:"High Risk",macd:-1.4,ret:-1.74},
+  {symbol:"MANAPPURAM",date:"2025-03-03",close:209.76,rsi:74.2,trend:"Bearish",risk:"High Risk",macd:-1.36,ret:-0.47},
 ];
+
+/* Quick swap — keep your existing variable names intact: */
+const NSE_STOCKS  = NSE_STOCKS_EXTENDED;
+const RAG_RECORDS = RAG_RECORDS_EXTENDED;
 
 const BASELINE_FEATURES = [
-  {name:"volatility",   val:39.29,genai:false},{name:"rsi",         val:11.48,genai:true},
-  {name:"return_pct",   val:6.97, genai:false},{name:"macd_signal", val:6.83, genai:false},
-  {name:"macd",         val:2.68, genai:true}, {name:"high",        val:1.00, genai:false},
-  {name:"ema_10",       val:0.99, genai:false},{name:"close",       val:0.89, genai:false},
-  {name:"price_change", val:0.67, genai:false},{name:"sma_20",      val:0.19, genai:false},
+  {name:"volatility",val:39.29,genai:false},{name:"rsi",val:11.48,genai:true},
+  {name:"return_pct",val:6.97,genai:false},{name:"macd_signal",val:6.83,genai:false},
+  {name:"macd",val:2.68,genai:true},{name:"high",val:1.00,genai:false},
+  {name:"ema_10",val:0.99,genai:false},{name:"close",val:0.89,genai:false},
+  {name:"price_change",val:0.67,genai:false},{name:"sma_20",val:0.19,genai:false},
 ];
 const ADVANCED_FEATURES = [
-  {name:"macd_signal",          val:6.59,genai:false},{name:"bollinger_lower",      val:5.10,genai:false},
-  {name:"bollinger_width",      val:5.07,genai:false},{name:"bollinger_upper",      val:4.82,genai:false},
-  {name:"macd",                 val:4.63,genai:true}, {name:"ema_10",               val:4.31,genai:false},
-  {name:"close",                val:4.27,genai:false},{name:"sma_3",                val:4.25,genai:false},
-  {name:"volume_ma_5",          val:4.18,genai:false},{name:"risk_category_encoded",val:3.96,genai:true},
-  {name:"rsi",                  val:3.93,genai:true},
+  {name:"macd_signal",val:6.59,genai:false},{name:"bollinger_lower",val:5.10,genai:false},
+  {name:"bollinger_width",val:5.07,genai:false},{name:"bollinger_upper",val:4.82,genai:false},
+  {name:"macd",val:4.63,genai:true},{name:"ema_10",val:4.31,genai:false},
+  {name:"close",val:4.27,genai:false},{name:"rsi",val:3.93,genai:true},
 ];
-
 const ABLATION = [
-  {metric:"Semantic Relevance",   baseline:20,rag:95},
-  {metric:"Risk-Aware Retrieval", baseline:45,rag:90},
-  {metric:"NL Query Support",     baseline:5, rag:100},
-  {metric:"Trend Awareness",      baseline:25,rag:88},
-  {metric:"User Insights",        baseline:20,rag:92},
-  {metric:"Price Pred. Accuracy", baseline:85,rag:60},
+  {metric:"Semantic Relevance",baseline:20,rag:95},
+  {metric:"Risk-Aware Retrieval",baseline:45,rag:90},
+  {metric:"NL Query Support",baseline:5,rag:100},
+  {metric:"Trend Awareness",baseline:25,rag:88},
+  {metric:"User Insights",baseline:20,rag:92},
+  {metric:"Price Pred. Accuracy",baseline:85,rag:60},
 ];
 
-/* ── CANDLE GENERATOR ── */
-function genCandles(base, n=30){
-  const out=[]; let p=base;
+/* ══════════════════════════════════════
+   CHATBOT STATE
+══════════════════════════════════════ */
+
+let chatOpen = false;
+let chatHistory = [];
+let chatBusy = false;
+let userApiKey = '';
+
+const CHAT_SYSTEM = `You are StockRAG AI, an expert NSE India stock market assistant embedded in a financial analytics dashboard built by students (SE25MAID team). You have access to current data for 15 NSE stocks.
+
+CURRENT LIVE STOCK DATA:
+${NSE_STOCKS.map(s=>`• ${s.sym} (${s.name}): Close ₹${s.close.toLocaleString('en-IN')}, RSI ${s.rsi}, Trend: ${s.trend}, Risk: ${s.risk}, Day Change: ${s.ret>=0?'+':''}${s.ret}%`).join('\n')}
+
+PIPELINE STATS: 11,085 records · 26 features · 3-year history (May 2023–May 2026)
+ML MODELS: Linear Regression (R²=0.026, MAE=1766, RMSE=3433) · XGBoost (R²=-0.056, MAE=1964, RMSE=3574)
+TOP FEATURES (LR): volatility(39.29), rsi(11.48), return_pct(6.97), macd_signal(6.83)
+TOP FEATURES (XGB): macd_signal(6.59), bollinger_lower(5.10), bollinger_width(5.07), macd(4.63)
+
+RESPONSE RULES:
+- Be concise, insightful, friendly. Max ~180 words unless asked for more.
+- Use ₹ symbol for Indian prices. Use bullet points for lists.
+- RSI > 65 = strong momentum/overbought. RSI < 40 = oversold/weak. 40-65 = neutral.
+- Refer to stocks by symbol and name. Compare actual values when asked.
+- This is an academic research project — remind if asked for personal investment advice.
+- Format key figures in bold using **text** markdown when helpful.`;
+
+/* ══════════════════════════════════════
+   CHATBOT UI FUNCTIONS
+══════════════════════════════════════ */
+function toggleChat(){
+  chatOpen = !chatOpen;
+  document.getElementById('chatPanel').classList.toggle('open', chatOpen);
+  document.getElementById('chatNotif').style.display = 'none';
+  if(chatOpen) setTimeout(()=>document.getElementById('chatInp').focus(), 300);
+}
+
+function saveApiKey(){
+  const k = document.getElementById('apiKeyInput').value.trim();
+  if(!k){ alert('Please paste a valid API key.'); return; }
+  userApiKey = k;
+  document.getElementById('apiKeyBar').innerHTML =
+    '<span style="font-family:var(--mono);font-size:11px;color:var(--green);padding:8px 14px;">✓ API key saved — AI responses enabled!</span>';
+  setTimeout(()=>{ document.getElementById('apiKeyBar').style.display='none'; }, 2000);
+}
+
+function chatResize(el){
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 80) + 'px';
+}
+
+function chatKey(e){
+  if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); chatSend(); }
+}
+
+function chipSend(el){
+  document.getElementById('chatInp').value = el.textContent;
+  document.getElementById('chatSuggest').style.display = 'none';
+  chatSend();
+}
+
+function clearChat(){
+  chatHistory = [];
+  document.getElementById('chatMessages').innerHTML = `
+    <div class="msg-row">
+      <div class="msg-ava bot">AI</div>
+      <div class="msg-bubble bot">Chat cleared. Ask me anything about the 15 NSE stocks!</div>
+    </div>`;
+  document.getElementById('chatSuggest').style.display = 'flex';
+}
+
+function appendMsg(role, html, isThinking){
+  const msgs = document.getElementById('chatMessages');
+  const row = document.createElement('div');
+  row.className = 'msg-row' + (role==='user' ? ' user' : '');
+  if(isThinking) row.id = 'thinkingRow';
+  const ava = document.createElement('div');
+  ava.className = 'msg-ava ' + (role==='user'?'user':'bot');
+  ava.textContent = role==='user' ? 'You' : 'AI';
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble ' + (role==='user'?'user':'bot') + (isThinking?' thinking':'');
+  bubble.innerHTML = html;
+  if(role==='user'){ row.appendChild(bubble); row.appendChild(ava); }
+  else { row.appendChild(ava); row.appendChild(bubble); }
+  msgs.appendChild(row);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function removeThinking(){
+  const t = document.getElementById('thinkingRow');
+  if(t) t.remove();
+}
+
+function mdToHtml(text){
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/\n\n/g, '<br><br>')
+    .replace(/\n/g, '<br>')
+    .replace(/• /g, '• ');
+}
+
+async function chatSend(){
+  if(chatBusy) return;
+  const inp = document.getElementById('chatInp');
+  const text = inp.value.trim();
+  if(!text) return;
+
+  inp.value = '';
+  inp.style.height = 'auto';
+  document.getElementById('chatSendBtn').disabled = true;
+  chatBusy = true;
+
+  appendMsg('user', text);
+  chatHistory.push({ role:'user', content:text });
+
+  appendMsg('bot', '<div class="typing-dots"><span></span><span></span><span></span></div>', true);
+
+  if(!userApiKey){
+    // Fallback: smart local response
+    await new Promise(r=>setTimeout(r, 900));
+    removeThinking();
+    const localReply = localFallback(text);
+    appendMsg('bot', mdToHtml(localReply));
+    chatHistory.push({ role:'assistant', content:localReply });
+    chatBusy = false;
+    document.getElementById('chatSendBtn').disabled = false;
+    return;
+  }
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key': userApiKey,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system: CHAT_SYSTEM,
+        messages: chatHistory
+      })
+    });
+    const data = await res.json();
+    removeThinking();
+    if(data.content && data.content[0]){
+      const reply = data.content[0].text;
+      chatHistory.push({ role:'assistant', content:reply });
+      appendMsg('bot', mdToHtml(reply));
+    } else {
+      appendMsg('bot', '⚠️ API error: ' + (data.error?.message || 'Unknown error. Check your API key.'));
+    }
+  } catch(err){
+    removeThinking();
+    appendMsg('bot', '⚠️ Connection failed. Check your API key or network and try again.');
+  }
+
+  chatBusy = false;
+  document.getElementById('chatSendBtn').disabled = false;
+  document.getElementById('chatInp').focus();
+}
+
+/* ── Smart local fallback (no API key) ── */
+function localFallback(q){
+  const ql = q.toLowerCase();
+  if(ql.includes('bullish')){
+    const bulls = NSE_STOCKS.filter(s=>s.trend==='Bullish');
+    return `**${bulls.length} Bullish stocks** in the portfolio:\n\n${bulls.slice(0,6).map(s=>`• **${s.sym}** — ₹${s.close.toLocaleString('en-IN')} · RSI ${s.rsi}`).join('\n')}\n\n_Add your Anthropic API key above for deeper AI analysis._`;
+  }
+  if(ql.includes('bearish')){
+    const bears = NSE_STOCKS.filter(s=>s.trend==='Bearish');
+    return `**${bears.length} Bearish stocks** currently:\n\n${bears.map(s=>`• **${s.sym}** — ₹${s.close.toLocaleString('en-IN')} · RSI ${s.rsi}`).join('\n')}\n\n_RSI below 40 signals oversold territory._`;
+  }
+  if(ql.includes('low risk')||ql.includes('safe')){
+    const low = NSE_STOCKS.filter(s=>s.risk==='Low Risk');
+    return `**${low.length} Low Risk stocks:**\n\n${low.slice(0,6).map(s=>`• **${s.sym}** — ${s.trend} · RSI ${s.rsi}`).join('\n')}\n\n_These stocks show lower volatility in the 3-year dataset._`;
+  }
+  if(ql.includes('rsi')||ql.includes('momentum')){
+    const high = [...NSE_STOCKS].sort((a,b)=>b.rsi-a.rsi).slice(0,5);
+    return `**Top RSI Momentum Stocks:**\n\n${high.map(s=>`• **${s.sym}** — RSI **${s.rsi}** · ${s.trend}`).join('\n')}\n\n_BHARTIARTL leads with RSI 70.1. RSI > 65 = strong momentum._`;
+  }
+  if(ql.includes('tcs') && ql.includes('infy')){
+    const tcs = NSE_STOCKS.find(s=>s.sym==='TCS');
+    const infy = NSE_STOCKS.find(s=>s.sym==='INFY');
+    return `**TCS vs INFY Comparison:**\n\n• **TCS** — ₹${tcs.close} · RSI ${tcs.rsi} · ${tcs.trend} · ${tcs.risk}\n• **INFY** — ₹${infy.close} · RSI ${infy.rsi} · ${infy.trend} · ${infy.risk}\n\n_TCS is currently bullish; INFY shows bearish trend with RSI below 42._`;
+  }
+  if(ql.includes('r²')||ql.includes('r2')||ql.includes('model')||ql.includes('score')){
+    return `**Model Performance Summary:**\n\n• **Linear Regression** — R²=0.026, MAE=₹1,766, RMSE=₹3,433\n• **XGBoost** — R²=-0.056, MAE=₹1,964, RMSE=₹3,574\n\nBoth models struggle due to the cross-stock training setup. Individual per-stock models would likely perform better.`;
+  }
+  if(ql.includes('best')||ql.includes('top')||ql.includes('recommend')){
+    const top = [...NSE_STOCKS].sort((a,b)=>b.ret-a.ret).slice(0,3);
+    return `**Top performers today:**\n\n${top.map((s,i)=>`${i+1}. **${s.sym}** — +${s.ret}% · RSI ${s.rsi} · ${s.risk}`).join('\n')}\n\n_This is academic data, not financial advice._`;
+  }
+  // generic
+  const mentioned = NSE_STOCKS.find(s=>ql.includes(s.sym.toLowerCase()));
+  if(mentioned){
+    return `**${mentioned.sym} — ${mentioned.name}**\n\n• Price: ₹${mentioned.close.toLocaleString('en-IN')}\n• Day change: ${mentioned.ret>=0?'+':''}${mentioned.ret}%\n• RSI: ${mentioned.rsi} (${mentioned.rsi>65?'Strong momentum':mentioned.rsi<40?'Oversold':'Neutral'})\n• Trend: **${mentioned.trend}**\n• Risk: **${mentioned.risk}**\n\n_Add your API key above for a deeper AI analysis._`;
+  }
+  return `I can answer questions about the **15 NSE stocks** in this dashboard — trends, RSI, risk, model results, comparisons, and more.\n\nFor full AI-powered responses, paste your **Anthropic API key** in the bar above.\n\nOr try one of the quick chips below!`;
+}
+
+/* ══════════════════════════════════════
+   CANDLE GENERATOR
+══════════════════════════════════════ */
+function genCandles(base,n=30){
+  const out=[];let p=base;
   let d=new Date('2026-04-01');
   for(let i=0;i<n;i++){
-    d=new Date(d); d.setDate(d.getDate()+1);
+    d=new Date(d);d.setDate(d.getDate()+1);
     if(d.getDay()===0)d.setDate(d.getDate()+1);
     if(d.getDay()===6)d.setDate(d.getDate()+2);
     const lbl=d.toLocaleDateString('en-IN',{day:'2-digit',month:'short'});
-    const o=p, mv=(Math.random()-.46)*p*.022, c=o+mv;
+    const o=p,mv=(Math.random()-.46)*p*.022,c=o+mv;
     const h=Math.max(o,c)+Math.random()*p*.009;
     const l=Math.min(o,c)-Math.random()*p*.009;
     const v=Math.floor(1e6+Math.random()*4e6);
@@ -616,19 +1321,15 @@ function genCandles(base, n=30){
   }
   return out;
 }
+function fmtP(v){return v>=1000?'₹'+Math.round(v).toLocaleString('en-IN'):'₹'+v.toFixed(2);}
 
-/* ── FORMAT PRICE ── */
-function fmtP(v){
-  if(v>=1000)return '₹'+Math.round(v).toLocaleString('en-IN');
-  return '₹'+v.toFixed(2);
-}
-
-/* ── ACTIVE MODAL CHART ── */
-let modalChartInst=null, currentCandles=null, currentStock=null;
-
+/* ══════════════════════════════════════
+   STOCK MODAL
+══════════════════════════════════════ */
+let modalChartInst=null,currentCandles=null,currentStock=null;
 function openStockModal(sym){
-  const s=NSE_STOCKS.find(x=>x.sym===sym); if(!s)return;
-  currentStock=s; currentCandles=genCandles(s.base);
+  const s=NSE_STOCKS.find(x=>x.sym===sym);if(!s)return;
+  currentStock=s;currentCandles=genCandles(s.base);
   document.getElementById('mSym').textContent=s.sym;
   document.getElementById('mName').textContent=s.name+' · NSE India';
   const up=s.ret>=0;
@@ -646,136 +1347,47 @@ function openStockModal(sym){
   document.getElementById('stockModal').classList.add('show');
   setTimeout(()=>drawModalChart('candle'),60);
 }
-
-function closeStockModal(e){
-  if(e.target===document.getElementById('stockModal'))
-    document.getElementById('stockModal').classList.remove('show');
-}
-
+function closeStockModal(e){if(e.target===document.getElementById('stockModal'))document.getElementById('stockModal').classList.remove('show');}
 function switchModalChart(mode,el){
-  document.querySelectorAll('.mctab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  drawModalChart(mode);
+  document.querySelectorAll('.mctab').forEach(t=>t.classList.remove('active'));el.classList.add('active');drawModalChart(mode);
 }
-
 function drawModalChart(mode){
   if(modalChartInst){modalChartInst.destroy();modalChartInst=null;}
   const ctx=document.getElementById('modalChart').getContext('2d');
-  const d=currentCandles;
-  const labels=d.map(r=>r.x);
+  const d=currentCandles,labels=d.map(r=>r.x);
   const ttCfg={backgroundColor:'#0a0e1a',borderColor:'#1f2d45',borderWidth:1,titleColor:'#4fa3e0',bodyColor:'#e2e8f0',padding:10};
-
   if(mode==='candle'){
-    /* Candlestick: body bar + wick line overlay */
-    modalChartInst=new Chart(ctx,{
-      type:'bar',
-      data:{
-        labels,
-        datasets:[
-          {
-            label:'Body',
-            data:d.map(r=>r.c>=r.o?[r.o,r.c]:[r.c,r.o]),
-            backgroundColor:d.map(r=>r.c>=r.o?'rgba(0,214,143,.85)':'rgba(255,77,109,.85)'),
-            borderColor:d.map(r=>r.c>=r.o?'#00d68f':'#ff4d6d'),
-            borderWidth:1,borderRadius:1,
-          },
-          {
-            label:'High',type:'line',
-            data:d.map(r=>r.h),
-            borderColor:'rgba(100,116,139,.5)',borderWidth:1,
-            pointRadius:0,tension:0,
-          },
-          {
-            label:'Low',type:'line',
-            data:d.map(r=>r.l),
-            borderColor:'rgba(100,116,139,.5)',borderWidth:1,
-            pointRadius:0,tension:0,
-          }
-        ]
-      },
-      options:{
-        responsive:true,maintainAspectRatio:false,
-        plugins:{
-          legend:{display:false},
-          tooltip:{...ttCfg,callbacks:{
-            title:i=>'  '+d[i[0].dataIndex].x,
-            label:i=>{
-              const r=d[i.dataIndex];
-              return[`O: ${fmtP(r.o)}`,`H: ${fmtP(r.h)}`,`L: ${fmtP(r.l)}`,`C: ${fmtP(r.c)}`];
-            }
-          }}
-        },
-        scales:{
-          x:{ticks:{color:'#64748b',font:{size:10},maxRotation:45,autoSkip:true,maxTicksLimit:10},grid:{color:'#1a2235'}},
-          y:{ticks:{color:'#64748b',font:{size:10},callback:v=>fmtP(v)},grid:{color:'#1a2235'}}
-        }
-      }
-    });
+    modalChartInst=new Chart(ctx,{type:'bar',data:{labels,datasets:[
+      {label:'Body',data:d.map(r=>r.c>=r.o?[r.o,r.c]:[r.c,r.o]),backgroundColor:d.map(r=>r.c>=r.o?'rgba(0,214,143,.85)':'rgba(255,77,109,.85)'),borderColor:d.map(r=>r.c>=r.o?'#00d68f':'#ff4d6d'),borderWidth:1,borderRadius:1},
+      {label:'High',type:'line',data:d.map(r=>r.h),borderColor:'rgba(100,116,139,.5)',borderWidth:1,pointRadius:0,tension:0},
+      {label:'Low',type:'line',data:d.map(r=>r.l),borderColor:'rgba(100,116,139,.5)',borderWidth:1,pointRadius:0,tension:0}
+    ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...ttCfg,callbacks:{title:i=>'  '+d[i[0].dataIndex].x,label:i=>{const r=d[i.dataIndex];return[`O: ${fmtP(r.o)}`,`H: ${fmtP(r.h)}`,`L: ${fmtP(r.l)}`,`C: ${fmtP(r.c)}`];}}}},scales:{x:{ticks:{color:'#64748b',font:{size:10},maxRotation:45,autoSkip:true,maxTicksLimit:10},grid:{color:'#1a2235'}},y:{ticks:{color:'#64748b',font:{size:10},callback:v=>fmtP(v)},grid:{color:'#1a2235'}}}}});
   } else if(mode==='line'){
-    modalChartInst=new Chart(ctx,{
-      type:'line',
-      data:{
-        labels,
-        datasets:[{
-          label:'Close Price',
-          data:d.map(r=>r.c),
-          borderColor:'#4fa3e0',backgroundColor:'rgba(79,163,224,.08)',
-          fill:true,tension:.35,pointRadius:2,pointBackgroundColor:'#4fa3e0',
-        }]
-      },
-      options:{
-        responsive:true,maintainAspectRatio:false,
-        plugins:{legend:{display:false},tooltip:{...ttCfg,callbacks:{label:i=>'Close: '+fmtP(i.raw)}}},
-        scales:{
-          x:{ticks:{color:'#64748b',font:{size:10},maxRotation:45,autoSkip:true,maxTicksLimit:10},grid:{color:'#1a2235'}},
-          y:{ticks:{color:'#64748b',font:{size:10},callback:v=>fmtP(v)},grid:{color:'#1a2235'}}
-        }
-      }
-    });
+    modalChartInst=new Chart(ctx,{type:'line',data:{labels,datasets:[{label:'Close Price',data:d.map(r=>r.c),borderColor:'#4fa3e0',backgroundColor:'rgba(79,163,224,.08)',fill:true,tension:.35,pointRadius:2,pointBackgroundColor:'#4fa3e0'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...ttCfg,callbacks:{label:i=>'Close: '+fmtP(i.raw)}}},scales:{x:{ticks:{color:'#64748b',font:{size:10},maxRotation:45,autoSkip:true,maxTicksLimit:10},grid:{color:'#1a2235'}},y:{ticks:{color:'#64748b',font:{size:10},callback:v=>fmtP(v)},grid:{color:'#1a2235'}}}}});
   } else {
-    modalChartInst=new Chart(ctx,{
-      type:'bar',
-      data:{
-        labels,
-        datasets:[{
-          label:'Volume',
-          data:d.map(r=>r.v),
-          backgroundColor:d.map(r=>r.c>=r.o?'rgba(0,214,143,.6)':'rgba(255,77,109,.6)'),
-          borderColor:'transparent',borderRadius:2,
-        }]
-      },
-      options:{
-        responsive:true,maintainAspectRatio:false,
-        plugins:{legend:{display:false},tooltip:{...ttCfg,callbacks:{label:i=>'Vol: '+(i.raw/1e6).toFixed(2)+'M'}}},
-        scales:{
-          x:{ticks:{color:'#64748b',font:{size:10},maxRotation:45,autoSkip:true,maxTicksLimit:10},grid:{color:'#1a2235'}},
-          y:{ticks:{color:'#64748b',font:{size:10},callback:v=>(v/1e6).toFixed(1)+'M'},grid:{color:'#1a2235'}}
-        }
-      }
-    });
+    modalChartInst=new Chart(ctx,{type:'bar',data:{labels,datasets:[{label:'Volume',data:d.map(r=>r.v),backgroundColor:d.map(r=>r.c>=r.o?'rgba(0,214,143,.6)':'rgba(255,77,109,.6)'),borderColor:'transparent',borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...ttCfg,callbacks:{label:i=>'Vol: '+(i.raw/1e6).toFixed(2)+'M'}}},scales:{x:{ticks:{color:'#64748b',font:{size:10},maxRotation:45,autoSkip:true,maxTicksLimit:10},grid:{color:'#1a2235'}},y:{ticks:{color:'#64748b',font:{size:10},callback:v=>(v/1e6).toFixed(1)+'M'},grid:{color:'#1a2235'}}}}});
   }
 }
 
-/* ── TICKER BUILD ── */
+/* ══════════════════════════════════════
+   TICKER
+══════════════════════════════════════ */
 function buildTicker(elId){
   const el=document.getElementById(elId);
-  const items=[...NSE_STOCKS,...NSE_STOCKS].map(s=>{
+  el.innerHTML=[...NSE_STOCKS,...NSE_STOCKS].map(s=>{
     const up=s.ret>=0;
-    return `<div class="tick-item" onclick="openStockModal('${s.sym}')">
-      <span class="sym">${s.sym}</span>
-      <span class="price">${fmtP(s.close)}</span>
-      <span class="${up?'up':'dn'}">${up?'▲':'▼'}${Math.abs(s.ret).toFixed(2)}%</span>
-    </div>`;
+    return `<div class="tick-item" onclick="openStockModal('${s.sym}')"><span class="sym">${s.sym}</span><span class="price">${fmtP(s.close)}</span><span class="${up?'up':'dn'}">${up?'▲':'▼'}${Math.abs(s.ret).toFixed(2)}%</span></div>`;
   }).join('');
-  el.innerHTML=items;
   const wrap=el.parentElement;
   wrap.addEventListener('mouseenter',()=>el.style.animationPlayState='paused');
   wrap.addEventListener('mouseleave',()=>el.style.animationPlayState='running');
 }
 
-/* ── SCORE ── */
+/* ══════════════════════════════════════
+   QUERY / RAG
+══════════════════════════════════════ */
 function score(q,r){
-  const ql=q.toLowerCase(); let s=0.25+Math.random()*0.02;
+  const ql=q.toLowerCase();let s=0.25+Math.random()*0.02;
   if(ql.includes("bullish")&&r.trend==="Bullish")s+=0.12;
   if(ql.includes("bearish")&&r.trend==="Bearish")s+=0.12;
   if((ql.includes("safe")||ql.includes("low risk"))&&r.risk==="Low Risk")s+=0.10;
@@ -783,16 +1395,12 @@ function score(q,r){
   if((ql.includes("high rsi")||ql.includes("momentum"))&&r.rsi>65)s+=0.16;
   if((ql.includes("low rsi")||ql.includes("oversold"))&&r.rsi<40)s+=0.18;
   if(ql.includes("tech")&&["TCS","INFY","WIPRO","HCLTECH"].includes(r.symbol))s+=0.10;
-  ["RELIANCE","TCS","HDFCBANK","INFY","ICICIBANK","WIPRO","BHARTIARTL",
-   "SBIN","HCLTECH","BAJFINANCE","KOTAKBANK","AXISBANK","MARUTI","SUNPHARMA","TITAN"]
-    .forEach(sym=>{if(ql.includes(sym.toLowerCase())&&r.symbol===sym)s+=0.18;});
+  NSE_STOCKS.forEach(st=>{if(ql.includes(st.sym.toLowerCase())&&r.symbol===st.sym)s+=0.18;});
   return Math.min(s,0.99);
 }
 
-/* ── STOCK GRID ── */
 function renderStockGrid(){
-  const grid=document.getElementById('stock-grid');
-  grid.innerHTML=NSE_STOCKS.map(s=>{
+  document.getElementById('stock-grid').innerHTML=NSE_STOCKS.map(s=>{
     const up=s.ret>=0;
     const rsiC=s.rsi>65?'#00d68f':s.rsi<40?'#ff4d6d':'#64748b';
     const rkC=s.risk.startsWith('Low')?'#00d68f':s.risk.startsWith('High')?'#ff4d6d':'#ffb347';
@@ -801,11 +1409,7 @@ function renderStockGrid(){
       <div class="sc-name">${s.name}</div>
       <div class="sc-price">${fmtP(s.close)}</div>
       <div class="sc-change ${up?'up':'dn'}">${up?'▲':'▼'} ${Math.abs(s.ret).toFixed(2)}%</div>
-      <div class="sc-meta">
-        <span style="color:${rsiC}">RSI ${s.rsi.toFixed(1)}</span>
-        <span style="color:${rkC}">${s.risk}</span>
-        <span style="color:${s.trend==='Bullish'?'#00d68f':'#ff4d6d'}">${s.trend}</span>
-      </div>
+      <div class="sc-meta"><span style="color:${rsiC}">RSI ${s.rsi.toFixed(1)}</span><span style="color:${rkC}">${s.risk}</span><span style="color:${s.trend==='Bullish'?'#00d68f':'#ff4d6d'}">${s.trend}</span></div>
       <div class="sc-bar"><div class="sc-bar-fill" style="width:${s.rsi}%;background:${rsiC}"></div></div>
     </div>`;
   }).join('');
@@ -869,9 +1473,7 @@ function renderFeatures(features,containerId){
   const max=Math.max(...features.map(f=>f.val));
   document.getElementById(containerId).innerHTML=features.map(f=>`
     <div class="ablation-row">
-      <div class="ablation-label" style="flex:0 0 200px">
-        ${f.genai?'🤖 ':''}<span style="font-family:var(--mono);font-size:12px;color:${f.genai?'var(--green)':'var(--text)'}">${f.name}</span>
-      </div>
+      <div class="ablation-label" style="flex:0 0 200px">${f.genai?'🤖 ':''}<span style="font-family:var(--mono);font-size:12px;color:${f.genai?'var(--green)':'var(--text)'}">${f.name}</span></div>
       <div style="flex:1;display:flex;align-items:center;gap:10px;">
         <div style="flex:1;height:8px;background:var(--surface2);border-radius:4px;border:1px solid var(--border);overflow:hidden;">
           <div style="width:${(f.val/max*100).toFixed(1)}%;height:100%;background:${f.genai?'var(--green)':'var(--blue)'};border-radius:4px;"></div>
@@ -892,7 +1494,9 @@ function renderAblation(){
     </div>`).join('');
 }
 
-/* ── LANDING CANVAS ── */
+/* ══════════════════════════════════════
+   LANDING CANVAS
+══════════════════════════════════════ */
 (function(){
   const canvas=document.getElementById('lc'),ctx=canvas.getContext('2d');
   let W,H,dots=[];
@@ -915,7 +1519,9 @@ function renderAblation(){
   window.addEventListener('resize',()=>{resize();initDots();});
 })();
 
-/* ── ENTER DASHBOARD ── */
+/* ══════════════════════════════════════
+   ENTER DASHBOARD
+══════════════════════════════════════ */
 function enterDashboard(){
   const q=document.getElementById('landingInput').value.trim();
   document.getElementById('landing').classList.add('hide');
@@ -943,7 +1549,9 @@ function toggleCard(card){
   if(hint)hint.textContent=card.classList.contains('open')?'click to hide ▴':'click to see contact ▾';
 }
 
-/* ── INIT ── */
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
 buildTicker('landingTicker');
 renderStockGrid();
 renderPreview();
