@@ -31,21 +31,10 @@ class StockDataPipeline:
     - MACD edge cases handled
     """
 
-<<<<<<< HEAD
     def __init__(self, data_folder=None, output_file=None):
         self.data_folder = data_folder or os.path.join(_BASE_DIR, "data")
         self.output_file = output_file or os.path.join(_BASE_DIR, "data", "stock_dataset.csv")
         self.combined_df  = None
-=======
-    def __init__(
-        self,
-        data_folder="data",
-        output_file="data/stock_dataset.csv"
-    ):
-        self.data_folder = data_folder
-        self.output_file = output_file
-        self.combined_df = None
->>>>>>> 61548e8b50024a25c8c25fef6b487fbb4b8af334
         self.required_cols = ["open", "high", "low", "close", "volume"]
 
     # =========================================
@@ -331,14 +320,7 @@ class StockDataPipeline:
     # =========================================
     # SAVE RAG KNOWLEDGE BASE (path now dynamic)
     # =========================================
-<<<<<<< HEAD
     def save_rag_knowledge_base(self, output_json=None):
-=======
-    def save_rag_knowledge_base(
-        self,
-        output_json="data/rag_knowledge_base.json"
-    ):
->>>>>>> 61548e8b50024a25c8c25fef6b487fbb4b8af334
         if self.combined_df is None:
             raise ValueError("❌ Run load_all_stocks() first")
         if output_json is None:

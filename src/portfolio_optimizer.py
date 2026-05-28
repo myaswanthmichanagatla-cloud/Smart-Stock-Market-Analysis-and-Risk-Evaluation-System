@@ -31,7 +31,8 @@ class GenAIPortfolioOptimizer:
     def load_predictions_from_evaluation(self, results_folder=None):
         try:
             if results_folder is None:
-                results_folder = "/content/smart_stock_market_project/results"
+                _BASE = os.path.dirname(os.path.realpath(__file__))
+                results_folder = os.path.join(_BASE, "results")
 
             advanced_file = os.path.join(results_folder, "advanced_results.json")
 
@@ -50,29 +51,60 @@ class GenAIPortfolioOptimizer:
                 predictions = predictions[:min_len]
                 actuals = actuals[:min_len]
 
-            n_stocks = 5
-            n_samples = len(predictions)
-            
-            # ✅ FIXED: Calculate exact distribution
-            base_size = n_samples // n_stocks
-            remainder = n_samples % n_stocks
-            
-            stock_data = {}
-            idx = 0
-            
-            for i in range(n_stocks):
-                # First 'remainder' stocks get +1 element
-                size = base_size + (1 if i < remainder else 0)
-                stock_data[f"Stock_{i+1}"] = predictions[idx:idx+size]
-                idx += size
-            
-            # ✅ Verify all arrays have EXACT same length (they won't, but that's OK for time series)
-            # For portfolio optimization, we need a DataFrame where each column is a stock's time series
-            # Different lengths are FINE as long as we handle NaN
-            
-            self.predictions_df = pd.DataFrame(stock_data)
-            self.stock_names = [f"Stock_{i+1}" for i in range(n_stocks)]
-            self.n_assets = n_stocks
+            # We need to map the flat test predictions back to individual stocks.
+            # Let's load the dataset to determine which stock each test sample belongs to!
+            dataset_path = os.path.join(os.path.dirname(results_folder), "data", "stock_dataset.csv")
+            if os.path.exists(dataset_path):
+                # Load the dataset
+                df = pd.read_csv(dataset_path)
+                
+                # Check for trend_label encoding in advanced predictor prep:
+                # advanced_predictor prepare_data drops NaNs after shifts. Let's replicate this.
+                df = df.copy()
+                if "date" in df.columns:
+                    df["date"] = pd.to_datetime(df["date"], errors="coerce")
+                    df.dropna(subset=["date"], inplace=True)
+                    df.sort_values("date", inplace=True)
+                
+                required_cols = ["open", "high", "low", "close", "volume"]
+                df.dropna(subset=required_cols, inplace=True)
+                
+                # target next day close
+                df["target"] = df["close"].shift(-1)
+                df.dropna(inplace=True)
+                
+                # The train_test_split in advanced_predictor uses shuffle=False, test_size=0.2 on the whole combined DataFrame
+                # Let's get the exact indices corresponding to the test set:
+                test_size = int(len(df) * 0.2)
+                test_df = df.iloc[-test_size:].copy()
+                
+                # Map predictions to stock_symbol
+                test_df["predicted_close"] = predictions[:len(test_df)]
+                
+                # Group by stock_symbol and pivot to create time-series DataFrame
+                # Handle potential duplicate entries for the same date (e.g. multiple records or overlapping files)
+                # by using pivot_table with aggfunc='mean'
+                pivoted = test_df.pivot_table(index="date", columns="stock_symbol", values="predicted_close", aggfunc="mean")
+                
+                # Fill missing values using forward fill, backward fill, or 0 to ensure clean numeric optimization
+                pivoted = pivoted.ffill().bfill().fillna(0)
+                
+                self.predictions_df = pivoted
+                self.stock_names = list(pivoted.columns)
+                self.n_assets = len(self.stock_names)
+            else:
+                # Fallback to simple splitting if dataset is not found
+                n_stocks = 5
+                n_samples = len(predictions)
+                base_size = n_samples // n_stocks
+                
+                stock_data = {}
+                for i in range(n_stocks):
+                    stock_data[f"Stock_{i+1}"] = predictions[i*base_size : (i+1)*base_size]
+                
+                self.predictions_df = pd.DataFrame(stock_data)
+                self.stock_names = [f"Stock_{i+1}" for i in range(n_stocks)]
+                self.n_assets = n_stocks
 
             print(f"✅ Loaded predictions: {self.predictions_df.shape}")
             lengths = [len(self.predictions_df[col].dropna()) for col in self.predictions_df.columns]
@@ -258,7 +290,10 @@ class GenAIPortfolioOptimizer:
     # =========================================
     # SAVE PORTFOLIO
     # =========================================
-    def save_portfolio(self, output_path="/content/smart_stock_market_project/results/optimal_portfolio.json"):
+    def save_portfolio(self, output_path=None):
+        if output_path is None:
+            _BASE = os.path.dirname(os.path.realpath(__file__))
+            output_path = os.path.join(_BASE, "results", "portfolio_optimization.json")
         try:
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
 

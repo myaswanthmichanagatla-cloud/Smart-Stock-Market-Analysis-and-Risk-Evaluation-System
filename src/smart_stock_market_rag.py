@@ -75,6 +75,14 @@ class StockMarketRAG:
 
             print(f"✅ Loaded {len(self.knowledge_base)} knowledge entries")
 
+            # Load the complete stock dataset if available for advanced aggregations
+            csv_path = os.path.join(os.path.dirname(self.kb_path), "stock_dataset.csv")
+            if os.path.exists(csv_path):
+                self.stock_data = pd.read_csv(csv_path)
+                print(f"   ✅ Loaded stock dataset: {self.stock_data.shape}")
+            else:
+                self.stock_data = pd.DataFrame(self.knowledge_base)
+
             # Extract and display unique stocks
             if self.knowledge_base and isinstance(self.knowledge_base, list):
                 stocks = set()

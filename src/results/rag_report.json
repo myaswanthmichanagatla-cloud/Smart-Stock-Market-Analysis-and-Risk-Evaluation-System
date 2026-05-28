@@ -1,8 +1,12 @@
 {
-    "generated_at": "2026-05-26 14:32:21",
-    "knowledge_base_size": 22169,
-    "model_results_available": [],
-    "portfolio_data_available": false,
+    "generated_at": "2026-05-28 23:33:33",
+    "knowledge_base_size": 66505,
+    "model_results_available": [
+        "baseline",
+        "advanced",
+        "comparison"
+    ],
+    "portfolio_data_available": true,
     "sample_queries": [
         "Which model performs better?",
         "What is the portfolio recommendation?",

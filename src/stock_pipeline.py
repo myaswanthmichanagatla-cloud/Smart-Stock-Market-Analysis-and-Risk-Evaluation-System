@@ -24,7 +24,9 @@ class StockPipeline:
     5. Portfolio Optimizer - Optimal allocation
     """
 
-    def __init__(self, base_dir="/content/smart_stock_market_project"):
+    def __init__(self, base_dir=None):
+        if base_dir is None:
+            base_dir = os.path.dirname(os.path.realpath(__file__))
         self.base_dir = base_dir
         self.data_dir = os.path.join(base_dir, "data")
         self.models_dir = os.path.join(base_dir, "models")
@@ -77,8 +79,10 @@ class StockPipeline:
                 raise FileNotFoundError(f"Script not found: {script_path}")
             
             # Run the script
+            import subprocess
             start = time.time()
-            result = os.system(f"python {script_path}")
+            res = subprocess.run([sys.executable, script_path], cwd=self.base_dir)
+            result = res.returncode
             duration = time.time() - start
             
             if result == 0:
@@ -277,7 +281,7 @@ def main():
     )
     parser.add_argument(
         "--base-dir",
-        default="/content/smart_stock_market_project",
+        default=os.path.dirname(os.path.realpath(__file__)),
         help="Base directory for the project"
     )
     

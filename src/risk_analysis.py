@@ -566,7 +566,10 @@ class RiskAnalyzer:
     # =========================================
     # SAVE RESULTS
     # =========================================
-    def save_results(self, output_path="/content/smart_stock_market_project/results/risk_analysis.json"):
+    def save_results(self, output_path=None):
+        if output_path is None:
+            _BASE = os.path.dirname(os.path.realpath(__file__))
+            output_path = os.path.join(_BASE, "results", "risk_analysis.json")
         """Save risk analysis results to JSON"""
         try:
             if not self.risk_metrics:
@@ -602,7 +605,8 @@ class RiskAnalyzer:
 # =========================================
 if __name__ == "__main__":
     
-    DATA_PATH = "/content/smart_stock_market_project/data/stock_dataset.csv"
+    _BASE      = os.path.dirname(os.path.realpath(__file__))
+    DATA_PATH  = os.path.join(_BASE, "data", "stock_dataset.csv")
     
     try:
         print("=" * 70)

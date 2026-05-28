@@ -37,7 +37,9 @@ class MasterRunner:
     Master orchestrator for Smart Stock Market Analysis System
     """
 
-    def __init__(self, base_dir="/content/smart_stock_market_project"):
+    def __init__(self, base_dir=None):
+        if base_dir is None:
+            base_dir = os.path.dirname(os.path.realpath(__file__))
         self.base_dir = base_dir
         self.start_time = None
         self.execution_log = []
@@ -140,8 +142,15 @@ class MasterRunner:
                 raise FileNotFoundError(f"Script not found: {script_path}")
             
             # Execute script
+            import subprocess
             start = time.time()
-            exit_code = os.system(f"python {script_path} > /dev/null 2>&1")
+            result = subprocess.run(
+                [sys.executable, script_path],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                cwd=self.base_dir
+            )
+            exit_code = result.returncode
             duration = time.time() - start
             
             if exit_code == 0:
@@ -428,7 +437,7 @@ def main():
     
     parser.add_argument(
         "--base-dir",
-        default="/content/smart_stock_market_project",
+        default=os.path.dirname(os.path.realpath(__file__)),
         help="Base directory for the project"
     )
     

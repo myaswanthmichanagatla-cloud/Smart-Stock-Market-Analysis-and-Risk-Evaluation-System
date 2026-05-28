@@ -382,7 +382,10 @@ class GenAIAdvancedPredictor:
     # =========================================
     # SAVE MODEL (GENAI READY)
     # =========================================
-    def save_model(self, path="/content/smart_stock_market_project/models/advanced_model.pkl"):
+    def save_model(self, path=None):
+        if path is None:
+            _BASE = os.path.dirname(os.path.realpath(__file__))
+            path = os.path.join(_BASE, "models", "advanced_model.pkl")
         try:
             os.makedirs(os.path.dirname(path), exist_ok=True)
 
@@ -408,7 +411,10 @@ class GenAIAdvancedPredictor:
     # =========================================
     # LOAD MODEL
     # =========================================
-    def load_model(self, path="/content/smart_stock_market_project/models/advanced_model.pkl"):
+    def load_model(self, path=None):
+        if path is None:
+            _BASE = os.path.dirname(os.path.realpath(__file__))
+            path = os.path.join(_BASE, "models", "advanced_model.pkl")
         try:
             if not os.path.exists(path):
                 raise FileNotFoundError(f"Model not found: {path}")
@@ -529,7 +535,7 @@ if __name__ == "__main__":
         print(f"✅ GENAI ADVANCED COMPLETED - XGBOOST!")
         print(f"{'='*70}")
         print(f"\n💡 Next: Run Evaluation")
-        print(f"   !python /content/smart_stock_market_project/evaluation.py")
+        print(f"   python evaluation.py")
         print(f"{'='*70}\n")
 
     except Exception as e:

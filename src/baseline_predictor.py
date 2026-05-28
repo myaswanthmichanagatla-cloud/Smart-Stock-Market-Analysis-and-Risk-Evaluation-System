@@ -334,7 +334,10 @@ class GenAIBaselinePredictor:
     # =========================================
     # SAVE MODEL (GENAI READY)
     # =========================================
-    def save_model(self, path="/content/smart_stock_market_project/models/baseline_model.pkl"):
+    def save_model(self, path=None):
+        if path is None:
+            _BASE = os.path.dirname(os.path.realpath(__file__))
+            path = os.path.join(_BASE, "models", "baseline_model.pkl")
         try:
             os.makedirs(os.path.dirname(path), exist_ok=True)
 
@@ -359,7 +362,10 @@ class GenAIBaselinePredictor:
     # =========================================
     # LOAD MODEL
     # =========================================
-    def load_model(self, path="/content/smart_stock_market_project/models/baseline_model.pkl"):
+    def load_model(self, path=None):
+        if path is None:
+            _BASE = os.path.dirname(os.path.realpath(__file__))
+            path = os.path.join(_BASE, "models", "baseline_model.pkl")
         try:
             if not os.path.exists(path):
                 raise FileNotFoundError(f"Model not found: {path}")
@@ -476,9 +482,9 @@ if __name__ == "__main__":
         print(f"✅ GENAI BASELINE COMPLETED - FIXED!")
         print(f"{'='*70}")
         print(f"\n💡 Next: Run Advanced Predictor")
-        print(f"   !python /content/smart_stock_market_project/advanced_predictor.py")
+        print(f"   python advanced_predictor.py")
         print(f"\n💡 Run Evaluation")
-        print(f"   !python /content/smart_stock_market_project/evaluation.py")
+        print(f"   python evaluation.py")
         print(f"{'='*70}\n")
 
     except Exception as e:

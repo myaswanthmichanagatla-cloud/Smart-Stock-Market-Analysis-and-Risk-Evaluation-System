@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 # Add project path to sys.path
-sys.path.insert(0, '/content/smart_stock_market_project')
+sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 
 from baseline_predictor import GenAIBaselinePredictor
 from advanced_predictor import GenAIAdvancedPredictor
@@ -35,8 +35,11 @@ class ModelEvaluator:
     # =========================================
     def load_dataset(
         self,
-        path="/content/smart_stock_market_project/data/stock_dataset.csv"
+        path=None
     ):
+        if path is None:
+            _BASE = os.path.dirname(os.path.realpath(__file__))
+            path = os.path.join(_BASE, "data", "stock_dataset.csv")
         if not os.path.exists(path):
             raise FileNotFoundError(f"❌ Dataset not found: {path}")
 
@@ -243,8 +246,11 @@ class ModelEvaluator:
     # =========================================
     def save_results(
         self,
-        output_folder="/content/smart_stock_market_project/results"
+        output_folder=None
     ):
+        if output_folder is None:
+            _BASE = os.path.dirname(os.path.realpath(__file__))
+            output_folder = os.path.join(_BASE, "results")
         """Save all results as JSON files"""
         
         try:
@@ -382,7 +388,7 @@ if __name__ == "__main__":
         print("\n" + "=" * 70)
         print("✅ EVALUATION COMPLETED SUCCESSFULLY")
         print("=" * 70)
-        print("\n📁 Results saved in: /content/smart_stock_market_project/results/")
+        print(f"\n📁 Results saved in: {os.path.join(os.path.dirname(os.path.realpath(__file__)), 'results')}/")
         print("\n💡 Files created:")
         print("   1. baseline_results.json")
         print("   2. advanced_results.json")
@@ -396,9 +402,9 @@ if __name__ == "__main__":
     except FileNotFoundError as e:
         print(f"\n❌ FILE ERROR: {e}")
         print(f"\n💡 SOLUTION:")
-        print(f"   1. Run pipeline first: !python /content/smart_stock_market_project/stock_data_pipeline.py")
-        print(f"   2. Run baseline: !python /content/smart_stock_market_project/baseline_predictor.py")
-        print(f"   3. Run advanced: !python /content/smart_stock_market_project/advanced_predictor.py")
+        print(f"   1. Run pipeline first: python stock_data_pipeline.py")
+        print(f"   2. Run baseline: python baseline_predictor.py")
+        print(f"   3. Run advanced: python advanced_predictor.py")
 
     except ValueError as e:
         print(f"\n❌ VALUE ERROR: {e}")
