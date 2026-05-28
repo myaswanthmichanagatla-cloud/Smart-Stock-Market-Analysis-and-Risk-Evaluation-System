@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>StockRAG — Smart Stock Market Analysis</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 :root{
   --bg:#0a0e1a;--surface:#111827;--surface2:#1a2235;--border:#1f2d45;
@@ -15,6 +16,8 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;min-height:100vh;}
+
+/* LANDING */
 #landing{position:fixed;inset:0;background:#030610;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1000;overflow:hidden;transition:opacity .8s,transform .8s;}
 #landing.hide{opacity:0;transform:scale(1.03);pointer-events:none;}
 #lc{position:absolute;inset:0;width:100%;height:100%;}
@@ -26,12 +29,20 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 @keyframes orbf2{from{transform:translate(0,0) scale(1)}to{transform:translate(-50px,-30px) scale(1.1)}}
 .scanline{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00d68f1a,transparent);animation:scan 7s linear infinite;pointer-events:none;z-index:2;}
 @keyframes scan{from{top:0}to{top:100%}}
-.ticker-wrap{position:absolute;bottom:0;left:0;right:0;height:36px;background:#060d1a;border-top:1px solid #0e1e33;overflow:hidden;z-index:3;}
-.ticker{display:flex;white-space:nowrap;animation:tick 80s linear infinite;}
-.tick-item{padding:0 22px;font-family:var(--mono);font-size:11px;line-height:36px;color:#1e3450;border-right:1px solid #0e1e33;}
-.tick-item .up{color:#00d68f}.tick-item .dn{color:#ff4d6d}
+
+/* TICKER */
+.ticker-wrap{position:fixed;bottom:0;left:0;right:0;height:38px;background:#060d1a;border-top:1px solid #0e1e33;overflow:hidden;z-index:500;cursor:default;}
+.ticker{display:flex;white-space:nowrap;animation:tick 80s linear infinite;height:38px;align-items:center;}
+.ticker:hover{animation-play-state:paused;}
+.tick-item{padding:0 20px;font-family:var(--mono);font-size:11px;color:#1e3450;border-right:1px solid #0e1e33;cursor:pointer;height:38px;display:flex;align-items:center;gap:7px;transition:background .2s,color .2s;flex-shrink:0;}
+.tick-item:hover{background:#00d68f12;color:#a0b4c8;}
+.tick-item .sym{color:#4fa3e0;font-weight:600;}
+.tick-item .price{color:#2e4a66;}
+.tick-item .up{color:#00d68f;}
+.tick-item .dn{color:#ff4d6d;}
 @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.lc{position:relative;z-index:4;text-align:center;max-width:680px;padding:0 24px 50px;}
+
+.lc{position:relative;z-index:4;text-align:center;max-width:680px;padding:0 24px 60px;}
 .l-badge{display:inline-flex;align-items:center;gap:8px;padding:5px 16px;background:#00d68f0d;border:1px solid #00d68f28;border-radius:20px;font-family:var(--mono);font-size:11px;color:#00d68fcc;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:22px;animation:fup .5s both;}
 .l-bdot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 1.5s infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
@@ -40,7 +51,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .l-sub{font-size:15px;color:#2e4a66;margin-bottom:24px;line-height:1.8;animation:fup .55s .16s both;}
 .l-sub strong{color:#4a6a88;}
 .l-sw{animation:fup .55s .22s both;width:100%;max-width:640px;margin:0 auto 14px;}
-.l-srch{display:flex;align-items:center;background:#07101f;border:1px solid #142338;border-radius:16px;padding:6px 6px 6px 20px;gap:12px;transition:border-color .3s,box-shadow .3s;position:relative;overflow:hidden;}
+.l-srch{display:flex;align-items:center;background:#07101f;border:1px solid #142338;border-radius:16px;padding:6px 6px 6px 20px;gap:12px;transition:border-color .3s,box-shadow .3s;position:relative;}
 .l-srch:focus-within{border-color:#00d68f50;box-shadow:0 0 0 3px #00d68f10,0 8px 32px #00d68f08;}
 .l-si{font-size:16px;color:#1a3050;flex-shrink:0;}
 .l-srch input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--mono);font-size:14px;padding:10px 0;caret-color:var(--green);}
@@ -57,7 +68,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .l-skip{font-size:12px;color:#102030;font-family:var(--mono);cursor:pointer;transition:color .2s;animation:fup .55s .44s both;letter-spacing:.5px;}
 .l-skip:hover{color:#2a4a64;}
 @keyframes fup{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-#dashboard{display:none;}
+
+/* DASHBOARD */
+#dashboard{display:none;padding-bottom:50px;}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:var(--surface);}
 .topbar-left{display:flex;align-items:center;gap:12px;}
 .logo{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--green);letter-spacing:1px;}
@@ -99,7 +112,8 @@ tbody tr:hover td{background:var(--surface2);}
 .score-track{width:50px;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
 .score-fill{height:100%;background:var(--green);border-radius:2px;}
 .score-num{font-size:12px;color:var(--muted);font-family:var(--mono);}
-.symbol{font-family:var(--mono);font-weight:600;color:var(--blue);}
+.symbol{font-family:var(--mono);font-weight:600;color:var(--blue);cursor:pointer;}
+.symbol:hover{text-decoration:underline;}
 .pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;font-family:var(--mono);}
 .pill.bullish{background:var(--green-dim);color:var(--green)}.pill.bearish{background:var(--red-dim);color:var(--red)}.pill.neutral{background:var(--amber-dim);color:var(--amber)}
 .pill.low{background:var(--green-dim);color:var(--green)}.pill.moderate{background:var(--amber-dim);color:var(--amber)}.pill.high{background:var(--red-dim);color:var(--red)}
@@ -134,8 +148,6 @@ tbody tr:hover td{background:var(--surface2);}
 .team-card.open .toggle-hint{color:var(--green);}
 .footer{text-align:center;padding:20px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);font-family:var(--mono);margin-top:40px;}
 .section-head{margin-bottom:20px;}.section-head h2{font-size:16px;font-weight:600;}.section-head p{font-size:12px;color:var(--muted);}
-
-/* Stock grid */
 .region-label{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);font-family:var(--mono);margin:20px 0 10px;padding-left:2px;}
 .stock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-bottom:8px;}
 .stock-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
@@ -152,8 +164,6 @@ tbody tr:hover td{background:var(--surface2);}
 .sc-meta span{font-size:10px;color:var(--muted);font-family:var(--mono);}
 .sc-bar{height:2px;background:var(--border);border-radius:2px;margin-top:8px;overflow:hidden;}
 .sc-bar-fill{height:100%;border-radius:2px;}
-
-/* Model performance bars */
 .model-compare{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
 .model-box{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:18px;}
 .model-box-title{font-family:var(--mono);font-size:13px;font-weight:600;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);}
@@ -161,14 +171,36 @@ tbody tr:hover td{background:var(--surface2);}
 .model-metric-row:last-child{border-bottom:none;}
 .model-metric-name{font-size:12px;color:var(--muted);}
 .model-metric-val{font-family:var(--mono);font-size:13px;font-weight:600;}
-
-/* RAG query box */
 .rag-box{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px;}
 .rag-q{font-family:var(--mono);font-size:12px;color:var(--amber);margin-bottom:8px;}
 .rag-a{font-size:12px;color:var(--text);line-height:1.7;}
 .rag-entry{padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--muted);line-height:1.6;}
 .rag-entry:last-child{border-bottom:none;}
 .rag-entry strong{color:var(--blue);font-family:var(--mono);}
+
+/* STOCK MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(3,6,16,.85);z-index:2000;align-items:center;justify-content:center;backdrop-filter:blur(3px);}
+.modal-overlay.show{display:flex;}
+.modal-box{background:#111827;border:1px solid #1f2d45;border-radius:16px;width:92%;max-width:780px;max-height:90vh;overflow-y:auto;animation:modalIn .25s ease;}
+@keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-head{display:flex;justify-content:space-between;align-items:flex-start;padding:20px 24px 16px;border-bottom:1px solid #1f2d45;position:sticky;top:0;background:#111827;z-index:1;}
+.modal-sym-block{}
+.modal-sym{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--blue);letter-spacing:1px;}
+.modal-name{font-size:12px;color:var(--muted);margin-top:2px;}
+.modal-close{width:34px;height:34px;border-radius:50%;background:#1a2235;border:1px solid #1f2d45;color:var(--muted);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+.modal-close:hover{background:var(--red-dim);color:var(--red);border-color:var(--red);}
+.modal-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:16px 24px;}
+.mmet{background:#0a0e1a;border:1px solid #1f2d45;border-radius:8px;padding:12px 14px;}
+.mmet-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px;}
+.mmet-val{font-family:var(--mono);font-size:16px;font-weight:600;}
+.modal-chart-section{padding:0 24px 16px;}
+.modal-chart-tabs{display:flex;gap:4px;margin-bottom:12px;}
+.mctab{padding:6px 16px;font-size:11px;border-radius:6px;cursor:pointer;color:var(--muted);border:1px solid transparent;transition:all .2s;font-family:var(--mono);}
+.mctab.active{background:var(--green-dim);color:var(--green);border-color:#00d68f35;}
+.mctab:hover:not(.active){background:var(--surface2);}
+.modal-chart-wrap{position:relative;width:100%;height:280px;background:#0a0e1a;border:1px solid #1f2d45;border-radius:10px;overflow:hidden;}
+.modal-pills{display:flex;gap:8px;padding:0 24px 20px;}
+.hint-bar{background:#060d1a;border-top:1px solid #0e1e33;padding:10px 24px;font-size:11px;color:#1e3450;font-family:var(--mono);display:flex;align-items:center;gap:6px;}
 </style>
 </head>
 <body>
@@ -205,7 +237,9 @@ tbody tr:hover td{background:var(--surface2);}
     </div>
     <div class="l-skip" onclick="enterDashboard()">skip to dashboard &nbsp;→</div>
   </div>
-  <div class="ticker-wrap"><div class="ticker" id="ticker"></div></div>
+  <div class="ticker-wrap" style="position:absolute;bottom:0;">
+    <div class="ticker" id="landingTicker"></div>
+  </div>
 </div>
 
 <!-- DASHBOARD -->
@@ -236,12 +270,10 @@ tbody tr:hover td{background:var(--surface2);}
     <div class="metric-card amber"><div class="metric-label">Baseline R² Score</div><div class="metric-value amber">0.026</div><div class="metric-sub">Linear Regression · 23 features</div></div>
     <div class="metric-card green"><div class="metric-label">Date Range</div><div class="metric-value green" style="font-size:16px;padding-top:6px;">3 Years</div><div class="metric-sub">May 2023 → May 2026</div></div>
   </div>
-
   <div class="panel">
-    <div class="panel-title">🇮🇳 NSE India — 15 Stocks from Your Pipeline (739 rows each)</div>
+    <div class="panel-title">🇮🇳 NSE India — 15 Stocks · Click any card for candlestick chart</div>
     <div class="stock-grid" id="stock-grid"></div>
   </div>
-
   <div class="panel">
     <div class="panel-title">Live Query Preview</div>
     <div class="chips" style="margin-bottom:16px;">
@@ -288,7 +320,6 @@ tbody tr:hover td{background:var(--surface2);}
 <!-- MODEL RESULTS PAGE -->
 <div class="page" id="page-models">
   <div class="section-head"><h2>Model Results</h2><p>Real performance metrics from your trained pipeline — Linear Regression vs XGBoost</p></div>
-
   <div class="model-compare">
     <div class="model-box">
       <div class="model-box-title" style="color:var(--blue)">🤖 Baseline — Linear Regression</div>
@@ -313,17 +344,14 @@ tbody tr:hover td{background:var(--surface2);}
       <div class="model-metric-row"><span class="model-metric-name">Max Depth</span><span class="model-metric-val" style="color:var(--muted)">6</span></div>
     </div>
   </div>
-
   <div class="panel">
     <div class="panel-title">Top Feature Importances — Baseline (Linear Regression)</div>
     <div id="baselineFeatures"></div>
   </div>
-
   <div class="panel">
     <div class="panel-title">Top Feature Importances — Advanced (XGBoost)</div>
     <div id="advancedFeatures"></div>
   </div>
-
   <div class="panel">
     <div class="panel-title">Sample Predictions — Baseline Model</div>
     <div class="table-wrap">
@@ -413,9 +441,7 @@ tbody tr:hover td{background:var(--surface2);}
       </div>
       <div class="panel" style="margin-top:20px;">
         <div class="panel-title">Stocks in Pipeline</div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;">
-          <span id="stock-pills"></span>
-        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;"><span id="stock-pills"></span></div>
       </div>
     </div>
   </div>
@@ -430,9 +456,7 @@ tbody tr:hover td{background:var(--surface2);}
       <div class="team-name">Ch Rishendra Mani Raju</div>
       <div class="team-id">SE25MAID016</div>
       <div class="team-role">Lead Developer · RAG Pipeline</div>
-      <div class="team-contacts">
-        <div class="contact-row"><span class="contact-icon">✉</span><span class="contact-mail">rishendra.016@university.edu</span></div>
-      </div>
+      <div class="team-contacts"><div class="contact-row"><span class="contact-icon">✉</span><span class="contact-mail">rishendra.016@university.edu</span></div></div>
       <div class="toggle-hint">click to see contact ▾</div>
     </div>
     <div class="team-card" onclick="toggleCard(this)">
@@ -440,9 +464,7 @@ tbody tr:hover td{background:var(--surface2);}
       <div class="team-name">M Yaswanth</div>
       <div class="team-id">SE25MAID035</div>
       <div class="team-role">Model Evaluation · Ablation Study</div>
-      <div class="team-contacts">
-        <div class="contact-row"><span class="contact-icon">✉</span><span class="contact-mail">yaswanth.035@university.edu</span></div>
-      </div>
+      <div class="team-contacts"><div class="contact-row"><span class="contact-icon">✉</span><span class="contact-mail">yaswanth.035@university.edu</span></div></div>
       <div class="toggle-hint">click to see contact ▾</div>
     </div>
     <div class="team-card" onclick="toggleCard(this)">
@@ -450,9 +472,7 @@ tbody tr:hover td{background:var(--surface2);}
       <div class="team-name">S Rishindra</div>
       <div class="team-id">SE25MAID014</div>
       <div class="team-role">Data Engineering · Feature Design</div>
-      <div class="team-contacts">
-        <div class="contact-row"><span class="contact-icon">✉</span><span class="contact-mail">rishindra.014@university.edu</span></div>
-      </div>
+      <div class="team-contacts"><div class="contact-row"><span class="contact-icon">✉</span><span class="contact-mail">rishindra.014@university.edu</span></div></div>
       <div class="toggle-hint">click to see contact ▾</div>
     </div>
     <div class="team-card" onclick="toggleCard(this)">
@@ -460,9 +480,7 @@ tbody tr:hover td{background:var(--surface2);}
       <div class="team-name">P Varshith</div>
       <div class="team-id">SE25MAID021</div>
       <div class="team-role">Dataset Pipeline · Risk Analysis</div>
-      <div class="team-contacts">
-        <div class="contact-row"><span class="contact-icon">✉</span><span class="contact-mail">varshith.021@university.edu</span></div>
-      </div>
+      <div class="team-contacts"><div class="contact-row"><span class="contact-icon">✉</span><span class="contact-mail">varshith.021@university.edu</span></div></div>
       <div class="toggle-hint">click to see contact ▾</div>
     </div>
   </div>
@@ -478,118 +496,310 @@ tbody tr:hover td{background:var(--surface2);}
   </div>
 </div>
 
-</div></div>
+</div><!-- /main -->
+
+<!-- FIXED BOTTOM TICKER -->
+<div class="ticker-wrap" id="dashTicker" style="display:none;">
+  <div class="ticker" id="dashTickerInner"></div>
+</div>
+
+</div><!-- /dashboard -->
+
+<!-- STOCK MODAL -->
+<div class="modal-overlay" id="stockModal" onclick="closeStockModal(event)">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-sym-block">
+        <div class="modal-sym" id="mSym">—</div>
+        <div class="modal-name" id="mName">—</div>
+      </div>
+      <button class="modal-close" onclick="document.getElementById('stockModal').classList.remove('show')">✕</button>
+    </div>
+    <div class="modal-metrics" id="mMetrics"></div>
+    <div class="modal-chart-section">
+      <div class="modal-chart-tabs" id="mTabs">
+        <span class="mctab active" onclick="switchModalChart('candle',this)">📊 Candlestick</span>
+        <span class="mctab" onclick="switchModalChart('line',this)">📈 Line</span>
+        <span class="mctab" onclick="switchModalChart('volume',this)">📦 Volume</span>
+      </div>
+      <div class="modal-chart-wrap">
+        <canvas id="modalChart" role="img" aria-label="Stock price chart"></canvas>
+      </div>
+    </div>
+    <div class="modal-pills" id="mPills"></div>
+    <div class="hint-bar">💡 Chart shows simulated 30-day OHLCV data based on real stock baseline prices · NSE India</div>
+  </div>
+</div>
+
 <div class="footer">StockRAG System · Ch Rishendra Mani Raju · M Yaswanth · S Rishindra · P Varshith · SE25MAID · Academic Research Project · 11,085 Records · 15 NSE Stocks</div>
 
 <script>
-// ── REAL DATA FROM YOUR PIPELINE ──────────────────────────────────────────────
 const NSE_STOCKS = [
-  {sym:'RELIANCE',  name:'Reliance Industries',    rsi:62.4, trend:'Bullish', risk:'Moderate Risk', close:2834.20, ret:0.52},
-  {sym:'TCS',       name:'Tata Consultancy Svcs',  rsi:58.1, trend:'Bullish', risk:'Low Risk',      close:3876.45, ret:0.31},
-  {sym:'HDFCBANK',  name:'HDFC Bank',              rsi:44.2, trend:'Bearish', risk:'Low Risk',      close:1623.80, ret:-0.28},
-  {sym:'INFY',      name:'Infosys Ltd',             rsi:41.7, trend:'Bearish', risk:'Moderate Risk', close:1438.60, ret:-0.19},
-  {sym:'ICICIBANK', name:'ICICI Bank',              rsi:66.3, trend:'Bullish', risk:'Low Risk',      close:1124.35, ret:0.74},
-  {sym:'WIPRO',     name:'Wipro Ltd',               rsi:55.8, trend:'Bullish', risk:'Low Risk',      close:468.90,  ret:0.18},
-  {sym:'BHARTIARTL',name:'Bharti Airtel',           rsi:70.1, trend:'Bullish', risk:'Low Risk',      close:1412.55, ret:0.88},
-  {sym:'SBIN',      name:'State Bank of India',     rsi:60.4, trend:'Bullish', risk:'Moderate Risk', close:812.70,  ret:0.42},
-  {sym:'HCLTECH',   name:'HCL Technologies',        rsi:57.9, trend:'Bullish', risk:'Low Risk',      close:1572.30, ret:0.26},
-  {sym:'BAJFINANCE',name:'Bajaj Finance',           rsi:64.8, trend:'Bullish', risk:'Moderate Risk', close:7284.15, ret:0.58},
-  {sym:'KOTAKBANK', name:'Kotak Mahindra Bank',     rsi:48.3, trend:'Bearish', risk:'Low Risk',      close:1834.60, ret:-0.11},
-  {sym:'AXISBANK',  name:'Axis Bank',               rsi:61.2, trend:'Bullish', risk:'Moderate Risk', close:1092.40, ret:0.39},
-  {sym:'MARUTI',    name:'Maruti Suzuki India',     rsi:63.7, trend:'Bullish', risk:'Low Risk',      close:12648.90,ret:0.47},
-  {sym:'SUNPHARMA', name:'Sun Pharmaceutical',      rsi:59.5, trend:'Bullish', risk:'Low Risk',      close:1694.20, ret:0.33},
-  {sym:'TITAN',     name:'Titan Company',           rsi:54.2, trend:'Bullish', risk:'Low Risk',      close:3621.75, ret:0.21},
+  {sym:'RELIANCE',   name:'Reliance Industries',    rsi:62.4, trend:'Bullish', risk:'Moderate Risk', close:2834.20, ret:0.52,  base:2720},
+  {sym:'TCS',        name:'Tata Consultancy Svcs',  rsi:58.1, trend:'Bullish', risk:'Low Risk',      close:3876.45, ret:0.31,  base:3750},
+  {sym:'HDFCBANK',   name:'HDFC Bank',              rsi:44.2, trend:'Bearish', risk:'Low Risk',      close:1623.80, ret:-0.28, base:1650},
+  {sym:'INFY',       name:'Infosys Ltd',             rsi:41.7, trend:'Bearish', risk:'Moderate Risk', close:1438.60, ret:-0.19, base:1460},
+  {sym:'ICICIBANK',  name:'ICICI Bank',              rsi:66.3, trend:'Bullish', risk:'Low Risk',      close:1124.35, ret:0.74,  base:1070},
+  {sym:'WIPRO',      name:'Wipro Ltd',               rsi:55.8, trend:'Bullish', risk:'Low Risk',      close:468.90,  ret:0.18,  base:455},
+  {sym:'BHARTIARTL', name:'Bharti Airtel',           rsi:70.1, trend:'Bullish', risk:'Low Risk',      close:1412.55, ret:0.88,  base:1340},
+  {sym:'SBIN',       name:'State Bank of India',     rsi:60.4, trend:'Bullish', risk:'Moderate Risk', close:812.70,  ret:0.42,  base:778},
+  {sym:'HCLTECH',    name:'HCL Technologies',        rsi:57.9, trend:'Bullish', risk:'Low Risk',      close:1572.30, ret:0.26,  base:1510},
+  {sym:'BAJFINANCE', name:'Bajaj Finance',           rsi:64.8, trend:'Bullish', risk:'Moderate Risk', close:7284.15, ret:0.58,  base:6950},
+  {sym:'KOTAKBANK',  name:'Kotak Mahindra Bank',     rsi:48.3, trend:'Bearish', risk:'Low Risk',      close:1834.60, ret:-0.11, base:1860},
+  {sym:'AXISBANK',   name:'Axis Bank',               rsi:61.2, trend:'Bullish', risk:'Moderate Risk', close:1092.40, ret:0.39,  base:1045},
+  {sym:'MARUTI',     name:'Maruti Suzuki India',     rsi:63.7, trend:'Bullish', risk:'Low Risk',      close:12648.90,ret:0.47,  base:12100},
+  {sym:'SUNPHARMA',  name:'Sun Pharmaceutical',      rsi:59.5, trend:'Bullish', risk:'Low Risk',      close:1694.20, ret:0.33,  base:1630},
+  {sym:'TITAN',      name:'Titan Company',           rsi:54.2, trend:'Bullish', risk:'Low Risk',      close:3621.75, ret:0.21,  base:3550},
 ];
 
-// ── REAL RAG RECORDS (subset from your pipeline output) ──────────────────────
 const RAG_RECORDS = [
-  {symbol:"AXISBANK",  date:"2023-05-29",close:927.34, rsi:50.0, trend:"Bullish", risk:"Low Risk",      macd:1.06, ret:0.31},
-  {symbol:"AXISBANK",  date:"2023-05-30",close:934.97, rsi:50.0, trend:"Bullish", risk:"Low Risk",      macd:2.12, ret:0.82},
-  {symbol:"AXISBANK",  date:"2023-05-31",close:912.43, rsi:42.1, trend:"Bearish", risk:"Moderate Risk", macd:1.12, ret:-2.41},
-  {symbol:"RELIANCE",  date:"2024-03-12",close:2834.20,rsi:74.2, trend:"Bullish", risk:"Moderate Risk", macd:3.27, ret:3.05},
-  {symbol:"TCS",       date:"2024-05-02",close:3876.45,rsi:68.5, trend:"Bullish", risk:"Low Risk",      macd:4.28, ret:2.33},
-  {symbol:"HDFCBANK",  date:"2024-06-15",close:1623.80,rsi:38.2, trend:"Bearish", risk:"Low Risk",      macd:-1.95,ret:-0.28},
-  {symbol:"INFY",      date:"2024-01-30",close:1438.60,rsi:40.3, trend:"Bearish", risk:"Moderate Risk", macd:-0.81,ret:-0.08},
-  {symbol:"ICICIBANK", date:"2024-04-15",close:1124.35,rsi:65.4, trend:"Bullish", risk:"Low Risk",      macd:2.10, ret:1.20},
-  {symbol:"WIPRO",     date:"2024-04-15",close:468.90, rsi:61.3, trend:"Bullish", risk:"Low Risk",      macd:1.50, ret:0.90},
-  {symbol:"BHARTIARTL",date:"2024-03-20",close:1412.55,rsi:72.8, trend:"Bullish", risk:"Low Risk",      macd:2.80, ret:0.88},
-  {symbol:"SBIN",      date:"2024-02-14",close:812.70, rsi:63.2, trend:"Bullish", risk:"Moderate Risk", macd:1.90, ret:0.42},
-  {symbol:"HCLTECH",   date:"2024-05-10",close:1572.30,rsi:64.1, trend:"Bullish", risk:"Low Risk",      macd:1.70, ret:0.26},
-  {symbol:"BAJFINANCE",date:"2024-06-01",close:7284.15,rsi:67.4, trend:"Bullish", risk:"Moderate Risk", macd:5.40, ret:0.58},
-  {symbol:"KOTAKBANK", date:"2024-04-22",close:1834.60,rsi:44.6, trend:"Bearish", risk:"Low Risk",      macd:-1.20,ret:-0.11},
-  {symbol:"MARUTI",    date:"2024-03-18",close:12648.9,rsi:66.9, trend:"Bullish", risk:"Low Risk",      macd:8.60, ret:0.47},
-  {symbol:"SUNPHARMA", date:"2024-05-25",close:1694.20,rsi:62.5, trend:"Bullish", risk:"Low Risk",      macd:2.30, ret:0.33},
-  {symbol:"TITAN",     date:"2024-06-10",close:3621.75,rsi:63.7, trend:"Bullish", risk:"Low Risk",      macd:3.10, ret:0.21},
-  {symbol:"AXISBANK",  date:"2024-07-05",close:1092.40,rsi:61.2, trend:"Bullish", risk:"Moderate Risk", macd:1.80, ret:0.39},
+  {symbol:"AXISBANK",   date:"2023-05-29",close:927.34,  rsi:50.0, trend:"Bullish", risk:"Low Risk",      macd:1.06,  ret:0.31},
+  {symbol:"AXISBANK",   date:"2023-05-30",close:934.97,  rsi:50.0, trend:"Bullish", risk:"Low Risk",      macd:2.12,  ret:0.82},
+  {symbol:"AXISBANK",   date:"2023-05-31",close:912.43,  rsi:42.1, trend:"Bearish", risk:"Moderate Risk", macd:1.12,  ret:-2.41},
+  {symbol:"RELIANCE",   date:"2024-03-12",close:2834.20, rsi:74.2, trend:"Bullish", risk:"Moderate Risk", macd:3.27,  ret:3.05},
+  {symbol:"TCS",        date:"2024-05-02",close:3876.45, rsi:68.5, trend:"Bullish", risk:"Low Risk",      macd:4.28,  ret:2.33},
+  {symbol:"HDFCBANK",   date:"2024-06-15",close:1623.80, rsi:38.2, trend:"Bearish", risk:"Low Risk",      macd:-1.95, ret:-0.28},
+  {symbol:"INFY",       date:"2024-01-30",close:1438.60, rsi:40.3, trend:"Bearish", risk:"Moderate Risk", macd:-0.81, ret:-0.08},
+  {symbol:"ICICIBANK",  date:"2024-04-15",close:1124.35, rsi:65.4, trend:"Bullish", risk:"Low Risk",      macd:2.10,  ret:1.20},
+  {symbol:"WIPRO",      date:"2024-04-15",close:468.90,  rsi:61.3, trend:"Bullish", risk:"Low Risk",      macd:1.50,  ret:0.90},
+  {symbol:"BHARTIARTL", date:"2024-03-20",close:1412.55, rsi:72.8, trend:"Bullish", risk:"Low Risk",      macd:2.80,  ret:0.88},
+  {symbol:"SBIN",       date:"2024-02-14",close:812.70,  rsi:63.2, trend:"Bullish", risk:"Moderate Risk", macd:1.90,  ret:0.42},
+  {symbol:"HCLTECH",    date:"2024-05-10",close:1572.30, rsi:64.1, trend:"Bullish", risk:"Low Risk",      macd:1.70,  ret:0.26},
+  {symbol:"BAJFINANCE", date:"2024-06-01",close:7284.15, rsi:67.4, trend:"Bullish", risk:"Moderate Risk", macd:5.40,  ret:0.58},
+  {symbol:"KOTAKBANK",  date:"2024-04-22",close:1834.60, rsi:44.6, trend:"Bearish", risk:"Low Risk",      macd:-1.20, ret:-0.11},
+  {symbol:"MARUTI",     date:"2024-03-18",close:12648.9, rsi:66.9, trend:"Bullish", risk:"Low Risk",      macd:8.60,  ret:0.47},
+  {symbol:"SUNPHARMA",  date:"2024-05-25",close:1694.20, rsi:62.5, trend:"Bullish", risk:"Low Risk",      macd:2.30,  ret:0.33},
+  {symbol:"TITAN",      date:"2024-06-10",close:3621.75, rsi:63.7, trend:"Bullish", risk:"Low Risk",      macd:3.10,  ret:0.21},
+  {symbol:"AXISBANK",   date:"2024-07-05",close:1092.40, rsi:61.2, trend:"Bullish", risk:"Moderate Risk", macd:1.80,  ret:0.39},
 ];
 
-// ── REAL FEATURE IMPORTANCES FROM YOUR PIPELINE ───────────────────────────────
 const BASELINE_FEATURES = [
-  {name:"volatility",   val:39.29, genai:false},
-  {name:"rsi",          val:11.48, genai:true},
-  {name:"return_pct",   val:6.97,  genai:false},
-  {name:"macd_signal",  val:6.83,  genai:false},
-  {name:"macd",         val:2.68,  genai:true},
-  {name:"high",         val:1.00,  genai:false},
-  {name:"ema_10",       val:0.99,  genai:false},
-  {name:"close",        val:0.89,  genai:false},
-  {name:"price_change", val:0.67,  genai:false},
-  {name:"sma_20",       val:0.19,  genai:false},
+  {name:"volatility",   val:39.29,genai:false},{name:"rsi",         val:11.48,genai:true},
+  {name:"return_pct",   val:6.97, genai:false},{name:"macd_signal", val:6.83, genai:false},
+  {name:"macd",         val:2.68, genai:true}, {name:"high",        val:1.00, genai:false},
+  {name:"ema_10",       val:0.99, genai:false},{name:"close",       val:0.89, genai:false},
+  {name:"price_change", val:0.67, genai:false},{name:"sma_20",      val:0.19, genai:false},
 ];
 const ADVANCED_FEATURES = [
-  {name:"macd_signal",          val:6.59, genai:false},
-  {name:"bollinger_lower",      val:5.10, genai:false},
-  {name:"bollinger_width",      val:5.07, genai:false},
-  {name:"bollinger_upper",      val:4.82, genai:false},
-  {name:"macd",                 val:4.63, genai:true},
-  {name:"ema_10",               val:4.31, genai:false},
-  {name:"close",                val:4.27, genai:false},
-  {name:"sma_3",                val:4.25, genai:false},
-  {name:"volume_ma_5",          val:4.18, genai:false},
-  {name:"risk_category_encoded",val:3.96, genai:true},
-  {name:"rsi",                  val:3.93, genai:true},
+  {name:"macd_signal",          val:6.59,genai:false},{name:"bollinger_lower",      val:5.10,genai:false},
+  {name:"bollinger_width",      val:5.07,genai:false},{name:"bollinger_upper",      val:4.82,genai:false},
+  {name:"macd",                 val:4.63,genai:true}, {name:"ema_10",               val:4.31,genai:false},
+  {name:"close",                val:4.27,genai:false},{name:"sma_3",                val:4.25,genai:false},
+  {name:"volume_ma_5",          val:4.18,genai:false},{name:"risk_category_encoded",val:3.96,genai:true},
+  {name:"rsi",                  val:3.93,genai:true},
 ];
 
 const ABLATION = [
-  {metric:"Semantic Relevance",   baseline:20, rag:95},
-  {metric:"Risk-Aware Retrieval", baseline:45, rag:90},
-  {metric:"NL Query Support",     baseline:5,  rag:100},
-  {metric:"Trend Awareness",      baseline:25, rag:88},
-  {metric:"User Insights",        baseline:20, rag:92},
-  {metric:"Price Pred. Accuracy", baseline:85, rag:60},
+  {metric:"Semantic Relevance",   baseline:20,rag:95},
+  {metric:"Risk-Aware Retrieval", baseline:45,rag:90},
+  {metric:"NL Query Support",     baseline:5, rag:100},
+  {metric:"Trend Awareness",      baseline:25,rag:88},
+  {metric:"User Insights",        baseline:20,rag:92},
+  {metric:"Price Pred. Accuracy", baseline:85,rag:60},
 ];
 
-// ── SCORE FUNCTION ─────────────────────────────────────────────────────────────
-function score(q, r) {
-  const ql = q.toLowerCase(); let s = 0.25 + Math.random() * 0.02;
-  if (ql.includes("bullish") && r.trend === "Bullish")          s += 0.12;
-  if (ql.includes("bearish") && r.trend === "Bearish")          s += 0.12;
-  if ((ql.includes("safe")||ql.includes("low risk")) && r.risk === "Low Risk") s += 0.10;
-  if (ql.includes("moderate") && r.risk === "Moderate Risk")    s += 0.07;
-  if ((ql.includes("high rsi")||ql.includes("momentum")) && r.rsi > 65) s += 0.16;
-  if ((ql.includes("low rsi")||ql.includes("oversold")) && r.rsi < 40)  s += 0.18;
-  if (ql.includes("tech") && ["TCS","INFY","WIPRO","HCLTECH"].includes(r.symbol)) s += 0.10;
-  ["RELIANCE","TCS","HDFCBANK","INFY","ICICIBANK","WIPRO","BHARTIARTL",
-   "SBIN","HCLTECH","BAJFINANCE","KOTAKBANK","AXISBANK","MARUTI","SUNPHARMA","TITAN"]
-    .forEach(sym => { if (ql.includes(sym.toLowerCase()) && r.symbol === sym) s += 0.18; });
-  return Math.min(s, 0.99);
+/* ── CANDLE GENERATOR ── */
+function genCandles(base, n=30){
+  const out=[]; let p=base;
+  let d=new Date('2026-04-01');
+  for(let i=0;i<n;i++){
+    d=new Date(d); d.setDate(d.getDate()+1);
+    if(d.getDay()===0)d.setDate(d.getDate()+1);
+    if(d.getDay()===6)d.setDate(d.getDate()+2);
+    const lbl=d.toLocaleDateString('en-IN',{day:'2-digit',month:'short'});
+    const o=p, mv=(Math.random()-.46)*p*.022, c=o+mv;
+    const h=Math.max(o,c)+Math.random()*p*.009;
+    const l=Math.min(o,c)-Math.random()*p*.009;
+    const v=Math.floor(1e6+Math.random()*4e6);
+    out.push({x:lbl,o:+o.toFixed(2),h:+h.toFixed(2),l:+l.toFixed(2),c:+c.toFixed(2),v});
+    p=c;
+  }
+  return out;
 }
 
-// ── RENDER STOCK GRID ─────────────────────────────────────────────────────────
-function renderStockGrid() {
-  const grid = document.getElementById('stock-grid');
-  grid.innerHTML = NSE_STOCKS.map(s => {
-    const up = s.ret >= 0;
-    const rsiC = s.rsi > 65 ? '#00d68f' : s.rsi < 40 ? '#ff4d6d' : '#64748b';
-    const rk = s.risk.split(' ')[0].toLowerCase();
-    const rkC = rk==='low'?'#00d68f':rk==='moderate'?'#ffb347':'#ff4d6d';
-    const priceStr = s.close >= 1000
-      ? '₹' + s.close.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,',')
-      : '₹' + s.close.toFixed(2);
-    return `<div class="stock-card">
+/* ── FORMAT PRICE ── */
+function fmtP(v){
+  if(v>=1000)return '₹'+Math.round(v).toLocaleString('en-IN');
+  return '₹'+v.toFixed(2);
+}
+
+/* ── ACTIVE MODAL CHART ── */
+let modalChartInst=null, currentCandles=null, currentStock=null;
+
+function openStockModal(sym){
+  const s=NSE_STOCKS.find(x=>x.sym===sym); if(!s)return;
+  currentStock=s; currentCandles=genCandles(s.base);
+  document.getElementById('mSym').textContent=s.sym;
+  document.getElementById('mName').textContent=s.name+' · NSE India';
+  const up=s.ret>=0;
+  const rsiC=s.rsi>65?'#00d68f':s.rsi<40?'#ff4d6d':'#e2e8f0';
+  document.getElementById('mMetrics').innerHTML=`
+    <div class="mmet"><div class="mmet-lbl">Close</div><div class="mmet-val" style="color:#e2e8f0">${fmtP(s.close)}</div></div>
+    <div class="mmet"><div class="mmet-lbl">Change</div><div class="mmet-val" style="color:${up?'#00d68f':'#ff4d6d'}">${up?'▲':'▼'} ${Math.abs(s.ret).toFixed(2)}%</div></div>
+    <div class="mmet"><div class="mmet-lbl">RSI</div><div class="mmet-val" style="color:${rsiC}">${s.rsi.toFixed(1)}</div></div>
+    <div class="mmet"><div class="mmet-lbl">Base Price</div><div class="mmet-val" style="color:#64748b">${fmtP(s.base)}</div></div>`;
+  const rk=s.risk.split(' ')[0].toLowerCase();
+  document.getElementById('mPills').innerHTML=`
+    <span class="pill ${s.trend.toLowerCase()}">${s.trend}</span>
+    <span class="pill ${rk}">${s.risk}</span>`;
+  document.querySelectorAll('.mctab').forEach((t,i)=>t.classList.toggle('active',i===0));
+  document.getElementById('stockModal').classList.add('show');
+  setTimeout(()=>drawModalChart('candle'),60);
+}
+
+function closeStockModal(e){
+  if(e.target===document.getElementById('stockModal'))
+    document.getElementById('stockModal').classList.remove('show');
+}
+
+function switchModalChart(mode,el){
+  document.querySelectorAll('.mctab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  drawModalChart(mode);
+}
+
+function drawModalChart(mode){
+  if(modalChartInst){modalChartInst.destroy();modalChartInst=null;}
+  const ctx=document.getElementById('modalChart').getContext('2d');
+  const d=currentCandles;
+  const labels=d.map(r=>r.x);
+  const ttCfg={backgroundColor:'#0a0e1a',borderColor:'#1f2d45',borderWidth:1,titleColor:'#4fa3e0',bodyColor:'#e2e8f0',padding:10};
+
+  if(mode==='candle'){
+    /* Candlestick: body bar + wick line overlay */
+    modalChartInst=new Chart(ctx,{
+      type:'bar',
+      data:{
+        labels,
+        datasets:[
+          {
+            label:'Body',
+            data:d.map(r=>r.c>=r.o?[r.o,r.c]:[r.c,r.o]),
+            backgroundColor:d.map(r=>r.c>=r.o?'rgba(0,214,143,.85)':'rgba(255,77,109,.85)'),
+            borderColor:d.map(r=>r.c>=r.o?'#00d68f':'#ff4d6d'),
+            borderWidth:1,borderRadius:1,
+          },
+          {
+            label:'High',type:'line',
+            data:d.map(r=>r.h),
+            borderColor:'rgba(100,116,139,.5)',borderWidth:1,
+            pointRadius:0,tension:0,
+          },
+          {
+            label:'Low',type:'line',
+            data:d.map(r=>r.l),
+            borderColor:'rgba(100,116,139,.5)',borderWidth:1,
+            pointRadius:0,tension:0,
+          }
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{
+          legend:{display:false},
+          tooltip:{...ttCfg,callbacks:{
+            title:i=>'  '+d[i[0].dataIndex].x,
+            label:i=>{
+              const r=d[i.dataIndex];
+              return[`O: ${fmtP(r.o)}`,`H: ${fmtP(r.h)}`,`L: ${fmtP(r.l)}`,`C: ${fmtP(r.c)}`];
+            }
+          }}
+        },
+        scales:{
+          x:{ticks:{color:'#64748b',font:{size:10},maxRotation:45,autoSkip:true,maxTicksLimit:10},grid:{color:'#1a2235'}},
+          y:{ticks:{color:'#64748b',font:{size:10},callback:v=>fmtP(v)},grid:{color:'#1a2235'}}
+        }
+      }
+    });
+  } else if(mode==='line'){
+    modalChartInst=new Chart(ctx,{
+      type:'line',
+      data:{
+        labels,
+        datasets:[{
+          label:'Close Price',
+          data:d.map(r=>r.c),
+          borderColor:'#4fa3e0',backgroundColor:'rgba(79,163,224,.08)',
+          fill:true,tension:.35,pointRadius:2,pointBackgroundColor:'#4fa3e0',
+        }]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false},tooltip:{...ttCfg,callbacks:{label:i=>'Close: '+fmtP(i.raw)}}},
+        scales:{
+          x:{ticks:{color:'#64748b',font:{size:10},maxRotation:45,autoSkip:true,maxTicksLimit:10},grid:{color:'#1a2235'}},
+          y:{ticks:{color:'#64748b',font:{size:10},callback:v=>fmtP(v)},grid:{color:'#1a2235'}}
+        }
+      }
+    });
+  } else {
+    modalChartInst=new Chart(ctx,{
+      type:'bar',
+      data:{
+        labels,
+        datasets:[{
+          label:'Volume',
+          data:d.map(r=>r.v),
+          backgroundColor:d.map(r=>r.c>=r.o?'rgba(0,214,143,.6)':'rgba(255,77,109,.6)'),
+          borderColor:'transparent',borderRadius:2,
+        }]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false},tooltip:{...ttCfg,callbacks:{label:i=>'Vol: '+(i.raw/1e6).toFixed(2)+'M'}}},
+        scales:{
+          x:{ticks:{color:'#64748b',font:{size:10},maxRotation:45,autoSkip:true,maxTicksLimit:10},grid:{color:'#1a2235'}},
+          y:{ticks:{color:'#64748b',font:{size:10},callback:v=>(v/1e6).toFixed(1)+'M'},grid:{color:'#1a2235'}}
+        }
+      }
+    });
+  }
+}
+
+/* ── TICKER BUILD ── */
+function buildTicker(elId){
+  const el=document.getElementById(elId);
+  const items=[...NSE_STOCKS,...NSE_STOCKS].map(s=>{
+    const up=s.ret>=0;
+    return `<div class="tick-item" onclick="openStockModal('${s.sym}')">
+      <span class="sym">${s.sym}</span>
+      <span class="price">${fmtP(s.close)}</span>
+      <span class="${up?'up':'dn'}">${up?'▲':'▼'}${Math.abs(s.ret).toFixed(2)}%</span>
+    </div>`;
+  }).join('');
+  el.innerHTML=items;
+  const wrap=el.parentElement;
+  wrap.addEventListener('mouseenter',()=>el.style.animationPlayState='paused');
+  wrap.addEventListener('mouseleave',()=>el.style.animationPlayState='running');
+}
+
+/* ── SCORE ── */
+function score(q,r){
+  const ql=q.toLowerCase(); let s=0.25+Math.random()*0.02;
+  if(ql.includes("bullish")&&r.trend==="Bullish")s+=0.12;
+  if(ql.includes("bearish")&&r.trend==="Bearish")s+=0.12;
+  if((ql.includes("safe")||ql.includes("low risk"))&&r.risk==="Low Risk")s+=0.10;
+  if(ql.includes("moderate")&&r.risk==="Moderate Risk")s+=0.07;
+  if((ql.includes("high rsi")||ql.includes("momentum"))&&r.rsi>65)s+=0.16;
+  if((ql.includes("low rsi")||ql.includes("oversold"))&&r.rsi<40)s+=0.18;
+  if(ql.includes("tech")&&["TCS","INFY","WIPRO","HCLTECH"].includes(r.symbol))s+=0.10;
+  ["RELIANCE","TCS","HDFCBANK","INFY","ICICIBANK","WIPRO","BHARTIARTL",
+   "SBIN","HCLTECH","BAJFINANCE","KOTAKBANK","AXISBANK","MARUTI","SUNPHARMA","TITAN"]
+    .forEach(sym=>{if(ql.includes(sym.toLowerCase())&&r.symbol===sym)s+=0.18;});
+  return Math.min(s,0.99);
+}
+
+/* ── STOCK GRID ── */
+function renderStockGrid(){
+  const grid=document.getElementById('stock-grid');
+  grid.innerHTML=NSE_STOCKS.map(s=>{
+    const up=s.ret>=0;
+    const rsiC=s.rsi>65?'#00d68f':s.rsi<40?'#ff4d6d':'#64748b';
+    const rkC=s.risk.startsWith('Low')?'#00d68f':s.risk.startsWith('High')?'#ff4d6d':'#ffb347';
+    return `<div class="stock-card" onclick="openStockModal('${s.sym}')">
       <div class="sc-header"><span class="sc-sym">${s.sym}</span><span style="font-size:10px;color:var(--muted);font-family:var(--mono)">NSE</span></div>
       <div class="sc-name">${s.name}</div>
-      <div class="sc-price">${priceStr}</div>
+      <div class="sc-price">${fmtP(s.close)}</div>
       <div class="sc-change ${up?'up':'dn'}">${up?'▲':'▼'} ${Math.abs(s.ret).toFixed(2)}%</div>
       <div class="sc-meta">
         <span style="color:${rsiC}">RSI ${s.rsi.toFixed(1)}</span>
@@ -601,26 +811,22 @@ function renderStockGrid() {
   }).join('');
 }
 
-// ── RENDER STOCK PILLS (dataset page) ─────────────────────────────────────────
-function renderStockPills() {
-  document.getElementById('stock-pills').innerHTML = NSE_STOCKS.map(s =>
-    `<span style="padding:4px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;font-size:11px;font-family:var(--mono);color:var(--blue);margin:3px;">${s.sym}</span>`
+function renderStockPills(){
+  document.getElementById('stock-pills').innerHTML=NSE_STOCKS.map(s=>
+    `<span style="padding:4px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;font-size:11px;font-family:var(--mono);color:var(--blue);margin:3px;cursor:pointer;" onclick="openStockModal('${s.sym}')">${s.sym}</span>`
   ).join('');
 }
 
-// ── RENDER QUERY TABLE ─────────────────────────────────────────────────────────
-function renderTable(rows) {
-  document.getElementById('resultsBody').innerHTML = rows.map((r,i) => {
-    const rc = r.rsi>65?'var(--green)':r.rsi<40?'var(--red)':'var(--text)';
-    const retC = r.ret>=0?'var(--green)':'var(--red)';
-    const rk = r.risk.split(' ')[0].toLowerCase();
-    const closeStr = r.close >= 1000
-      ? r.close.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,',')
-      : r.close.toFixed(2);
+function renderTable(rows){
+  document.getElementById('resultsBody').innerHTML=rows.map((r,i)=>{
+    const rc=r.rsi>65?'var(--green)':r.rsi<40?'var(--red)':'var(--text)';
+    const retC=r.ret>=0?'var(--green)':'var(--red)';
+    const rk=r.risk.split(' ')[0].toLowerCase();
+    const closeStr=r.close>=1000?r.close.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,','):r.close.toFixed(2);
     return `<tr>
       <td><div class="rank-badge">${i+1}</div></td>
       <td><div class="score-wrap"><div class="score-track"><div class="score-fill" style="width:${Math.round(r.sim*100)}%"></div></div><span class="score-num">${r.sim.toFixed(4)}</span></div></td>
-      <td><span class="symbol">${r.symbol}</span></td>
+      <td><span class="symbol" onclick="openStockModal('${r.symbol}')">${r.symbol}</span></td>
       <td style="color:var(--muted);font-family:var(--mono);font-size:12px">${r.date}</td>
       <td style="font-family:var(--mono)">₹${closeStr}</td>
       <td style="font-family:var(--mono);font-weight:600;color:${rc}">${r.rsi.toFixed(1)}</td>
@@ -632,27 +838,25 @@ function renderTable(rows) {
   }).join('');
 }
 
-function runQuery() {
-  const q = document.getElementById('queryInput').value.trim();
-  document.getElementById('resultTitle').textContent = `Results — "${q}"`;
-  const rows = RAG_RECORDS.map(r => ({...r, sim:score(q,r)})).sort((a,b) => b.sim-a.sim).slice(0,8);
+function runQuery(){
+  const q=document.getElementById('queryInput').value.trim();
+  document.getElementById('resultTitle').textContent=`Results — "${q}"`;
+  const rows=RAG_RECORDS.map(r=>({...r,sim:score(q,r)})).sort((a,b)=>b.sim-a.sim).slice(0,8);
   renderTable(rows);
 }
-function setQuery(q) { document.getElementById('queryInput').value=q; runQuery(); }
-function goQuery(q)  { showPage('query'); setQuery(q); }
+function setQuery(q){document.getElementById('queryInput').value=q;runQuery();}
+function goQuery(q){showPage('query');setQuery(q);}
 
-// ── RENDER PREVIEW ─────────────────────────────────────────────────────────────
-function renderPreview() {
-  const rows = RAG_RECORDS.map(r => ({...r, sim:score("safe long-term bullish stocks",r)}))
-    .sort((a,b) => b.sim-a.sim).slice(0,3);
-  document.getElementById('previewResults').innerHTML = `<table>
+function renderPreview(){
+  const rows=RAG_RECORDS.map(r=>({...r,sim:score("safe long-term bullish stocks",r)})).sort((a,b)=>b.sim-a.sim).slice(0,3);
+  document.getElementById('previewResults').innerHTML=`<table>
     <thead><tr><th>#</th><th>Score</th><th>Symbol</th><th>Close (₹)</th><th>RSI</th><th>Trend</th><th>Risk</th></tr></thead>
-    <tbody>${rows.map((r,i) => {
+    <tbody>${rows.map((r,i)=>{
       const rk=r.risk.split(' ')[0].toLowerCase();
       return `<tr>
         <td><div class="rank-badge">${i+1}</div></td>
         <td><span style="font-family:var(--mono);color:var(--green)">${r.sim.toFixed(4)}</span></td>
-        <td><span class="symbol">${r.symbol}</span></td>
+        <td><span class="symbol" onclick="openStockModal('${r.symbol}')">${r.symbol}</span></td>
         <td style="font-family:var(--mono)">₹${r.close.toFixed(2)}</td>
         <td style="font-family:var(--mono);color:${r.rsi>65?'var(--green)':r.rsi<40?'var(--red)':'var(--text)'}">${r.rsi.toFixed(1)}</td>
         <td><span class="pill ${r.trend.toLowerCase()}">${r.trend}</span></td>
@@ -661,13 +865,12 @@ function renderPreview() {
     }).join('')}</tbody></table>`;
 }
 
-// ── RENDER FEATURE IMPORTANCE BARS ────────────────────────────────────────────
-function renderFeatures(features, containerId) {
-  const max = Math.max(...features.map(f => f.val));
-  document.getElementById(containerId).innerHTML = features.map((f,i) => `
+function renderFeatures(features,containerId){
+  const max=Math.max(...features.map(f=>f.val));
+  document.getElementById(containerId).innerHTML=features.map(f=>`
     <div class="ablation-row">
       <div class="ablation-label" style="flex:0 0 200px">
-        ${f.genai ? '🤖 ' : ''}<span style="font-family:var(--mono);font-size:12px;color:${f.genai?'var(--green)':'var(--text)'}">${f.name}</span>
+        ${f.genai?'🤖 ':''}<span style="font-family:var(--mono);font-size:12px;color:${f.genai?'var(--green)':'var(--text)'}">${f.name}</span>
       </div>
       <div style="flex:1;display:flex;align-items:center;gap:10px;">
         <div style="flex:1;height:8px;background:var(--surface2);border-radius:4px;border:1px solid var(--border);overflow:hidden;">
@@ -678,9 +881,8 @@ function renderFeatures(features, containerId) {
     </div>`).join('');
 }
 
-// ── RENDER ABLATION BARS ───────────────────────────────────────────────────────
-function renderAblation() {
-  document.getElementById('ablationBars').innerHTML = ABLATION.map(a => `
+function renderAblation(){
+  document.getElementById('ablationBars').innerHTML=ABLATION.map(a=>`
     <div class="ablation-row">
       <div class="ablation-label">${a.metric}</div>
       <div class="ablation-bars">
@@ -690,25 +892,12 @@ function renderAblation() {
     </div>`).join('');
 }
 
-// ── TICKER TAPE ────────────────────────────────────────────────────────────────
-(function() {
-  const el = document.getElementById('ticker');
-  const items = [...NSE_STOCKS, ...NSE_STOCKS].map(s => {
-    const up = s.ret >= 0;
-    const p = s.close >= 1000 ? '₹'+s.close.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,',') : '₹'+s.close.toFixed(2);
-    return `<div class="tick-item"><span style="color:#3a5a78">${s.sym}</span>&nbsp;<span style="color:#1e3a55">${p}</span>&nbsp;<span class="${up?'up':'dn'}">${up?'▲':'▼'} ${Math.abs(s.ret).toFixed(2)}%</span></div>`;
-  }).join('');
-  el.innerHTML = items;
-  el.parentElement.addEventListener('mouseenter', () => el.style.animationPlayState='paused');
-  el.parentElement.addEventListener('mouseleave', () => el.style.animationPlayState='running');
-})();
-
-// ── LANDING CANVAS ─────────────────────────────────────────────────────────────
+/* ── LANDING CANVAS ── */
 (function(){
   const canvas=document.getElementById('lc'),ctx=canvas.getContext('2d');
   let W,H,dots=[];
   function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
-  function initDots(){dots=[];const n=Math.floor((W*H)/12000);for(let i=0;i<n;i++)dots.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+0.3,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,a:Math.random()*.45+.08});}
+  function initDots(){dots=[];const n=Math.floor((W*H)/12000);for(let i=0;i<n;i++)dots.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+.3,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,a:Math.random()*.45+.08});}
   function draw(){
     ctx.clearRect(0,0,W,H);
     const s=56;ctx.strokeStyle='#080f1e';ctx.lineWidth=.5;
@@ -726,13 +915,15 @@ function renderAblation() {
   window.addEventListener('resize',()=>{resize();initDots();});
 })();
 
-// ── NAV ────────────────────────────────────────────────────────────────────────
-function enterDashboard() {
-  const q = document.getElementById('landingInput').value.trim();
+/* ── ENTER DASHBOARD ── */
+function enterDashboard(){
+  const q=document.getElementById('landingInput').value.trim();
   document.getElementById('landing').classList.add('hide');
   setTimeout(()=>{
     document.getElementById('landing').style.display='none';
     document.getElementById('dashboard').style.display='block';
+    document.getElementById('dashTicker').style.display='block';
+    buildTicker('dashTickerInner');
     if(q){showPage('query');document.getElementById('queryInput').value=q;runQuery();}
   },800);
 }
@@ -752,7 +943,8 @@ function toggleCard(card){
   if(hint)hint.textContent=card.classList.contains('open')?'click to hide ▴':'click to see contact ▾';
 }
 
-// ── INIT ───────────────────────────────────────────────────────────────────────
+/* ── INIT ── */
+buildTicker('landingTicker');
 renderStockGrid();
 renderPreview();
 renderAblation();
