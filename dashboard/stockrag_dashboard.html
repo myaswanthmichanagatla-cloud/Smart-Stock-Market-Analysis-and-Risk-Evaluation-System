@@ -18,7 +18,65 @@
 body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;min-height:100vh;}
 
 /* LANDING */
-#landing{position:fixed;inset:0;background:#030610;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1000;overflow:hidden;transition:opacity .8s,transform .8s;}
+#landing{position:fixed;inset:0;background:#020509;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1000;overflow:hidden;transition:opacity .8s,transform .8s;}
+#landing.hide{opacity:0;transform:scale(1.03);pointer-events:none;}
+#lc{position:absolute;inset:0;width:100%;height:100%;}
+.orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(90px);}
+.orb1{width:700px;height:700px;background:radial-gradient(circle,#00d68f18,transparent 70%);top:-180px;left:-150px;animation:orbf1 14s ease-in-out infinite alternate;}
+.orb2{width:600px;height:600px;background:radial-gradient(circle,#4fa3e014,transparent 70%);bottom:-120px;right:-120px;animation:orbf2 18s ease-in-out infinite alternate;}
+.orb3{width:400px;height:400px;background:radial-gradient(circle,#ffb34710,transparent 70%);top:35%;left:55%;animation:orbf1 22s ease-in-out infinite alternate-reverse;}
+.orb4{width:300px;height:300px;background:radial-gradient(circle,#00d68f0a,transparent 70%);bottom:20%;left:10%;animation:orbf2 16s ease-in-out infinite alternate;}
+@keyframes orbf1{from{transform:translate(0,0) scale(1)}to{transform:translate(60px,40px) scale(1.15)}}
+@keyframes orbf2{from{transform:translate(0,0) scale(1)}to{transform:translate(-50px,-30px) scale(1.1)}}
+.scanline{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00d68f22,transparent);animation:scan 8s linear infinite;pointer-events:none;z-index:2;}
+@keyframes scan{from{top:0}to{top:100%}}
+.l-glow-line{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#00d68f30,#4fa3e030,transparent);top:50%;pointer-events:none;z-index:1;animation:glowLine 4s ease-in-out infinite alternate;}
+@keyframes glowLine{from{opacity:0.3;transform:scaleX(0.8)}to{opacity:1;transform:scaleX(1)}}
+
+/* TICKER */
+.ticker-wrap{position:fixed;bottom:0;left:0;right:0;height:38px;background:#030810;border-top:1px solid #0a1828;overflow:hidden;z-index:500;cursor:default;}
+.ticker{display:flex;white-space:nowrap;animation:tick 80s linear infinite;height:38px;align-items:center;}
+.ticker:hover{animation-play-state:paused;}
+.tick-item{padding:0 20px;font-family:var(--mono);font-size:11px;color:#1e3450;border-right:1px solid #0a1828;cursor:pointer;height:38px;display:flex;align-items:center;gap:7px;transition:background .2s,color .2s;flex-shrink:0;}
+.tick-item:hover{background:#00d68f10;color:#a0b4c8;}
+.tick-item .sym{color:#4fa3e0;font-weight:600;}
+.tick-item .price{color:#2e4a66;}
+.tick-item .up{color:#00d68f;}
+.tick-item .dn{color:#ff4d6d;}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+.lc{position:relative;z-index:4;text-align:center;max-width:720px;padding:0 24px 60px;}
+.l-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 20px;background:linear-gradient(135deg,#00d68f0f,#4fa3e008);border:1px solid #00d68f35;border-radius:30px;font-family:var(--mono);font-size:11px;color:#00d68fcc;letter-spacing:2px;text-transform:uppercase;margin-bottom:28px;animation:fup .5s both;box-shadow:0 0 30px #00d68f08,inset 0 1px 0 #00d68f20;}
+.l-bdot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink 1.5s infinite;box-shadow:0 0 8px var(--green);}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.l-title{font-size:58px;font-weight:600;line-height:1.06;letter-spacing:-2px;margin-bottom:18px;animation:fup .55s .08s both;}
+.l-title .g{color:var(--green);text-shadow:0 0 40px #00d68f40;}
+.l-title .b{color:var(--blue);text-shadow:0 0 40px #4fa3e040;}
+.l-title .dim{color:#1e3a55;}
+.l-sub{font-size:15px;color:#2a4560;margin-bottom:30px;line-height:1.9;animation:fup .55s .16s both;}
+.l-sub strong{color:#4a7090;font-weight:600;}
+.l-sw{animation:fup .55s .22s both;width:100%;max-width:660px;margin:0 auto 16px;}
+.l-srch{display:flex;align-items:center;background:linear-gradient(135deg,#060e1f,#08111f);border:1px solid #152438;border-radius:18px;padding:6px 6px 6px 22px;gap:12px;transition:border-color .3s,box-shadow .3s;position:relative;box-shadow:0 8px 40px rgba(0,0,0,.4);}
+.l-srch::before{content:'';position:absolute;inset:0;border-radius:18px;background:linear-gradient(135deg,#00d68f05,transparent 50%);pointer-events:none;}
+.l-srch:focus-within{border-color:#00d68f60;box-shadow:0 0 0 3px #00d68f12,0 12px 48px #00d68f10,0 0 80px #00d68f05;}
+.l-si{font-size:17px;color:#1a3050;flex-shrink:0;}
+.l-srch input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--mono);font-size:14px;padding:12px 0;caret-color:var(--green);}
+.l-srch input::placeholder{color:#152840;}
+.l-sbtn{padding:13px 32px;background:linear-gradient(135deg,#00d68f,#00b87a);color:#000;border:none;border-radius:13px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0;letter-spacing:.5px;box-shadow:0 4px 20px #00d68f25;}
+.l-sbtn:hover{transform:translateY(-2px);box-shadow:0 8px 32px #00d68f40;}
+.l-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:26px;animation:fup .55s .3s both;}
+.l-chip{padding:6px 16px;background:#040b18;border:1px solid #0d1e30;border-radius:24px;font-size:11px;color:#1a3050;cursor:pointer;transition:all .3s;font-family:var(--mono);letter-spacing:.3px;}
+.l-chip:hover{background:#00d68f10;color:#00d68fbb;border-color:#00d68f40;transform:translateY(-1px);box-shadow:0 4px 16px #00d68f15;}
+.l-stats{display:flex;justify-content:center;margin-bottom:22px;background:linear-gradient(135deg,#050d1c,#070f1d);border:1px solid #0d1e30;border-radius:16px;overflow:hidden;animation:fup .55s .38s both;box-shadow:0 4px 30px rgba(0,0,0,.3),inset 0 1px 0 #0f2035;}
+.ls{padding:14px 28px;text-align:center;position:relative;}
+.ls+.ls{border-left:1px solid #0d1e30;}
+.ls::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:40%;height:1px;background:linear-gradient(90deg,transparent,#00d68f20,transparent);}
+.ls-val{font-family:var(--mono);font-size:19px;font-weight:700;color:#1e3a55;}.ls-val em{color:var(--green);font-style:normal;text-shadow:0 0 20px #00d68f50;}
+.ls-lbl{font-size:10px;color:#162840;margin-top:3px;text-transform:uppercase;letter-spacing:1.2px;}
+.l-skip{font-size:12px;color:#0d2035;font-family:var(--mono);cursor:pointer;transition:color .25s;animation:fup .55s .44s both;letter-spacing:.8px;}
+.l-skip:hover{color:#2a5070;}
+@keyframes fup{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
 #landing.hide{opacity:0;transform:scale(1.03);pointer-events:none;}
 #lc{position:absolute;inset:0;width:100%;height:100%;}
 .orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(80px);}
@@ -255,11 +313,13 @@ tbody tr:hover td{background:var(--surface2);}
 <div id="landing">
   <canvas id="lc"></canvas>
   <div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
+  <div class="orb4"></div>
+<div class="l-glow-line"></div>
   <div class="scanline"></div>
   <div class="lc">
     <div class="l-badge"><div class="l-bdot"></div>StockRAG &nbsp;·&nbsp; v2.0 &nbsp;·&nbsp; NSE India</div>
     <div class="l-title">Smart <span class="g">Stock</span> <span class="dim">Market</span><br><span class="b">Analysis</span> &amp; Risk RAG</div>
-    <div class="l-sub">AI-powered analysis on <strong>15 NSE stocks · 11,085 records</strong>.<br>Linear Regression · XGBoost · RAG Knowledge Base</div>
+    <div class="l-sub">AI-powered analysis on <strong>104 NSE stocks · 11,085 records</strong>.<br>Linear Regression · XGBoost · RAG Knowledge Base · GenAI Enhanced</div>
     <div class="l-sw">
       <div class="l-srch">
         <span class="l-si">⌕</span>
@@ -276,7 +336,7 @@ tbody tr:hover td{background:var(--surface2);}
       <span class="l-chip" onclick="landingChip('dividend stocks')">💰 Dividends</span>
     </div>
     <div class="l-stats">
-      <div class="ls"><div class="ls-val"><em>312</em></div><div class="ls-lbl">Records</div></div>
+      <div class="ls"><div class="ls-val"><em>11,085</em></div><div class="ls-lbl">Records</div></div>
       <div class="ls"><div class="ls-val"><em>104</em></div><div class="ls-lbl">NSE Stocks</div></div>
       <div class="ls"><div class="ls-val"><em>26</em></div><div class="ls-lbl">Features</div></div>
       <div class="ls"><div class="ls-val"><em>3Y</em></div><div class="ls-lbl">History</div></div>
