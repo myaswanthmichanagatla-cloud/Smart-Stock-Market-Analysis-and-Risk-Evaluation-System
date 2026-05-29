@@ -1,6 +1,6 @@
 {
-    "generated_at": "2026-05-29 09:12:57",
-    "knowledge_base_size": 77589,
+    "generated_at": "2026-05-29 10:07:04",
+    "knowledge_base_size": 110841,
     "model_results_available": [
         "baseline",
         "advanced",
@@ -9,16 +9,18 @@
     ],
     "portfolio_data_available": true,
     "sample_queries": [
+        "Which stocks have RSI above 65?",
+        "Show me high risk stocks",
         "Which model performs better?",
-        "What is the portfolio recommendation?",
-        "Tell me about RELIANCE",
-        "Tell me about TCS"
+        "What is the portfolio allocation?",
+        "Tell me about RELIANCE"
     ],
     "capabilities": [
         "Stock information lookup",
         "Model performance comparison",
         "Portfolio allocation advice",
-        "Semantic knowledge search",
+        "Numeric filter search (RSI, MACD, price)",
+        "Risk category filtering",
         "Natural language Q&A"
     ]
 }

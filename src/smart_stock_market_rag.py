@@ -2,17 +2,11 @@
 """
 Smart Stock Market RAG System
 Retrieval-Augmented Generation for Stock Market Insights
-
-Features:
-- Query stock market knowledge base
-- Semantic search with embeddings
-- Context-aware responses
-- Integration with GenAI models
-- Natural language Q&A
 """
 
 import os
 import sys
+import re
 import json
 import numpy as np
 import pandas as pd
@@ -21,31 +15,16 @@ from typing import List, Dict, Any, Optional
 import warnings
 warnings.filterwarnings("ignore")
 
-# ---------------------------------------------------------------------------
-# BUG FIXED: Derive project paths from this script's own location instead of
-# hardcoding the Google-Colab-only path '/content/smart_stock_market_project'.
-# This makes the module importable from any directory on any OS.
-# ---------------------------------------------------------------------------
 _SCRIPT_DIR  = os.path.dirname(os.path.realpath(__file__))
 _DEFAULT_KB   = os.path.join(_SCRIPT_DIR, "data",    "rag_knowledge_base.json")
 _DEFAULT_RES  = os.path.join(_SCRIPT_DIR, "results")
 
 
 class StockMarketRAG:
-    """
-    RAG System for Stock Market Analysis
-
-    Components:
-    1. Knowledge Base Loader
-    2. Semantic Search
-    3. Context Retrieval
-    4. Answer Generation
-    """
-
     def __init__(
         self,
-        kb_path: str   = _DEFAULT_KB,   # BUG FIXED: was hardcoded Colab path
-        results_path: str = _DEFAULT_RES # BUG FIXED: was hardcoded Colab path
+        kb_path: str   = _DEFAULT_KB,
+        results_path: str = _DEFAULT_RES
     ):
         self.kb_path      = kb_path
         self.results_path = results_path
@@ -58,7 +37,6 @@ class StockMarketRAG:
     # LOAD KNOWLEDGE BASE
     # =========================================
     def load_knowledge_base(self) -> bool:
-        """Load RAG knowledge base"""
         try:
             print("\n" + "=" * 70)
             print("📚 LOADING KNOWLEDGE BASE")
@@ -75,7 +53,6 @@ class StockMarketRAG:
 
             print(f"✅ Loaded {len(self.knowledge_base)} knowledge entries")
 
-            # Load the complete stock dataset if available for advanced aggregations
             csv_path = os.path.join(os.path.dirname(self.kb_path), "stock_dataset.csv")
             if os.path.exists(csv_path):
                 self.stock_data = pd.read_csv(csv_path)
@@ -83,7 +60,6 @@ class StockMarketRAG:
             else:
                 self.stock_data = pd.DataFrame(self.knowledge_base)
 
-            # Extract and display unique stocks
             if self.knowledge_base and isinstance(self.knowledge_base, list):
                 stocks = set()
                 for entry in self.knowledge_base:
@@ -101,14 +77,13 @@ class StockMarketRAG:
     # LOAD MODEL RESULTS
     # =========================================
     def load_model_results(self) -> bool:
-        """Load model evaluation results"""
         try:
             print("\n📊 Loading Model Results...")
 
             files = {
-                "baseline":    "baseline_results.json",
-                "advanced":    "advanced_results.json",
-                "comparison":  "model_comparison.json",
+                "baseline":      "baseline_results.json",
+                "advanced":      "advanced_results.json",
+                "comparison":    "model_comparison.json",
                 "genai_summary": "genai_summary.json"
             }
 
@@ -131,7 +106,6 @@ class StockMarketRAG:
     # LOAD PORTFOLIO DATA
     # =========================================
     def load_portfolio_data(self) -> bool:
-        """Load portfolio optimization results"""
         try:
             print("\n💼 Loading Portfolio Data...")
 
@@ -153,29 +127,57 @@ class StockMarketRAG:
             return False
 
     # =========================================
-    # SEMANTIC SEARCH (keyword / TF-IDF style)
+    # SEMANTIC SEARCH — FIXED
     # =========================================
     def search_knowledge_base(self, query: str, top_k: int = 5) -> List[Dict]:
         """
-        Search knowledge base using keyword matching.
-
-        Args:
-            query:  Search query string
-            top_k:  Maximum number of results to return
-
-        Returns:
-            List of relevant knowledge-base entries
+        Search knowledge base.
+        Now handles numeric filters like 'RSI above 65' or 'price below 500'
+        before falling back to keyword matching.
         """
         try:
-            query_lower  = query.lower()
-            query_terms  = set(query_lower.split())
+            query_lower = query.lower()
+            query_terms = set(query_lower.split())
 
+            # ── STEP 1: Numeric filter detection ────────────────────────────
+            # Catches: "rsi above 65", "close below 500", "volatility over 0.3"
+            num_match = re.search(
+                r'(rsi|macd|close|return|price|volatility)\s*(above|below|over|under|>|<)\s*([\d.]+)',
+                query_lower
+            )
+
+            if num_match:
+                field = num_match.group(1)
+                op    = num_match.group(2)
+                val   = float(num_match.group(3))
+
+                # Map plain words to actual column names
+                field_map = {"price": "close", "return": "daily_return_pct"}
+                field = field_map.get(field, field)
+
+                gt = op in ("above", "over", ">")
+
+                # Filter entries by actual numeric value
+                filtered = [
+                    e for e in self.knowledge_base
+                    if field in e and e[field] is not None
+                    and (float(e[field]) > val if gt else float(e[field]) < val)
+                ]
+
+                # Return ONE row per stock (most recent date)
+                seen = {}
+                for e in sorted(filtered, key=lambda x: x.get("date", ""), reverse=True):
+                    sym = e.get("stock_symbol", "")
+                    if sym not in seen:
+                        seen[sym] = e
+
+                return list(seen.values())[:top_k]
+
+            # ── STEP 2: Keyword fallback ─────────────────────────────────────
             results = []
             for entry in self.knowledge_base:
-                text = entry.get("text_summary", str(entry)).lower()
-
+                text  = entry.get("text_summary", str(entry)).lower()
                 score = sum(text.count(term) for term in query_terms if term in text)
-
                 if score > 0:
                     results.append({"entry": entry, "score": score})
 
@@ -190,7 +192,6 @@ class StockMarketRAG:
     # QUERY STOCK INFORMATION
     # =========================================
     def query_stock(self, stock_symbol: str) -> Dict[str, Any]:
-        """Get information about a specific stock"""
         try:
             stock_symbol  = stock_symbol.upper()
             stock_entries = [
@@ -216,8 +217,8 @@ class StockMarketRAG:
                     "min_price": round(float(np.min(closes)),   2) if closes else 0,
                     "max_price": round(float(np.max(closes)),   2) if closes else 0,
                 },
-                "trend": stock_entries[-1].get("trend_label",    "Unknown"),
-                "risk":  stock_entries[-1].get("risk_category",  "Unknown"),
+                "trend": stock_entries[-1].get("trend_label",   "Unknown"),
+                "risk":  stock_entries[-1].get("risk_category", "Unknown"),
                 "latest_entry": stock_entries[-1]
             }
 
@@ -228,7 +229,6 @@ class StockMarketRAG:
     # QUERY MODEL PERFORMANCE
     # =========================================
     def query_model_performance(self, model_type: str = "comparison") -> Dict[str, Any]:
-        """Get model performance information"""
         try:
             if model_type == "comparison" and "comparison" in self.model_results:
                 comparison    = self.model_results["comparison"]
@@ -263,7 +263,6 @@ class StockMarketRAG:
     # QUERY PORTFOLIO
     # =========================================
     def query_portfolio(self) -> Dict[str, Any]:
-        """Get portfolio optimization information"""
         try:
             if not self.portfolio_data:
                 return {"error": "Portfolio data not available"}
@@ -285,54 +284,47 @@ class StockMarketRAG:
             return {"error": str(e)}
 
     # =========================================
-    # ANSWER QUESTION
+    # ANSWER QUESTION — FIXED
     # =========================================
     def answer_question(self, question: str) -> str:
         """
         Answer a natural language question using RAG.
-
-        BUG FIXED: stock-name detection previously checked only four hardcoded
-        names ("reliance", "tcs", "infy", "hdfc").  Now it dynamically builds
-        the symbol list from whatever is actually in the loaded knowledge base,
-        so any stock present in the data is recognised.
+        Now handles:
+          - RSI / MACD numeric filters  ("RSI above 65")
+          - Risk category filters       ("high risk stocks")
+          - Stock-specific queries      ("tell me about TCS")
+          - Model performance queries   ("which model is better")
+          - Portfolio queries           ("how should I invest")
+          - General keyword fallback
         """
         try:
             question_lower = question.lower()
 
-            # ── Build a dynamic set of known stock symbols from KB ──────────
+            # Build dynamic symbol list from KB
             known_symbols = {
                 entry.get("stock_symbol", "").lower()
                 for entry in self.knowledge_base
                 if entry.get("stock_symbol")
             }
 
-            # ── Stock-specific questions ────────────────────────────────────
-            stock_question = (
-                "stock" in question_lower
-                or any(sym in question_lower for sym in known_symbols)
+            # ── 1. Stock-specific question ───────────────────────────────────
+            matched_stock = next(
+                (sym.upper() for sym in known_symbols if sym in question_lower),
+                None
             )
+            if matched_stock:
+                info = self.query_stock(matched_stock)
+                if info.get("found"):
+                    return (
+                        f"**{matched_stock} Information:**\n"
+                        f"- Data Points: {info['data_points']}\n"
+                        f"- Average Price: ₹{info['statistics']['avg_price']}\n"
+                        f"- Price Range: ₹{info['statistics']['min_price']} – ₹{info['statistics']['max_price']}\n"
+                        f"- Latest Trend: {info['trend']}\n"
+                        f"- Risk Level: {info['risk']}"
+                    )
 
-            if stock_question:
-                # Find the first symbol mentioned in the question
-                matched_stock = next(
-                    (sym.upper() for sym in known_symbols if sym in question_lower),
-                    None
-                )
-                if matched_stock:
-                    info = self.query_stock(matched_stock)
-                    if info.get("found"):
-                        return (
-                            f"**{matched_stock} Information:**\n"
-                            f"- Data Points: {info['data_points']}\n"
-                            f"- Average Price: ₹{info['statistics']['avg_price']}\n"
-                            f"- Price Range: "
-                            f"₹{info['statistics']['min_price']} – "
-                            f"₹{info['statistics']['max_price']}\n"
-                            f"- Latest Trend: {info['trend']}\n"
-                            f"- Risk Level:   {info['risk']}"
-                        )
-
-            # ── Model performance questions ─────────────────────────────────
+            # ── 2. Model performance ─────────────────────────────────────────
             if any(kw in question_lower for kw in ["model", "prediction", "accuracy"]):
                 perf = self.query_model_performance()
                 if "winner" in perf:
@@ -344,13 +336,13 @@ class StockMarketRAG:
                         f"The {perf['winner']} model performs better overall."
                     )
 
-            # ── Portfolio questions ─────────────────────────────────────────
+            # ── 3. Portfolio ─────────────────────────────────────────────────
             if any(kw in question_lower for kw in ["portfolio", "allocation", "invest"]):
                 portfolio = self.query_portfolio()
                 if "best_strategy" in portfolio:
                     alloc_text = ", ".join(
-                        f"{stock}: {weight:.1f}%"
-                        for stock, weight in list(portfolio["allocation"].items())[:3]
+                        f"{s}: {w:.1f}%"
+                        for s, w in list(portfolio["allocation"].items())[:5]
                     )
                     return (
                         f"**Portfolio Recommendation:**\n"
@@ -362,24 +354,73 @@ class StockMarketRAG:
                         f"{portfolio['recommendation']}"
                     )
 
-            # ── General semantic search ─────────────────────────────────────
-            results = self.search_knowledge_base(question, top_k=3)
-            if results:
-                context = "\n".join(
-                    r.get("text_summary", str(r)) for r in results
-                )
-                return (
-                    f"**Based on available data:**\n\n"
-                    f"{context}\n\n"
-                    f"*Retrieved from {len(results)} relevant entries*"
+            # ── 4. RSI / MACD technical queries ─────────────────────────────
+            # Examples: "RSI above 65", "stocks with high RSI", "MACD positive"
+            if "rsi" in question_lower or "macd" in question_lower:
+                results = self.search_knowledge_base(question, top_k=16)
+                if results:
+                    lines = ["**Stocks matching your query (latest entry per stock):**\n"]
+                    for r in results:
+                        lines.append(
+                            f"- {r.get('stock_symbol', '?')}: "
+                            f"RSI={float(r.get('rsi', 0)):.1f}, "
+                            f"MACD={float(r.get('macd', 0)):.2f}, "
+                            f"Trend={r.get('trend_label', '?')}, "
+                            f"Close=₹{float(r.get('close', 0)):.2f} "
+                            f"({r.get('date', '?')})"
+                        )
+                    return "\n".join(lines)
+                return "No stocks matched that RSI/MACD filter in the knowledge base."
+
+            # ── 5. Risk category queries ─────────────────────────────────────
+            # Examples: "high risk stocks", "which stocks are low risk"
+            if "risk" in question_lower:
+                target = (
+                    "High Risk"     if "high"     in question_lower else
+                    "Low Risk"      if "low"      in question_lower else
+                    "Moderate Risk" if "moderate" in question_lower else None
                 )
 
+                seen = {}
+                for e in sorted(self.knowledge_base, key=lambda x: x.get("date", ""), reverse=True):
+                    sym = e.get("stock_symbol", "")
+                    if sym in seen:
+                        continue
+                    if target is None or e.get("risk_category") == target:
+                        seen[sym] = e
+
+                label = target if target else "All stocks by risk category"
+                lines = [f"**{label} (latest data per stock):**\n"]
+                for sym, e in sorted(seen.items()):
+                    lines.append(
+                        f"- {sym}: {e.get('risk_category', '?')}, "
+                        f"RSI={float(e.get('rsi', 0)):.1f}, "
+                        f"Close=₹{float(e.get('close', 0)):.2f}"
+                    )
+                return "\n".join(lines) if len(lines) > 1 else "No matching stocks found."
+
+            # ── 6. General keyword fallback ──────────────────────────────────
+            results = self.search_knowledge_base(question, top_k=10)
+            if results:
+                # Deduplicate: one row per stock
+                seen = {}
+                for r in results:
+                    sym = r.get("stock_symbol", "??")
+                    if sym not in seen:
+                        seen[sym] = r
+                lines = ["**Based on available data (one entry per stock):**\n"]
+                for sym, r in seen.items():
+                    lines.append(f"- {sym}: {r.get('text_summary', str(r))}")
+                return "\n".join(lines)
+
             return (
-                "I don't have enough information to answer that question. "
-                "Try asking about:\n"
-                "- Specific stocks (e.g., 'Tell me about RELIANCE')\n"
-                "- Model performance (e.g., 'Which model is better?')\n"
-                "- Portfolio allocation (e.g., 'How should I invest?')"
+                "I don't have enough information to answer that question.\n"
+                "Try asking:\n"
+                "- 'Which stocks have RSI above 65?'\n"
+                "- 'Show me high risk stocks'\n"
+                "- 'Tell me about RELIANCE'\n"
+                "- 'Which model performs better?'\n"
+                "- 'What is the portfolio allocation?'"
             )
 
         except Exception as e:
@@ -389,7 +430,6 @@ class StockMarketRAG:
     # INTERACTIVE Q&A
     # =========================================
     def interactive_qa(self):
-        """Interactive question-answering session"""
         print("\n" + "=" * 70)
         print("🤖 SMART STOCK MARKET RAG - INTERACTIVE Q&A")
         print("=" * 70)
@@ -422,7 +462,6 @@ class StockMarketRAG:
     # GENERATE REPORT
     # =========================================
     def generate_report(self, output_path: Optional[str] = None):
-        """Generate comprehensive RAG report"""
         try:
             if output_path is None:
                 output_path = os.path.join(self.results_path, "rag_report.json")
@@ -430,21 +469,23 @@ class StockMarketRAG:
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
             report = {
-                "generated_at":              datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "knowledge_base_size":        len(self.knowledge_base),
-                "model_results_available":    list(self.model_results.keys()),
-                "portfolio_data_available":   bool(self.portfolio_data),
+                "generated_at":            datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "knowledge_base_size":      len(self.knowledge_base),
+                "model_results_available":  list(self.model_results.keys()),
+                "portfolio_data_available": bool(self.portfolio_data),
                 "sample_queries": [
+                    "Which stocks have RSI above 65?",
+                    "Show me high risk stocks",
                     "Which model performs better?",
-                    "What is the portfolio recommendation?",
-                    "Tell me about RELIANCE",
-                    "Tell me about TCS"
+                    "What is the portfolio allocation?",
+                    "Tell me about RELIANCE"
                 ],
                 "capabilities": [
                     "Stock information lookup",
                     "Model performance comparison",
                     "Portfolio allocation advice",
-                    "Semantic knowledge search",
+                    "Numeric filter search (RSI, MACD, price)",
+                    "Risk category filtering",
                     "Natural language Q&A"
                 ]
             }
@@ -461,10 +502,9 @@ class StockMarketRAG:
 
 
 # =========================================
-# PREDEFINED SAMPLE QUERIES
+# SAMPLE QUERIES
 # =========================================
 def run_sample_queries(rag: StockMarketRAG):
-    """Run sample queries to demonstrate RAG capabilities"""
     print("\n" + "=" * 70)
     print("📋 SAMPLE QUERIES")
     print("=" * 70)
@@ -472,7 +512,8 @@ def run_sample_queries(rag: StockMarketRAG):
     queries = [
         "Which model performs better?",
         "What is the recommended portfolio allocation?",
-        "What are the risk levels of different stocks?",
+        "Which stocks have RSI above 65?",
+        "Show me high risk stocks",
     ]
 
     for i, query in enumerate(queries, 1):
@@ -483,28 +524,19 @@ def run_sample_queries(rag: StockMarketRAG):
 
 
 # =========================================
-# MAIN EXECUTION
+# MAIN
 # =========================================
 def main():
-    """
-    Main execution.
-
-    BUG FIXED: interactive_qa() was commented out with no way to reach it.
-    Now the user is properly asked whether to enter interactive mode and the
-    input() call is active (not commented out).
-    """
     try:
         print("=" * 70)
         print("🤖 SMART STOCK MARKET RAG SYSTEM")
         print("=" * 70)
 
-        # Initialise RAG (paths resolved from script location — no Colab dependency)
         rag = StockMarketRAG()
 
-        # Load all available data
         kb_loaded        = rag.load_knowledge_base()
-        model_loaded     = rag.load_model_results()    # noqa: F841
-        portfolio_loaded = rag.load_portfolio_data()   # noqa: F841
+        model_loaded     = rag.load_model_results()
+        portfolio_loaded = rag.load_portfolio_data()
 
         if not kb_loaded:
             print(
@@ -513,15 +545,9 @@ def main():
             )
             return
 
-        # Run sample queries to show capabilities
         run_sample_queries(rag)
-
-        # Generate a report
         rag.generate_report()
 
-        # ── Interactive mode ────────────────────────────────────────────────
-        # BUG FIXED: the input() call was commented out, making interactive
-        # mode completely unreachable.  It is now active.
         print("\n" + "=" * 70)
         print("💡 INTERACTIVE MODE")
         print("=" * 70)

@@ -1,32 +1,32 @@
 {
     "MAE": {
-        "Baseline": 1712.975,
-        "Advanced": 1895.3831,
-        "Improvement_%": -10.6486,
+        "Baseline": 1734.1435,
+        "Advanced": 1889.9421,
+        "Improvement_%": -8.9842,
         "Better_Model": "Baseline"
     },
     "MSE": {
-        "Baseline": 12315948.1262,
-        "Advanced": 12608461.9204,
-        "Improvement_%": -2.3751,
+        "Baseline": 12306946.1863,
+        "Advanced": 12621478.0843,
+        "Improvement_%": -2.5557,
         "Better_Model": "Baseline"
     },
     "RMSE": {
-        "Baseline": 3509.4085,
-        "Advanced": 3550.8396,
-        "Improvement_%": -1.1806,
+        "Baseline": 3508.1257,
+        "Advanced": 3552.672,
+        "Improvement_%": -1.2698,
         "Better_Model": "Baseline"
     },
     "R2_Score": {
-        "Baseline": -0.0117,
-        "Advanced": -0.0358,
-        "Improvement_%": -205.9829,
+        "Baseline": -0.011,
+        "Advanced": -0.0368,
+        "Improvement_%": -234.5455,
         "Better_Model": "Baseline"
     },
     "MAPE_%": {
-        "Baseline": 128.7175,
-        "Advanced": 152.8379,
-        "Improvement_%": -18.739,
+        "Baseline": 132.324,
+        "Advanced": 152.9559,
+        "Improvement_%": -15.592,
         "Better_Model": "Baseline"
     }
 }
