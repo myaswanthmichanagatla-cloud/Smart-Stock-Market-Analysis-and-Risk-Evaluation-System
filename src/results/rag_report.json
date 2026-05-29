@@ -1,10 +1,11 @@
 {
-    "generated_at": "2026-05-28 23:33:33",
-    "knowledge_base_size": 66505,
+    "generated_at": "2026-05-29 09:12:57",
+    "knowledge_base_size": 77589,
     "model_results_available": [
         "baseline",
         "advanced",
-        "comparison"
+        "comparison",
+        "genai_summary"
     ],
     "portfolio_data_available": true,
     "sample_queries": [

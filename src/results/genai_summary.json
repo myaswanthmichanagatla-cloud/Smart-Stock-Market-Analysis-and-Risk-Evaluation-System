@@ -1,0 +1,7 @@
+{
+    "winner": "Baseline",
+    "advanced_wins": 0,
+    "baseline_wins": 5,
+    "ties": 0,
+    "natural_language_summary": "The baseline predictor (Linear Regression) outperformed the advanced model by winning 5 out of 5 metrics. Due to the high linearity and structure of this stock market dataset, the baseline model provides superior metrics."
+}

@@ -1,9 +1,14 @@
-
 import os
 import sys
 import json
 import numpy as np
 import pandas as pd
+
+# Reconfigure stdout and stderr to use UTF-8 to prevent CP1252 terminal encoding errors on Windows
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
+if hasattr(sys.stderr, 'reconfigure'):
+    sys.stderr.reconfigure(encoding='utf-8')
 
 # Add project path to sys.path
 sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
@@ -275,7 +280,43 @@ class ModelEvaluator:
                 comparison_path = os.path.join(output_folder, "model_comparison.json")
                 with open(comparison_path, "w") as f:
                     json.dump(self.comparison_results, f, indent=4)
-                print(f"✅ Comparison saved: {comparison_path}")
+                print(f"   [SUCCESS] Comparison saved: {comparison_path}")
+
+                # GenAI Summary
+                advanced_wins = 0
+                baseline_wins = 0
+                ties = 0
+
+                for metric, values in self.comparison_results.items():
+                    if values["Better_Model"] == "Advanced":
+                        advanced_wins += 1
+                    elif values["Better_Model"] == "Baseline":
+                        baseline_wins += 1
+                    else:
+                        ties += 1
+
+                if advanced_wins > baseline_wins:
+                    winner = "Advanced"
+                    nl_summary = f"The advanced predictor (XGBoost) outperformed the baseline model by winning {advanced_wins} out of {len(self.comparison_results)} metrics. It represents the best choice for deployment."
+                elif baseline_wins > advanced_wins:
+                    winner = "Baseline"
+                    nl_summary = f"The baseline predictor (Linear Regression) outperformed the advanced model by winning {baseline_wins} out of {len(self.comparison_results)} metrics. Due to the high linearity and structure of this stock market dataset, the baseline model provides superior metrics."
+                else:
+                    winner = "Tie"
+                    nl_summary = f"Both baseline and advanced predictors performed equally, each winning {baseline_wins} metrics."
+
+                genai_summary = {
+                    "winner": winner,
+                    "advanced_wins": advanced_wins,
+                    "baseline_wins": baseline_wins,
+                    "ties": ties,
+                    "natural_language_summary": nl_summary
+                }
+
+                genai_summary_path = os.path.join(output_folder, "genai_summary.json")
+                with open(genai_summary_path, "w") as f:
+                    json.dump(genai_summary, f, indent=4)
+                print(f"   [SUCCESS] GenAI Summary saved: {genai_summary_path}")
 
             print(f"\n💾 All results saved in: {output_folder}")
 

@@ -15,6 +15,12 @@ import json
 import subprocess
 from datetime import datetime
 
+# Reconfigure stdout and stderr to use UTF-8 to prevent CP1252 terminal encoding errors on Windows
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
+if hasattr(sys.stderr, 'reconfigure'):
+    sys.stderr.reconfigure(encoding='utf-8')
+
 
 # =========================================
 # SYSTEM CONFIGURATION
